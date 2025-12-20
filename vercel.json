@@ -3,11 +3,7 @@
   "builds": [
     {
       "src": "landing_project/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.11"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -23,13 +19,5 @@
       "src": "/(.*)",
       "dest": "landing_project/wsgi.py"
     }
-  ],
-  "env": {
-    "PYTHON_VERSION": "3.11"
-  },
-  "functions": {
-    "landing_project/wsgi.py": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }
