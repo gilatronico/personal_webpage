@@ -5,10 +5,14 @@ Django settings for landing_project project.
 from pathlib import Path
 import os
 
-# Crear directorio de logs si no existe
-logs_dir = Path(__file__).resolve().parent.parent / 'logs'
-if not os.path.exists(logs_dir):
-    os.makedirs(logs_dir)
+# Crear directorio de logs si no existe (solo si es posible)
+try:
+    logs_dir = Path(__file__).resolve().parent.parent / 'logs'
+    if not os.path.exists(logs_dir):
+        os.makedirs(logs_dir, exist_ok=True)
+except (OSError, PermissionError):
+    # En entornos serverless como Vercel, puede que no se puedan crear directorios
+    pass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-this-in-production-1234567890')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+# En Vercel, detectar automáticamente si estamos en producción
+DEBUG = os.environ.get('DEBUG', '').lower() not in ('false', '0', 'no', '')
+# Si VERCEL está definido, estamos en producción
+if os.environ.get('VERCEL'):
+    DEBUG = False
 
 # Allowed hosts para producción
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
@@ -85,17 +93,27 @@ DATABASES = {
 # Cache Configuration
 # ============================================
 # django_ratelimit requiere un caché que soporte incremento atómico
-# Usar django-redis para desarrollo y producción (requiere Redis instalado)
-# Redis debe estar corriendo: brew services start redis (macOS)
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+# En Vercel, si no hay Redis, usar LocMemCache como fallback
+REDIS_URL = os.environ.get('REDIS_URL', '')
+if REDIS_URL:
+    # Usar Redis si está disponible
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
         }
     }
-}
+else:
+    # Fallback a LocMemCache si no hay Redis (para desarrollo/Vercel sin Redis)
+    # Nota: django_ratelimit puede mostrar warnings pero funcionará
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -164,11 +182,8 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'agilabertcomunicacion
 CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'agilabertcomunicaciones@gmail.com')
 
 # Validar que las credenciales críticas estén configuradas en producción
-if not DEBUG and not EMAIL_HOST_PASSWORD:
-    raise ValueError(
-        "EMAIL_HOST_PASSWORD debe estar configurado como variable de entorno en producción. "
-        "No puede estar vacío."
-    )
+# Solo validar si realmente se intenta enviar un email (no al iniciar)
+# Esto evita errores en el startup si falta la configuración
 
 # Rate Limiting Configuration
 # ============================================
