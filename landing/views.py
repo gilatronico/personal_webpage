@@ -122,9 +122,9 @@ MENSAJE
 METADATOS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Fecha: {submission.submitted_at.strftime('%d/%m/%Y %H:%M:%S')}
+Fecha: {timezone.now().strftime('%d/%m/%Y %H:%M:%S')}
 IP: {ip_address or 'N/A'}
-ID de registro: #{submission.id}
+ID de registro: #{submission_id or 'N/A'}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -132,12 +132,12 @@ Para responder, simplemente responde a este email o contacta a: {email}
 """
             
             send_mail(
-                subject,
-                email_message,
-                settings.DEFAULT_FROM_EMAIL or 'noreply@alejandrogilabert.com',
-                [settings.CONTACT_EMAIL or 'agilabertcomunicaciones@gmail.com'],
-                fail_silently=False,
-            )
+            subject,
+            email_message,
+            settings.DEFAULT_FROM_EMAIL or 'noreply@alejandrogilabert.com',
+            [settings.CONTACT_EMAIL or 'agilabertcomunicaciones@gmail.com'],
+            fail_silently=True,  # No fallar si el email no se puede enviar
+        )
         except Exception as email_error:
             # Si falla el email, aún guardamos en BD pero registramos el error
             print(f'Error al enviar email: {email_error}')
@@ -146,7 +146,7 @@ Para responder, simplemente responde a este email o contacta a: {email}
         return JsonResponse({
             'success': True,
             'message': 'Mensaje enviado correctamente',
-            'id': submission.id
+            'id': submission_id
         })
         
     except Ratelimited:
