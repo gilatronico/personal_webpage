@@ -4,15 +4,23 @@
 import os
 import sys
 
-# Add project root to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add project root to path  
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
 
 # Set Django settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'landing_project.settings')
 
+# Import and initialize Django
+import django
+django.setup()
+
 # Import Django WSGI application
-from landing_project.wsgi import application
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 
 # Vercel expects 'handler' to be the WSGI application
+# Export both handler and app for compatibility
 handler = application
+app = application
 
