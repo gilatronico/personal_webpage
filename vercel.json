@@ -19,5 +19,8 @@
       "src": "/(.*)",
       "dest": "landing_project/wsgi.py"
     }
-  ]
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.11"
+  }
 }

@@ -27,10 +27,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-this-in-produc
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # En Vercel, detectar automáticamente si estamos en producción
-DEBUG = os.environ.get('DEBUG', '').lower() not in ('false', '0', 'no', '')
-# Si VERCEL está definido, estamos en producción
-if os.environ.get('VERCEL'):
+DEBUG_ENV = os.environ.get('DEBUG', '').lower()
+# Si VERCEL está definido o DEBUG es explícitamente False, estamos en producción
+if os.environ.get('VERCEL') or DEBUG_ENV in ('false', '0', 'no'):
     DEBUG = False
+else:
+    DEBUG = DEBUG_ENV not in ('false', '0', 'no', '') if DEBUG_ENV else True
 
 # Allowed hosts para producción
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
