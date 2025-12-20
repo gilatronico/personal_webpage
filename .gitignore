@@ -54,3 +54,6 @@ cache_table
 # OS
 .DS_Store
 Thumbs.db
+
+# Documentación local (no subir al repo)
+docs_local/
