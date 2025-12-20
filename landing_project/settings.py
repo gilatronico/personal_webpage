@@ -175,12 +175,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# En Vercel, usar /tmp para staticfiles si es necesario
-if os.environ.get('VERCEL'):
-    STATIC_ROOT = '/tmp/staticfiles'
-else:
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT para collectstatic (no se usa en Vercel, pero se necesita para compatibilidad)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Directorio donde están los archivos estáticos (se sirven directamente desde aquí en Vercel)
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
