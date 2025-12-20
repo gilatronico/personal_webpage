@@ -1,5 +1,5 @@
 # Vercel serverless function entry point for Django
-# The @vercel/python adapter automatically handles WSGI applications
+# The @vercel/python adapter expects 'app' to be the WSGI application
 
 import os
 import sys
@@ -15,13 +15,9 @@ sys.path.insert(0, project_root)
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'landing_project.settings')
 
 # Import Django WSGI application
-# The @vercel/python adapter will automatically detect and use this
 from django.core.wsgi import get_wsgi_application
 
-# Create WSGI application - this is what Vercel expects
-# The adapter automatically converts WSGI responses to HTTP with proper headers
-application = get_wsgi_application()
-
-# Export as handler for Vercel
-handler = application
+# Create WSGI application
+# Vercel's @vercel/python adapter expects 'app' to be the WSGI callable
+app = get_wsgi_application()
 
