@@ -22,8 +22,25 @@ import os
 
 def serve_static_file(request, path):
     """Serve static files using Django's staticfiles finder"""
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    # Decode URL-encoded path (handles spaces and special characters)
+    from urllib.parse import unquote
+    path = unquote(path)
+    
     # Try to find the file using staticfiles finders
     static_file = finders.find(path)
+    
+    # If not found, try direct path from STATICFILES_DIRS
+    if not static_file and settings.STATICFILES_DIRS:
+        import os
+        from pathlib import Path
+        static_dir = Path(settings.STATICFILES_DIRS[0])
+        direct_path = static_dir / path
+        if direct_path.exists() and direct_path.is_file():
+            static_file = str(direct_path)
+    
     if static_file:
         try:
             with open(static_file, 'rb') as f:
@@ -43,10 +60,15 @@ def serve_static_file(request, path):
                 content_type = 'application/octet-stream'
             
             response = HttpResponse(content, content_type=content_type)
+            # Add cache headers
+            response['Cache-Control'] = 'public, max-age=31536000'
             return response
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error serving static file {path}: {e}")
             pass
-    raise Http404("Static file not found")
+    
+    logger.warning(f"Static file not found: {path}")
+    raise Http404(f"Static file not found: {path}")
 
 if settings.STATICFILES_DIRS:
     urlpatterns += [
