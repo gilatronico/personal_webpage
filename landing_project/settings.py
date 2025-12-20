@@ -35,7 +35,14 @@ else:
     DEBUG = DEBUG_ENV not in ('false', '0', 'no', '') if DEBUG_ENV else True
 
 # Allowed hosts para producción
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+# En Vercel, aceptar cualquier dominio de Vercel automáticamente
+if os.environ.get('VERCEL'):
+    # En Vercel, aceptar cualquier subdominio de vercel.app
+    ALLOWED_HOSTS = ['*']  # Vercel maneja la seguridad a nivel de plataforma
+else:
+    # En desarrollo, usar la variable de entorno o permitir localhost
+    allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',')]
 
 
 # Application definition
