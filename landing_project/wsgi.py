@@ -17,8 +17,6 @@ from django.core.wsgi import get_wsgi_application
 # Django usa 'application' por defecto
 application = get_wsgi_application()
 
-# Vercel requiere 'handler' como nombre de variable principal
+# Vercel con @vercel/python espera que el handler sea la aplicación WSGI directamente
+# El adaptador @vercel/python maneja la conversión automáticamente
 handler = application
-
-# También exportar como 'app' para compatibilidad
-app = application
