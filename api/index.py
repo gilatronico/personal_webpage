@@ -83,10 +83,26 @@ def handler(event, context):
     response_iter = wsgi_app(environ, start_response)
     response_body = b''.join(response_iter)
     
+    # Convert response headers to dict
+    response_headers_dict = {}
+    for header_name, header_value in response_headers:
+        # Vercel expects lowercase header names
+        response_headers_dict[header_name.lower()] = header_value
+    
+    # Ensure Content-Type is set for HTML responses
+    if 'content-type' not in response_headers_dict:
+        response_headers_dict['content-type'] = 'text/html; charset=utf-8'
+    
+    # Decode body if it's bytes
+    if isinstance(response_body, bytes):
+        body_str = response_body.decode('utf-8')
+    else:
+        body_str = str(response_body)
+    
     # Convert response to Vercel format
     return {
         'statusCode': status_code,
-        'headers': dict(response_headers),
-        'body': response_body.decode('utf-8') if isinstance(response_body, bytes) else response_body
+        'headers': response_headers_dict,
+        'body': body_str
     }
 
