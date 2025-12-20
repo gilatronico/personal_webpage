@@ -114,19 +114,24 @@ else:
 # ============================================
 # django_ratelimit requiere un caché que soporte incremento atómico
 # En Vercel, si no hay Redis, usar LocMemCache como fallback
-REDIS_URL = os.environ.get('REDIS_URL', '')
-if REDIS_URL:
-    # Usar Redis si está disponible
-    CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': REDIS_URL,
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+REDIS_URL = os.environ.get('REDIS_URL', '').strip()
+if REDIS_URL and not os.environ.get('VERCEL'):
+    # Usar Redis si está disponible (solo fuera de Vercel por defecto)
+    try:
+        CACHES = {
+            'default': {
+                'BACKEND': 'django_redis.cache.RedisCache',
+                'LOCATION': REDIS_URL,
+                'OPTIONS': {
+                    'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                }
             }
         }
-    }
-else:
+    except Exception:
+        # Si falla la configuración de Redis, usar fallback
+        REDIS_URL = ''
+        
+if not REDIS_URL:
     # Fallback a LocMemCache si no hay Redis (para desarrollo/Vercel sin Redis)
     # Nota: django_ratelimit puede mostrar warnings pero funcionará
     CACHES = {
