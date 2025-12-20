@@ -140,10 +140,19 @@ Para desplegar en Vercel, sigue la guía completa en [DEPLOY_VERCEL.md](./DEPLOY
 
 Ver [RATE_LIMITING.md](./RATE_LIMITING.md) para más detalles.
 
-## 📝 Documentación Adicional
+## 📝 Scripts Útiles
 
-- [DEPLOY_VERCEL.md](./DEPLOY_VERCEL.md) - Guía de despliegue en Vercel
-- [RATE_LIMITING.md](./RATE_LIMITING.md) - Configuración de rate limiting
-- [CONFIGURAR_EMAIL.md](./CONFIGURAR_EMAIL.md) - Configuración de email
-- [INSTRUCCIONES_ALMACENAMIENTO.md](./INSTRUCCIONES_ALMACENAMIENTO.md) - Gestión de formularios
-# personal_webpage
+- `./push.sh` - Script para subir cambios a GitHub fácilmente
+- `./start.sh` - Script para iniciar el servidor de desarrollo
+
+## 🛠️ Tecnologías
+
+- **Django** - Framework web
+- **Redis** - Caché para rate limiting (django-ratelimit)
+- **Vercel** - Plataforma de despliegue
+
+## 📝 Notas
+
+- La documentación de configuración local está en `docs_local/` (no se sube al repo)
+- El proyecto usa Redis para el rate limiting (requiere Redis corriendo localmente)
+- Para producción, configura las variables de entorno en Vercel
