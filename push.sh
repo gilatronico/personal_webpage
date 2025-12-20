@@ -28,35 +28,47 @@ if ! git remote | grep -q origin; then
     exit 1
 fi
 
-# Obtener mensaje del commit
-if [ -z "$1" ]; then
-    echo -e "${YELLOW}💬 Ingresa el mensaje del commit:${NC}"
-    read -r commit_message
+# Verificar si hay cambios sin commitear
+if [ -n "$(git status --porcelain)" ]; then
+    # Hay cambios sin commitear - necesitamos mensaje de commit
+    if [ -z "$1" ]; then
+        echo -e "${YELLOW}💬 Ingresa el mensaje del commit:${NC}"
+        read -r commit_message
+    else
+        commit_message="$1"
+    fi
+    
+    # Validar que el mensaje no esté vacío
+    if [ -z "$commit_message" ]; then
+        echo -e "${RED}❌ Error: El mensaje del commit no puede estar vacío${NC}"
+        exit 1
+    fi
+    
+    echo -e "\n${BLUE}📋 Cambios detectados:${NC}"
+    git status --short
+    echo ""
+    
+    # Agregar todos los cambios
+    echo -e "${GREEN}➕ Agregando cambios...${NC}"
+    git add .
+    
+    # Hacer commit
+    echo -e "${GREEN}💾 Haciendo commit: \"$commit_message\"...${NC}"
+    if ! git commit -m "$commit_message"; then
+        echo -e "${RED}❌ Error: No se pudo hacer el commit${NC}"
+        exit 1
+    fi
 else
-    commit_message="$1"
-fi
-
-# Validar que el mensaje no esté vacío
-if [ -z "$commit_message" ]; then
-    echo -e "${RED}❌ Error: El mensaje del commit no puede estar vacío${NC}"
-    exit 1
-fi
-
-# Mostrar cambios
-echo -e "\n${BLUE}📋 Cambios detectados:${NC}"
-git status --short
-echo ""
-
-# Agregar todos los cambios
-echo -e "${GREEN}➕ Agregando cambios...${NC}"
-git add .
-
-# Hacer commit
-echo -e "${GREEN}💾 Haciendo commit: \"$commit_message\"...${NC}"
-if ! git commit -m "$commit_message"; then
-    echo -e "${RED}❌ Error: No se pudo hacer el commit${NC}"
-    echo -e "${YELLOW}💡 Puede que no haya cambios para commitear${NC}"
-    exit 1
+    # No hay cambios, verificar si hay commits pendientes de push
+    commits_ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
+    if [ "$commits_ahead" = "0" ] || [ -z "$commits_ahead" ]; then
+        echo -e "${YELLOW}⚠️  No hay cambios para commitear${NC}"
+        echo -e "${YELLOW}💡 No hay commits pendientes de subir${NC}"
+        exit 0
+    else
+        echo -e "${BLUE}ℹ️  No hay cambios nuevos, pero hay $commits_ahead commit(s) pendiente(s) de subir${NC}"
+        echo -e "${GREEN}📤 Subiendo commits existentes...${NC}"
+    fi
 fi
 
 # Obtener el branch actual
