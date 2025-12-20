@@ -83,15 +83,22 @@ def submit_contact(request):
         ip_address = get_client_ip(request)
         user_agent = request.META.get('HTTP_USER_AGENT', '')
         
-        # Crear registro en la base de datos
-        submission = ContactSubmission.objects.create(
-            name=data.get('name', '').strip(),
-            email=email,
-            service_type=data.get('service', ''),
-            message=data.get('message', '').strip(),
-            ip_address=ip_address,
-            user_agent=user_agent
-        )
+        # Crear registro en la base de datos (opcional, si falla continuamos)
+        submission_id = None
+        try:
+            submission = ContactSubmission.objects.create(
+                name=data.get('name', '').strip(),
+                email=email,
+                service_type=data.get('service', ''),
+                message=data.get('message', '').strip(),
+                ip_address=ip_address,
+                user_agent=user_agent
+            )
+            submission_id = submission.id
+        except Exception as db_error:
+            # Si falla el guardado en BD, continuamos de todas formas
+            logger.warning(f'Error al guardar en BD: {db_error}. Continuando sin guardar.')
+            submission_id = None
         
         # Enviar email de notificación
         try:
