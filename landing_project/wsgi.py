@@ -15,3 +15,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'landing_project.settings')
 from django.core.wsgi import get_wsgi_application
 
 application = get_wsgi_application()
+
+# Vercel requiere 'handler' o 'app' como nombre de variable
+handler = application
+app = application
