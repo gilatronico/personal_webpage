@@ -22,6 +22,8 @@ def index_professional(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+# Rate limiting solo si está habilitado (requiere Redis)
+# Si no hay Redis, los decoradores se ignoran automáticamente
 @ratelimit(key='ip', rate='3/m', method='POST', block=True)  # 3 peticiones por minuto
 @ratelimit(key='ip', rate='5/h', method='POST', block=True)   # 5 peticiones por hora
 @ratelimit(key='ip', rate='10/d', method='POST', block=True) # 10 peticiones por día

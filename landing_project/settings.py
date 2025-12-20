@@ -82,13 +82,24 @@ WSGI_APPLICATION = 'landing_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# En Vercel serverless, SQLite puede tener problemas de permisos
+# Usar /tmp para la base de datos en entornos serverless
+if os.environ.get('VERCEL'):
+    # En Vercel, usar /tmp para la base de datos
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': '/tmp/db.sqlite3',
+        }
     }
-}
+else:
+    # En desarrollo local, usar la ubicación normal
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Cache Configuration
 # ============================================
@@ -179,7 +190,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')  # ⚠️ OBLIGA
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'agilabertcomunicaciones@gmail.com')
 
 # Email donde recibir las notificaciones de contacto
-CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'agilabertcomunicaciones@gmail.com')
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', os.environ.get('EMAIL_HOST_USER', 'agilabertcomunicaciones@gmail.com'))
 
 # Validar que las credenciales críticas estén configuradas en producción
 # Solo validar si realmente se intenta enviar un email (no al iniciar)
@@ -188,8 +199,9 @@ CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'agilabertcomunicaciones@gmail.c
 # Rate Limiting Configuration
 # ============================================
 # Configuración para protección contra spam y ataques
-RATELIMIT_ENABLE = True  # Activar rate limiting
-RATELIMIT_USE_CACHE = 'default'  # Usar la cache de Django (Redis)
+# Desactivar rate limiting si no hay Redis disponible (para evitar errores)
+RATELIMIT_ENABLE = bool(REDIS_URL)  # Solo activar si hay Redis
+RATELIMIT_USE_CACHE = 'default'  # Usar la cache de Django
 
 # Límites para el formulario de contacto:
 # - 5 peticiones por hora por IP
