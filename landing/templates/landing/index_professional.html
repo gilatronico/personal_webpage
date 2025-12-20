@@ -574,6 +574,12 @@
             align-items: center;
             margin-bottom: var(--space-3xl);
         }
+        
+        @media (min-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
 
         .hero-content h1 {
             margin-bottom: var(--space-md);
@@ -667,9 +673,10 @@
 
         .hero-image {
             width: 100%;
-            max-width: 300px;
-            aspect-ratio: 1 / 1;
+            max-width: 280px;
+            aspect-ratio: 3 / 4;
             height: auto;
+            margin-left: auto;
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-light);
@@ -677,6 +684,7 @@
             position: relative;
             transition: all var(--transition-base);
             opacity: 1;
+            background-color: var(--bg-elevated);
         }
         
         .hero-image img {
@@ -684,6 +692,15 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            min-height: 100%;
+        }
+        
+        .hero-image:empty::after {
+            content: '';
+            display: block;
+            width: 100%;
+            padding-bottom: 133.33%; /* 4/3 aspect ratio */
+            background: linear-gradient(135deg, var(--color-primary-soft) 0%, var(--color-accent-soft) 100%);
         }
 
         .hero-image:hover {
@@ -2614,7 +2631,7 @@
                         </div>
                     </div>
                     <div class="hero-image fade-in">
-                        <img src="{% static 'images/corporativa copia 2.png' %}" alt="Alejandro Gilabert">
+                        <img src="{% static 'images/corporativa copia 2.png' %}" alt="Alejandro Gilabert" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--color-primary-soft) 0%, var(--color-accent-soft) 100%)';">
                     </div>
                 </div>
 
