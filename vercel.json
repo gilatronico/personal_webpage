@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "landing_project/wsgi.py",
+      "src": "api/index.py",
       "use": "@vercel/python"
     }
   ],
@@ -17,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "landing_project/wsgi.py"
+      "dest": "api/index.py"
     }
   ]
 }
