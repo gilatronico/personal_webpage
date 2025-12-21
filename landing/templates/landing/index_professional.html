@@ -27,11 +27,12 @@
     <meta name="twitter:image" content="{% static 'images/corporativa copia 2.png' %}">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon_world.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon_world.png' %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon_world.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon_world.png' %}">
-    <link rel="manifest" href="data:application/json,{}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon_world.png' %}?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon_world.png' %}?v=2">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon_world.png' %}?v=2">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon_world.png' %}?v=2">
+    <!-- Fallback for browsers that request /favicon.ico directly -->
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

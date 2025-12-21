@@ -12,6 +12,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_professional, name='index_professional'),
     path('api/contact/', views.submit_contact, name='submit_contact'),
+    # Favicon route - many browsers automatically request /favicon.ico
+    re_path(r'^favicon\.ico$', lambda request: serve_static_file(request, 'images/favicon_world.png')),
 ]
 
 # Serve static files - works in both DEBUG and production (Vercel)
