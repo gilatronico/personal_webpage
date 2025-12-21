@@ -66,8 +66,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # Minificar HTML, CSS y JS en producción (solo si DEBUG=False)
-    'landing.middleware.MinifyHTMLMiddleware',
 ]
 
 ROOT_URLCONF = 'landing_project.urls'
