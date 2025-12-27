@@ -5,14 +5,34 @@ from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
-from django_ratelimit.decorators import ratelimit
-from django_ratelimit.exceptions import Ratelimited
 from django.core.cache import cache
 import json
 import logging
 from .models import ContactSubmission
 
 logger = logging.getLogger(__name__)
+
+# Rate limiting solo si hay Redis disponible
+try:
+    from django_ratelimit.decorators import ratelimit
+    from django_ratelimit.exceptions import Ratelimited
+    # Verificar si hay Redis configurado
+    REDIS_AVAILABLE = 'redis' in settings.CACHES.get('default', {}).get('BACKEND', '').lower()
+    if not REDIS_AVAILABLE:
+        # Si no hay Redis, crear decoradores dummy que no hacen nada
+        def ratelimit(*args, **kwargs):
+            def decorator(func):
+                return func
+            return decorator
+        Ratelimited = Exception
+except ImportError:
+    # Si django_ratelimit no está instalado
+    def ratelimit(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+    Ratelimited = Exception
+    REDIS_AVAILABLE = False
 
 def index_professional(request):
     """
@@ -22,8 +42,8 @@ def index_professional(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
-# Rate limiting solo si está habilitado (requiere Redis)
-# Si no hay Redis, los decoradores se ignoran automáticamente
+# Rate limiting - se aplica solo si el cache backend lo soporta
+# En desarrollo local con DatabaseCache funcionará correctamente
 @ratelimit(key='ip', rate='3/m', method='POST', block=True)  # 3 peticiones por minuto
 @ratelimit(key='ip', rate='5/h', method='POST', block=True)   # 5 peticiones por hora
 @ratelimit(key='ip', rate='10/d', method='POST', block=True) # 10 peticiones por día

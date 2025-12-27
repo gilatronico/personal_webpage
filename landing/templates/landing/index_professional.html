@@ -142,10 +142,10 @@
             --radius-md: 8px;
             --radius-lg: 12px;
             
-            /* Transitions */
+            /* Transitions - Increased to 0.5s for color transitions to reduce vibration */
             --transition-fast: 0.2s ease;
-            --transition-base: 0.3s ease;
-            --transition-slow: 0.5s ease;
+            --transition-base: 0.5s ease;
+            --transition-slow: 0.7s ease;
             
             /* Stats & Metrics Colors */
             --stats-color-1: var(--color-primary);
@@ -180,20 +180,26 @@
             /* Borders / dividers */
             --border-color: #1F2937;
             
-            /* Brand / accent colors (indigo tech) */
-            --color-primary: #3B3FAF;
-            --color-primary-hover: #4B55D0;
-            --color-primary-soft: #1E2750;
+            /* Brand / accent colors - green only in dark mode */
+            --color-primary: #10B981;
+            --color-primary-hover: #059669;
+            --color-primary-soft: #064E3B;
             
-            --color-accent: #0EA5E9;
-            --color-accent-soft: #082F49;
+            /* Accent color same as primary (green) */
+            --color-accent: #10B981;
+            --color-accent-soft: #064E3B;
+            
+            /* New warm accent for future use */
+            --color-accent-warm: #F59E0B;
             
             --color-success: #00C58E;
             
-            /* Legacy mappings */
-            --accent-1: var(--color-primary);
-            --accent-1-soft: var(--color-primary-soft);
+            /* Legacy mappings - all green */
+            --accent-1: var(--color-accent);
+            --accent-1-soft: var(--color-accent-soft);
             --accent-link: var(--color-accent);
+            --accent-secondary: var(--color-accent);
+            --accent-tertiary: var(--color-accent);
             
             /* Legacy variables (mapped to new system) */
             --color-text-main: var(--text-main);
@@ -212,6 +218,9 @@
             --bg-accent-2: var(--bg-elevated);
             --text-primary: var(--text-main);
             --text-secondary: var(--text-body);
+            --accent-primary: var(--color-accent);
+            --accent-secondary: var(--color-accent);
+            --accent-tertiary: var(--color-accent);
             --border-light: var(--border-color);
             --white: var(--bg-elevated);
         }
@@ -353,6 +362,11 @@
             transform: scale(1.05);
         }
 
+        /* Dark mode nav logo - green */
+        [data-theme="dark"] .nav-logo {
+            color: var(--color-accent);
+        }
+
         .nav-menu {
             display: flex;
             list-style: none;
@@ -390,6 +404,18 @@
             width: 100%;
         }
 
+        /* Dark mode: green hover color for navigation links */
+        [data-theme="dark"] .nav-menu li a:hover,
+        [data-theme="dark"] .nav-menu li a.active {
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .nav-menu li a:hover::after,
+        [data-theme="dark"] .nav-menu li a.active::after {
+            background: var(--color-accent);
+            width: 100%;
+        }
+
         .nav-cta {
             background: var(--color-primary) !important;
             color: #FFFFFF !important;
@@ -413,6 +439,17 @@
             border-color: var(--color-primary-hover) !important;
         }
         
+        /* Dark mode nav-cta - green */
+        [data-theme="dark"] .nav-cta {
+            background: var(--color-accent) !important;
+            border-color: var(--color-accent) !important;
+        }
+
+        [data-theme="dark"] .nav-cta:hover {
+            background: var(--color-primary-hover) !important;
+            border-color: var(--color-primary-hover) !important;
+        }
+
         /* Asegurar visibilidad en modo light */
         [data-theme="light"] .nav-cta,
         body:not([data-theme]) .nav-cta {
@@ -470,6 +507,17 @@
             transform: translateY(-1px);
         }
 
+        /* Dark mode lang-btn - green */
+        [data-theme="dark"] .lang-btn.active {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+        }
+
+        [data-theme="dark"] .lang-btn:hover:not(.active) {
+            border-color: var(--color-accent);
+        }
+
         .lang-btn:hover:not(.active) .flag-icon {
             transform: scale(1.05);
         }
@@ -494,6 +542,12 @@
         .theme-toggle:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
+        }
+
+        /* Dark mode theme-toggle - green */
+        [data-theme="dark"] .theme-toggle:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
         }
 
         .nav-switch {
@@ -558,7 +612,8 @@
             height: 500px;
             background: radial-gradient(circle, rgba(59, 63, 175, 0.1) 0%, transparent 70%);
             border-radius: 50%;
-            animation: float 20s ease-in-out infinite;
+            /* Slower float animation (30s instead of 20s) for less disruption */
+            animation: float 30s ease-in-out infinite;
         }
 
         @keyframes float {
@@ -566,8 +621,26 @@
             50% { transform: translate(-20px, -20px) scale(1.1); }
         }
 
+        /* Dark mode hero: static gradient (no animation) for reduced saturation and better UX */
         [data-theme="dark"] .hero {
-            background: var(--bg-elevated);
+            background: linear-gradient(135deg, #0B1220 0%, #111827 50%, #0D1525 100%);
+            background-size: 100% 100%;
+            /* Remove gradientShift animation in dark mode */
+            animation: none;
+        }
+
+        /* Green decorative element in dark mode hero */
+        [data-theme="dark"] .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 35s ease-in-out infinite reverse;
+            z-index: 0;
         }
 
         .hero-grid {
@@ -587,6 +660,19 @@
         .hero-content h1 {
             margin-bottom: var(--space-md);
             color: var(--text-primary);
+            position: relative;
+        }
+
+        /* Green accent underline for hero title in dark mode */
+        [data-theme="dark"] .hero-content h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-accent) 0%, rgba(16, 185, 129, 0.3) 100%);
+            border-radius: 2px;
         }
 
         .hero-subtitle {
@@ -654,9 +740,9 @@
             transform: translateY(-2px);
         }
 
-        /* Dark mode button styles */
+        /* Dark mode button styles - green only */
         [data-theme="dark"] .btn-primary {
-            background: var(--color-primary);
+            background: var(--color-accent);
             color: #FFFFFF;
         }
 
@@ -666,12 +752,29 @@
 
         [data-theme="dark"] .btn-secondary {
             background: transparent;
-            border: 1px solid var(--color-primary);
-            color: var(--color-primary);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
         }
 
         [data-theme="dark"] .btn-secondary:hover {
-            background: var(--color-primary-soft);
+            background: var(--color-accent-soft);
+        }
+
+        /* Dark mode CTA buttons: subtle green accent underline on hover */
+        [data-theme="dark"] .btn-primary:hover {
+            position: relative;
+        }
+
+        [data-theme="dark"] .btn-primary:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: var(--color-accent);
+            opacity: 0.6;
         }
 
         .hero-image {
@@ -714,10 +817,31 @@
         [data-theme="dark"] .hero-image {
             border-color: var(--border-light);
             box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        /* Green accent border on hero image in dark mode */
+        [data-theme="dark"] .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 40px;
+            height: 40px;
+            border-top: 3px solid var(--color-accent);
+            border-right: 3px solid var(--color-accent);
+            border-radius: 0 var(--radius-md) 0 0;
+            opacity: 0.8;
+            transition: opacity var(--transition-base);
         }
 
         [data-theme="dark"] .hero-image:hover {
             box-shadow: var(--shadow-md);
+        }
+
+        [data-theme="dark"] .hero-image:hover::before {
+            opacity: 1;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
         }
 
         /* Stats Section */
@@ -755,9 +879,13 @@
             color: var(--text-secondary);
         }
 
-        /* Dark mode stats */
+        /* Dark mode stats - all green */
         [data-theme="dark"] .stat-value {
-            color: var(--color-primary);
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .hero-stats .stat-card:first-child .stat-value {
+            color: var(--color-accent);
         }
 
         [data-theme="dark"] .stat-label {
@@ -814,6 +942,11 @@
             font-weight: 400;
         }
 
+        /* Hide empty paragraphs in section headers */
+        .section-header p:empty {
+            display: none;
+        }
+
         .section-kicker {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -864,6 +997,61 @@
             border-top-color: #8B5CF6;
         }
 
+        /* ============================================
+           TEACHING CARDS - Differentiated backgrounds
+           ============================================ */
+        /* CEDEU Card - Blue theme */
+        [data-theme="dark"] .cedeu-card {
+            background: linear-gradient(180deg, rgba(0, 51, 102, 0.15) 0%, var(--bg-elevated-soft) 100%);
+            border: 1px solid rgba(0, 51, 102, 0.3);
+            border-top: 4px solid #003366;
+        }
+
+        [data-theme="dark"] .cedeu-card:hover {
+            background: linear-gradient(180deg, rgba(0, 51, 102, 0.25) 0%, rgba(10, 24, 37, 0.9) 100%);
+            border-top-color: #004488;
+            box-shadow: 0 8px 24px rgba(0, 51, 102, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Santander Card - Red theme */
+        [data-theme="dark"] .santander-card {
+            background: linear-gradient(180deg, rgba(236, 0, 0, 0.15) 0%, var(--bg-elevated-soft) 100%);
+            border: 1px solid rgba(236, 0, 0, 0.3);
+            border-top: 4px solid #EC0000;
+        }
+
+        [data-theme="dark"] .santander-card:hover {
+            background: linear-gradient(180deg, rgba(236, 0, 0, 0.25) 0%, rgba(42, 10, 10, 0.9) 100%);
+            border-top-color: #FF2222;
+            box-shadow: 0 8px 24px rgba(236, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Medusa Card - Purple theme */
+        [data-theme="dark"] .medusa-card {
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.15) 0%, var(--bg-elevated-soft) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-top: 4px solid #8B5CF6;
+        }
+
+        [data-theme="dark"] .medusa-card:hover {
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.25) 0%, rgba(26, 15, 46, 0.9) 100%);
+            border-top-color: #A78BFA;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Light mode: subtle background tints */
+        .cedeu-card {
+            background: linear-gradient(180deg, rgba(0, 51, 102, 0.03) 0%, var(--white) 100%);
+        }
+
+        .santander-card {
+            background: linear-gradient(180deg, rgba(236, 0, 0, 0.03) 0%, var(--white) 100%);
+        }
+
+        .medusa-card {
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, var(--white) 100%);
+        }
+
         /* Hover Effects */
         .service-card:hover {
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
@@ -880,6 +1068,109 @@
 
         .medusa-card:hover {
             border-top-width: 8px;
+        }
+
+        /* ============================================
+           DARK MODE STYLES - Producto & Web3 Section
+           ============================================ */
+        /* Section background: horizontal gradient for depth and prominence */
+        [data-theme="dark"] #producto.section-light {
+            background: linear-gradient(90deg, #0A1120 0%, #0B1220 50%, #0D1525 100%);
+            padding: calc(var(--space-3xl) + var(--space-xl)) 0;
+            position: relative;
+        }
+
+        /* Add subtle visual element under section title with green accent */
+        [data-theme="dark"] #producto .section-header h2 {
+            position: relative;
+            color: var(--text-main);
+            font-weight: 700;
+            padding-bottom: var(--space-md);
+            line-height: 1.4;
+        }
+
+        [data-theme="dark"] #producto .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-accent) 0%, rgba(16, 185, 129, 0.4) 100%);
+            border-radius: 2px;
+        }
+
+        /* Improve paragraph text contrast in dark mode */
+        [data-theme="dark"] #producto .section-header p {
+            color: var(--text-body);
+            line-height: 1.85;
+        }
+
+        /* Service cards: elevated appearance with green accent border */
+        [data-theme="dark"] #producto .service-card {
+            background: var(--bg-elevated-soft);
+            border: 1px solid rgba(31, 41, 55, 0.6);
+            border-top: 4px solid var(--color-accent);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 
+                        0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle gradient overlay on cards for depth (green tint) */
+        [data-theme="dark"] #producto .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(16, 185, 129, 0.3) 50%, 
+                transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Enhanced card titles with better contrast */
+        [data-theme="dark"] #producto .service-card h3 {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+        }
+
+        /* Improved paragraph contrast and readability */
+        [data-theme="dark"] #producto .service-card p {
+            color: var(--text-body);
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+
+        /* Hover effects: elevation and green accent intensification */
+        [data-theme="dark"] #producto .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2),
+                        0 4px 12px rgba(0, 0, 0, 0.3);
+            border-top-color: var(--color-accent);
+            border-top-width: 5px;
+            background: #141B2E;
+        }
+
+        /* Show gradient overlay on hover */
+        [data-theme="dark"] #producto .service-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Focus-visible for accessibility (green accent) */
+        [data-theme="dark"] #producto .service-card:focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 2px;
+            transform: translateY(-2px);
         }
 
         /* Teaching Card Images */
@@ -975,6 +1266,17 @@
             margin-top: var(--space-3xl);
         }
 
+        /* Hide project cards list inside #producto */
+        #producto .projects-list {
+            display: none !important;
+        }
+
+        /* Show Experience Professional timeline inside #producto */
+        #producto .experience-header,
+        #producto .experience-timeline {
+            display: block !important;
+        }
+
         .timeline {
             position: relative;
             max-width: 900px;
@@ -991,8 +1293,9 @@
             background: linear-gradient(to bottom, var(--accent-primary), var(--accent-tertiary));
         }
 
+        /* Dark mode timeline: solid green line */
         [data-theme="dark"] .timeline::before {
-            background: linear-gradient(to bottom, var(--accent-tertiary), var(--accent-primary));
+            background: var(--color-accent);
         }
 
         .timeline-item {
@@ -1001,7 +1304,12 @@
             margin-bottom: var(--space-3xl);
             opacity: 0;
             transform: translateX(-30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease, padding-left 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .timeline-item.visible:hover {
+            padding-left: 84px;
         }
 
         .timeline-item.visible {
@@ -1028,6 +1336,17 @@
             box-shadow: 0 0 0 3px var(--accent-secondary);
         }
 
+        /* Dark mode timeline: all bullets use green */
+        [data-theme="dark"] .timeline-item::before {
+            background: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-accent);
+        }
+
+        [data-theme="dark"] .timeline-item:nth-child(even)::before {
+            background: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-accent);
+        }
+
         .timeline-year {
             font-size: 1.5rem;
             font-weight: 800;
@@ -1038,6 +1357,15 @@
 
         .timeline-item:nth-child(even) .timeline-year {
             color: var(--accent-secondary);
+        }
+
+        /* Dark mode timeline years: all use green */
+        [data-theme="dark"] .timeline-year {
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .timeline-item:nth-child(even) .timeline-year {
+            color: var(--color-accent);
         }
 
         .timeline-role {
@@ -1052,6 +1380,11 @@
             font-weight: 600;
             color: var(--accent-primary);
             margin-bottom: var(--space-sm);
+        }
+
+        /* Dark mode timeline company: use green for consistency */
+        [data-theme="dark"] .timeline-company {
+            color: var(--color-accent);
         }
 
         .timeline-description {
@@ -1090,6 +1423,34 @@
             left: 0;
             color: var(--accent-primary);
             font-weight: 700;
+        }
+
+        /* Dark mode timeline achievements: use green accent */
+        [data-theme="dark"] .timeline-achievements li::before {
+            color: var(--color-accent);
+        }
+
+        /* Links dentro de timeline achievements */
+        .timeline-achievements li a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.5s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .timeline-achievements li a:hover {
+            color: var(--color-primary-hover);
+            border-bottom-color: var(--color-primary);
+        }
+
+        [data-theme="dark"] .timeline-achievements li a {
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .timeline-achievements li a:hover {
+            color: #26D07C;
+            border-bottom-color: var(--color-accent);
         }
 
         @media (max-width: 768px) {
@@ -1134,6 +1495,11 @@
             overflow: hidden;
         }
 
+        /* Dark mode: project card border-left uses green */
+        [data-theme="dark"] .project-card {
+            border-left-color: var(--color-accent);
+        }
+
         .project-card::before {
             content: '';
             position: absolute;
@@ -1145,10 +1511,16 @@
             transition: width var(--transition-base);
         }
 
-        .project-card:hover {
+        /* Dark mode: project card before uses green accent */
+        [data-theme="dark"] .project-card::before {
+            background: var(--color-accent);
+        }
+
+        /* Dark mode: project card hover uses green accent */
+        [data-theme="dark"] .project-card:hover {
             transform: translateX(4px) translateY(-2px);
             box-shadow: var(--shadow-lg);
-            border-left-color: var(--accent-secondary);
+            border-left-color: var(--color-accent);
         }
 
         .project-card:hover::before {
@@ -1192,6 +1564,11 @@
             border-radius: var(--radius-sm);
             background: var(--color-primary-soft);
             color: var(--accent-primary);
+        }
+
+        /* Dark mode: project tag uses green accent */
+        [data-theme="dark"] .project-tag {
+            color: var(--color-accent);
         }
 
         .project-tag.tag-product {
@@ -1246,15 +1623,21 @@
             margin-bottom: var(--space-xs);
         }
 
+        /* Dark mode: project role uses green accent */
+        [data-theme="dark"] .project-role {
+            color: var(--color-accent);
+        }
+
         .project-description {
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.7;
         }
 
-        .section-dark .project-card {
+        /* Dark mode project cards: use green accent border */
+        [data-theme="dark"] .section-dark .project-card {
             background: var(--bg-elevated);
-            border-left-color: var(--color-primary);
+            border-left-color: var(--color-accent);
         }
 
         .section-dark .project-title {
@@ -1543,21 +1926,29 @@
         [data-theme="dark"] .modal-container p {
             color: var(--text-body);
         }
-            background: var(--bg-secondary);
-        }
 
         .modal-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             padding: var(--space-lg);
             border-bottom: 1px solid var(--border-light);
+            position: relative;
         }
 
         .modal-header h3 {
             margin: 0;
             font-size: 1.5rem;
             color: var(--text-primary);
+            text-align: center;
+            flex: 1;
+        }
+        
+        .modal-header .modal-close {
+            position: absolute;
+            right: var(--space-lg);
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .modal-close {
@@ -1581,9 +1972,86 @@
         }
 
         .modal-content {
-            padding: var(--space-lg);
+            padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+            padding-top: var(--space-3xl);
             overflow-y: auto;
             max-height: calc(90vh - 100px);
+        }
+
+        /* ============================================
+           TEACHING MODAL - Differentiated Styles
+           ============================================ */
+        /* CEDEU Modal - Blue theme */
+        .modal-container[data-modal-type="cede"] {
+            border-top: 4px solid #003366;
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="cede"] {
+            background: linear-gradient(180deg, #0A1825 0%, var(--bg-elevated) 100%);
+            border-top: 4px solid #003366;
+            box-shadow: 0 8px 32px rgba(0, 51, 102, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="cede"] .modal-header {
+            border-bottom-color: rgba(0, 51, 102, 0.3);
+            background: rgba(0, 51, 102, 0.05);
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="cede"] .modal-header h3 {
+            color: #4A90E2;
+        }
+
+        /* Santander Modal - Red theme */
+        .modal-container[data-modal-type="santander"] {
+            border-top: 4px solid #EC0000;
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="santander"] {
+            background: linear-gradient(180deg, #2A0A0A 0%, var(--bg-elevated) 100%);
+            border-top: 4px solid #EC0000;
+            box-shadow: 0 8px 32px rgba(236, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="santander"] .modal-header {
+            border-bottom-color: rgba(236, 0, 0, 0.3);
+            background: rgba(236, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="santander"] .modal-header h3 {
+            color: #FF4444;
+        }
+
+        /* Medusa Modal - Purple theme */
+        .modal-container[data-modal-type="medusa"] {
+            border-top: 4px solid #8B5CF6;
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="medusa"] {
+            background: linear-gradient(180deg, #1A0F2E 0%, var(--bg-elevated) 100%);
+            border-top: 4px solid #8B5CF6;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="medusa"] .modal-header {
+            border-bottom-color: rgba(139, 92, 246, 0.3);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        [data-theme="dark"] .modal-container[data-modal-type="medusa"] .modal-header h3 {
+            color: #A78BFA;
+        }
+
+        /* Light mode styles for modals */
+        .modal-container[data-modal-type="cede"] .modal-header h3 {
+            color: #003366;
+        }
+
+        .modal-container[data-modal-type="santander"] .modal-header h3 {
+            color: #EC0000;
+        }
+
+        .modal-container[data-modal-type="medusa"] .modal-header h3 {
+            color: #8B5CF6;
         }
 
         .modal-content iframe {
@@ -1749,10 +2217,16 @@
             z-index: 0;
         }
 
-        .article-card:hover {
+        /* Dark mode: article card before uses green accent */
+        [data-theme="dark"] .article-card::before {
+            background: var(--color-accent);
+        }
+
+        /* Dark mode: article card hover uses green accent */
+        [data-theme="dark"] .article-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
-            border-color: var(--accent-primary);
+            border-color: var(--color-accent);
         }
 
         .article-card:hover::before {
@@ -1771,6 +2245,11 @@
             margin-bottom: var(--space-sm);
             background: var(--color-primary-soft);
             color: var(--accent-primary);
+        }
+
+        /* Dark mode: article type uses green accent */
+        [data-theme="dark"] .article-type {
+            color: var(--color-accent);
         }
 
         .article-type.type-paper {
@@ -1798,6 +2277,11 @@
 
         .article-card:hover .article-title {
             color: var(--accent-primary);
+        }
+
+        /* Dark mode: article title hover uses green accent */
+        [data-theme="dark"] .article-card:hover .article-title {
+            color: var(--color-accent);
         }
 
         .article-meta {
@@ -1851,6 +2335,15 @@
             color: var(--accent-secondary);
         }
 
+        /* Dark mode: article link uses green accent */
+        [data-theme="dark"] .article-link {
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .article-link:hover {
+            color: var(--color-accent);
+        }
+
         .article-link::after {
             content: '→';
             transition: transform var(--transition-base);
@@ -1860,9 +2353,26 @@
             transform: translateX(4px);
         }
 
-        .section-dark .article-card {
+        /* Dark mode article cards: green accent on hover */
+        [data-theme="dark"] .section-dark .article-card {
             background: var(--bg-elevated);
             border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .section-dark .article-card::before {
+            background: var(--color-accent);
+        }
+
+        [data-theme="dark"] .section-dark .article-card:hover {
+            border-color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .section-dark .article-card:hover .article-title {
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .section-dark .article-link:hover {
+            color: var(--color-accent);
         }
 
         .section-dark .article-title {
@@ -1998,8 +2508,9 @@
             gap: var(--space-xs);
         }
 
-        .social-links a:hover {
-            color: var(--accent-primary);
+        /* Dark mode: social links use green accent on hover */
+        [data-theme="dark"] .social-links a:hover {
+            color: var(--color-accent);
         }
         
         .social-icon {
@@ -2213,6 +2724,11 @@
             outline-offset: 2px;
         }
 
+        /* Dark mode: use green accent for focus rings */
+        [data-theme="dark"] *:focus-visible {
+            outline-color: var(--color-accent);
+        }
+
         .skip-link {
             position: absolute;
             top: -40px;
@@ -2279,6 +2795,23 @@
 
         [data-theme="dark"] .crypto-ticker-wrapper::after {
             background: linear-gradient(to left, var(--bg-secondary), transparent);
+        }
+
+        /* Ajuste para cuando está dentro de market-intelligence */
+        .market-intelligence .crypto-ticker-wrapper::before {
+            background: linear-gradient(to right, var(--bg-secondary), transparent);
+        }
+
+        .market-intelligence .crypto-ticker-wrapper::after {
+            background: linear-gradient(to left, var(--bg-secondary), transparent);
+        }
+
+        [data-theme="dark"] .market-intelligence .crypto-ticker-wrapper::before {
+            background: linear-gradient(to right, #0A1120, transparent);
+        }
+
+        [data-theme="dark"] .market-intelligence .crypto-ticker-wrapper::after {
+            background: linear-gradient(to left, #0D1525, transparent);
         }
 
         .crypto-prices-grid {
@@ -2575,6 +3108,477 @@
                 display: none;
             }
         }
+
+        /* ============================================
+           MARKET INTELLIGENCE SECTION
+           ============================================ */
+        .market-intelligence {
+            background: var(--bg-secondary);
+            padding: var(--space-2xl) 0;
+            position: relative;
+        }
+
+        [data-theme="dark"] .market-intelligence {
+            background: linear-gradient(
+                90deg,
+                #0A1120 0%,
+                #0B1220 50%,
+                #0D1525 100%
+            );
+        }
+
+        /* TABS NAVIGATION - More compact */
+        .market-tabs {
+            display: flex;
+            gap: var(--space-sm);
+            margin: var(--space-xl) 0;
+            justify-content: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: var(--space-md);
+        }
+
+        [data-theme="dark"] .market-tabs {
+            border-bottom-color: rgba(31, 41, 55, 0.4);
+        }
+
+        .market-tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: var(--space-xs) var(--space-sm);
+            background: transparent;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            min-height: 36px;
+            letter-spacing: 0.2px;
+        }
+
+        .market-tab-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .market-tab-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        [data-theme="dark"] .market-tab-btn {
+            border-color: rgba(16, 185, 129, 0.3);
+            color: var(--text-body);
+        }
+
+        [data-theme="dark"] .market-tab-btn:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .market-tab-btn.active {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: #020617;
+        }
+
+        /* TAB CONTENT */
+        .market-tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .market-tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* PROTOCOLS GRID - Smaller, more compact cards */
+        .protocols-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+
+        /* PROTOCOL CARD - Smaller, more detailed */
+        .protocol-card {
+            background: var(--white);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--color-primary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.5s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .protocol-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(59, 63, 175, 0.2) 50%,
+                transparent 100%
+            );
+        }
+
+        .protocol-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-top-color: var(--color-accent);
+        }
+
+        .protocol-card.loading {
+            justify-content: center;
+            align-items: center;
+            grid-column: 1 / -1;
+            min-height: 200px;
+        }
+
+        .protocol-card.loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-light);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        [data-theme="dark"] .protocol-card.loading .spinner {
+            border-color: rgba(16, 185, 129, 0.2);
+            border-top-color: var(--color-accent);
+        }
+
+        .protocol-card.loading p {
+            margin-top: var(--space-md);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        [data-theme="dark"] .protocol-card {
+            background: var(--bg-elevated);
+            border-color: rgba(31, 41, 55, 0.6);
+            border-top-color: var(--color-accent);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .protocol-card::before {
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(16, 185, 129, 0.2) 50%,
+                transparent 100%
+            );
+        }
+
+        [data-theme="dark"] .protocol-card:hover {
+            background: var(--bg-elevated-soft);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+            border-top-color: #26D07C;
+        }
+
+        /* PROTOCOL HEADER - Smaller */
+        .protocol-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-sm);
+        }
+
+        .protocol-logo {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            background: var(--bg-elevated-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            border: 1px solid var(--border-light);
+            flex-shrink: 0;
+        }
+
+        [data-theme="dark"] .protocol-logo {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .protocol-info {
+            flex: 1;
+        }
+
+        .protocol-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 2px 0;
+            font-family: 'Exo 2', sans-serif;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        [data-theme="dark"] .protocol-name {
+            color: var(--text-main);
+        }
+
+        .protocol-category {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* METRICS - More compact */
+        .protocol-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            margin: var(--space-sm) 0;
+            padding: var(--space-sm) 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        [data-theme="dark"] .protocol-metrics {
+            border-color: rgba(31, 41, 55, 0.3);
+        }
+
+        .metric {
+            text-align: left;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+        }
+
+        .metric-value {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            letter-spacing: -0.01em;
+            font-family: 'Exo 2', sans-serif;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        [data-theme="dark"] .metric-value {
+            color: var(--color-accent);
+        }
+
+        .metric-change {
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .metric-change.positive {
+            color: var(--color-success);
+        }
+
+        .metric-change.negative {
+            color: var(--color-primary);
+        }
+
+        [data-theme="dark"] .metric-change.negative {
+            color: var(--color-accent);
+        }
+
+        .metric-change.neutral {
+            color: var(--text-muted);
+        }
+
+        /* PROTOCOL LINK - Smaller */
+        .protocol-link {
+            color: var(--color-primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: var(--space-sm);
+            transition: all 0.5s ease;
+        }
+
+        .protocol-link:hover {
+            gap: var(--space-sm);
+            color: var(--color-primary-hover);
+        }
+
+        [data-theme="dark"] .protocol-link {
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .protocol-link:hover {
+            color: #26D07C;
+        }
+
+        /* MARKET FOOTER - More compact */
+        .market-footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--border-light);
+        }
+
+        [data-theme="dark"] .market-footer {
+            border-top-color: rgba(31, 41, 55, 0.3);
+        }
+
+        .market-timestamp {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .market-timestamp a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.5s ease;
+        }
+
+        .market-timestamp a:hover {
+            text-decoration: underline;
+        }
+
+        [data-theme="dark"] .market-timestamp a {
+            color: var(--color-accent);
+        }
+
+        /* RESPONSIVE MARKET INTELLIGENCE */
+        @media (max-width: 768px) {
+            .market-tabs {
+                gap: var(--space-sm);
+                padding-bottom: var(--space-md);
+            }
+
+            .market-tab-btn {
+                padding: var(--space-sm) var(--space-sm);
+                font-size: 0.85rem;
+            }
+
+            .market-tab-btn .tab-label {
+                margin: 0;
+            }
+
+            .protocols-grid {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: var(--space-sm);
+            }
+
+            .protocol-card {
+                padding: var(--space-sm);
+            }
+
+            .protocol-header {
+                gap: var(--space-xs);
+            }
+
+            .protocol-logo {
+                width: 32px;
+                height: 32px;
+                font-size: 0.95rem;
+            }
+
+            .protocol-name {
+                font-size: 0.85rem;
+            }
+
+            .protocol-metrics {
+                grid-template-columns: 1fr;
+                gap: var(--space-xs);
+                margin: var(--space-xs) 0;
+                padding: var(--space-xs) 0;
+            }
+
+            .metric-value {
+                font-size: 0.9rem;
+            }
+
+            .metric-label {
+                font-size: 0.6rem;
+            }
+
+            .metric-change {
+                font-size: 0.65rem;
+            }
+
+            .protocol-link {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .market-intelligence {
+                padding: var(--space-2xl) 0;
+            }
+
+            .market-intelligence .section-header {
+                margin-bottom: var(--space-2xl) !important;
+            }
+
+            .market-tabs {
+                margin: var(--space-2xl) 0;
+                flex-direction: column;
+            }
+
+            .market-tab-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .protocol-card {
+                padding: var(--space-md);
+            }
+
+            .protocol-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .market-footer {
+                margin-top: var(--space-2xl);
+            }
+        }
     </style>
 </head>
 <body>
@@ -2626,7 +3630,7 @@
                             Diseño y lidero productos de custodia, tokenización y brokeraje para banca, fintechs y empresas Web3, alineando regulación, seguridad y negocio.
                         </p>
                         <p class="hero-subtitle" style="margin-top: var(--space-md);">
-                            I connect traditional financial infrastructure with crypto and digital assets innovation, combining expertise in systems, cloud and on-premise architecture, cybersecurity, and workflow automation to generate real P&L impact.
+                            I connect traditional financial infrastructure with digital assets innovation, combining expertise in systems, cloud and on-premise architecture, cybersecurity, and workflow automation to generate real P&L impact.
                         </p>
                         <div class="cta-group">
                             <a href="#producto" class="btn btn-primary">View product portfolio</a>
@@ -2648,9 +3652,75 @@
                         <div class="stat-label">Universidades (docencia)</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value counter" data-target="50" data-suffix="+">0</div>
+                        <div class="stat-value counter" data-target="10" data-suffix="+">0</div>
                         <div class="stat-label">Proyectos completados</div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Intelligence Section -->
+        <section id="market-intelligence" class="section section-light market-intelligence">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-kicker">Market Intelligence</div>
+                    <h2>Crypto & DeFI</h2>
+                    <p>Principales protocolos DeFi, liquid staking y activos reales tokenizados. 
+                       Datos en tiempo real desde Defillama.</p>
+                </div>
+
+                <!-- Crypto Prices Ticker - First section -->
+                <div class="crypto-ticker-wrapper" style="margin: var(--space-xl) 0;">
+                    <div class="crypto-prices-grid" id="cryptoPricesGrid">
+                        <div class="crypto-loading">
+                            <div class="spinner"></div>
+                            <p>Cargando cotizaciones...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crypto-footer" style="text-align: center; margin-bottom: var(--space-xl); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--border-light);">
+                    <p class="crypto-timestamp">
+                        Datos en tiempo real proporcionados por CoinGecko · Última actualización: <span id="cryptoTimestamp">--:--</span>
+                    </p>
+                </div>
+
+                <!-- TABS NAVIGATION -->
+                <div class="market-tabs">
+                    <button class="market-tab-btn active" data-tab="defi" aria-selected="true">
+                        <span class="tab-label">DeFi Protocols</span>
+                    </button>
+                    <button class="market-tab-btn" data-tab="staking" aria-selected="false">
+                        <span class="tab-label">Liquid Staking</span>
+                    </button>
+                </div>
+
+                <!-- TAB 1: DeFi -->
+                <div class="market-tab-content active" id="tab-defi">
+                    <div class="protocols-grid" id="defi-grid">
+                        <div class="protocol-card loading">
+                            <div class="spinner"></div>
+                            <p class="loading-text">Cargando protocolos...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: STAKING -->
+                <div class="market-tab-content" id="tab-staking">
+                    <div class="protocols-grid" id="staking-grid">
+                        <div class="protocol-card loading">
+                            <div class="spinner"></div>
+                            <p class="loading-text">Cargando protocolos de staking...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="market-footer">
+                    <p class="market-timestamp">
+                        Datos actualizados en tiempo real • 
+                        <a href="https://defillama.com" target="_blank" rel="noopener">Powered by Defillama</a>
+                    </p>
                 </div>
             </div>
         </section>
@@ -2659,24 +3729,24 @@
         <section id="producto" class="section section-light" aria-label="Product and Web3">
             <div class="container">
                 <div class="section-header fade-in">
-                    <h2>Product & Web3</h2>
+                    <h2>Producto & Web3</h2>
                     <p>
-                        Diseño y lidero productos sobre infraestructura Web3 y activos digitales, conectando visión de negocio, tecnología y equipos para llevarlos de discovery a delivery.
+                        Diseño y lidero productos Web3 y relacionados con activos digitales, conectando visión de negocio, tecnología y equipos para completar el ciclo de vida completo.
                     </p>
                 </div>
 
                 <div class="services-grid">
                     <div class="service-card fade-in">
-                        <h3>Infraestructura Web3 & Digital Assets</h3>
-                        <p>Diseño plataformas de activos digitales sobre wallets, custodia y servicios on‑chain, integradas con sistemas bancarios y fintech. Trabajo sobre arquitectura, seguridad y cumplimiento para que la infraestructura Web3 sea estable, escalable y lista para producción.</p>
+                        <h3>Infra Web3 & Activos Digitales</h3>
+                        <p>Diseño plataformas de activos digitales construidas sobre wallets, custodia y servicios on‑chain, integradas con sistemas bancarios, fintech y DeFI. Trabajo sobre las bases de seguridad y cumplimiento normativo.</p>
                     </div>
                     <div class="service-card fade-in">
-                        <h3>Product Leadership & Ownership</h3>
-                        <p>Lidero decisiones de producto de principio a fin: qué problemas resolver, qué priorizar y cómo medir el impacto. Conecto equipos de negocio, tecnología y riesgo para transformar la visión en un roadmap claro y en releases que aportan valor real.</p>
+                        <h3>Liderazgo de Producto & proyectos</h3>
+                        <p>Lidero la toma de decisiones de producto de principio a fin: qué problemas resolver, qué priorizar y cómo medir el impacto. Conecto equipos de negocio, tecnología y riesgo para transformar la visión en un roadmap claro.</p>
                     </div>
                     <div class="service-card fade-in">
-                        <h3>Discovery, Delivery & Operaciones</h3>
-                        <p>Combino discovery continuo, experimentación y métricas para validar qué construir y por qué. Acompaño el delivery con procesos documentados claros que permiten iterar rápido sin perder calidad ni seguridad.</p>
+                        <h3>Conceptualizacion y desarrollo</h3>
+                        <p>Combino descubrimiento continuo y experimentación para validar qué construir y por qué. Acompaño la entrega con procesos documentados claros que permiten iterar rápido sin perder calidad ni seguridad.</p>
                     </div>
                 </div>
 
@@ -2754,67 +3824,28 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Crypto Prices Section -->
-        <section id="crypto-prices" class="section section-light section-compact" aria-label="Digital assets market">
-            <div class="container crypto-container">
-                <div class="section-header fade-in">
-                    <div class="section-kicker">Datos en tiempo real</div>
-                    <h2>Mercado de criptoactivos</h2>
-                    <p class="section-subtitle">
-                        Watchlist de activos que sigo para producto y gestión de tesorería digital.
-                    </p>
-                </div>
-
-                <div class="crypto-ticker-wrapper">
-                    <div class="crypto-prices-grid" id="cryptoPricesGrid">
-                        <div class="crypto-loading">
-                            <div class="spinner"></div>
-                            <p>Cargando cotizaciones...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="crypto-footer">
-                    <p class="crypto-timestamp">
-                        Datos en tiempo real proporcionados por CoinGecko · Última actualización: <span id="cryptoTimestamp">--:--</span>
-                    </p>
-                    <button class="btn btn-secondary btn-sm crypto-refresh-btn" onclick="refreshCryptoPrices()" id="refreshBtn" aria-label="Refrescar mercado de activos digitales">
-                        <span class="refresh-icon">⟳</span>
-                        <span class="refresh-text">Refrescar mercado</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Timeline -->
-        <section id="experiencia" class="section section-warm" aria-label="Professional experience">
-            <div class="container">
-                <div class="section-header fade-in">
+                <!-- Experience Timeline -->
+                <div class="section-header fade-in experience-header" style="margin-top: var(--space-3xl);">
                     <h2>Experiencia Profesional</h2>
-                    <p>
-                        Trayectoria en fintech, blockchain y automatización. De desarrollo a liderazgo de producto en empresas líderes.
-                    </p>
+                    <p style="display: none;"></p>
                 </div>
-
-                <div class="timeline-container">
+                <div class="timeline-container experience-timeline">
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-year">2024</div>
                             <div class="timeline-role">Head of product & digital assets</div>
                             <div class="timeline-company">Onyze (Digital Asset Custody)</div>
                             <p class="timeline-description">
-                                Responsable del area de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, exchange y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad, cumplimiento y escalabilidad para desplegar una infraestructura de activos digitales en entornos regulados.
+                                Responsable del area de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, brokeraje y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad y cumplimiento normativo para el despliegue una infraestructura de activos digitales en entornos regulados.
                             </p>
                             <div class="timeline-achievements">
                                 <ul>
-                                    <li>Lanzamiento de plataforma de custodia institucional</li>
-                                    <li>Arquitectura API-first para integraciones enterprise</li>
+                                    <li>Evolucion y diseño de <a href="https://onyze.com/es/#custody" target="_blank" rel="noopener noreferrer">Crypto-as-a-service</a></li>
+                                    <li>Arquitectura API para integraciones con core banking</li>
                                     <li>Desarrollo de herramienta de cumplimiento normativa Transaction monitoring</li>
-                                    <li>Desarrollo e integración de la Travel Rule</li>
-                                    <li>Despliegue onpremise de módulo crypto en la banca online de Credit Andorra</li>
+                                    <li>Desarrollo e integración de la Travel Rule en la regulación de transferencia de fondos.</li>
+                                    <li>Despliegue de módulo crypto en la banca online de <a href="https://creand.ad/es/personas/ahorro-e-inversion/cryptowallet/" target="_blank" rel="noopener noreferrer">Credit Andorra</a>.</li>
                                 </ul>
                             </div>
                         </div>
@@ -2851,6 +3882,38 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Crypto Prices Section - Moved inside Market Intelligence -->
+        <section id="crypto-prices" class="section section-light section-compact" aria-label="Digital assets market" style="display: none;">
+            <div class="container crypto-container">
+                <div class="section-header fade-in">
+                    <div class="section-kicker">Datos en tiempo real</div>
+                    <h2>Mercado de criptoactivos</h2>
+                    <p class="section-subtitle">
+                        Watchlist de activos que sigo para producto y gestión de tesorería digital.
+                    </p>
+                </div>
+
+                <div class="crypto-ticker-wrapper">
+                    <div class="crypto-prices-grid" id="cryptoPricesGrid">
+                        <div class="crypto-loading">
+                            <div class="spinner"></div>
+                            <p>Cargando cotizaciones...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crypto-footer">
+                    <p class="crypto-timestamp">
+                        Datos en tiempo real proporcionados por CoinGecko · Última actualización: <span id="cryptoTimestamp">--:--</span>
+                    </p>
+                    <button class="btn btn-secondary btn-sm crypto-refresh-btn" onclick="refreshCryptoPrices()" id="refreshBtn" aria-label="Refrescar mercado de activos digitales">
+                        <span class="refresh-icon">⟳</span>
+                        <span class="refresh-text">Refrescar mercado</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -3049,7 +4112,7 @@
                     <!-- Card 1 -->
                     <div class="service-card cedeu-card fade-in" onclick="openTeachingModal('cede')" style="cursor: pointer;">
                         <div class="teaching-card-image">
-                            <img src="{% static 'images/teaching/cedeu-logo.png' %}" alt="CEDEU Logo" />
+                            <img src="{% static 'images/cedeu3.png' %}" alt="CEDEU Logo" />
                         </div>
                         <h3>CEDEU</h3>
                         <p class="teaching-card-description" style="display: none;">Courses on digital assets, blockchain, APIs, and product, with work focused on infrastructures and financial systems flows.</p>
@@ -3060,7 +4123,7 @@
                         <div class="teaching-card-image">
                             <img src="{% static 'images/teaching/santander-logo.png' %}" alt="Santander FI Logo" />
                         </div>
-                        <h3>Santander FI (BME)</h3>
+                        <h3>Santander Financial Institute</h3>
                         <p class="teaching-card-description" style="display: none;">Training programs in product, Web3, and crypto for financial market professionals, with focus on regulation, risks, and real use cases.</p>
                     </div>
 
@@ -3547,7 +4610,7 @@
                 // Hero
                 heroSubtitle1: 'Head of Digital Assets · Product Leader en activos digitales.',
                 heroSubtitle2: 'Diseño y lidero productos de custodia, tokenización y brokeraje para banca, fintechs y empresas Web3, alineando regulación, seguridad y negocio.',
-                heroSubtitle3: 'Conecto la infraestructura financiera tradicional con la innovación en cripto y activos digitales, combinando experiencia en sistemas, arquitectura cloud y on‑premise, ciberseguridad y automatización de workflows para generar impacto real en el P&L.',
+                heroSubtitle3: 'Conecto la infraestructura financiera tradicional con la innovación en activos digitales, combinando experiencia en arquitectura cloud y on‑premise, ciberseguridad y automatización de workflows para generar impacto real.',
                 heroCta1: 'Ver portfolio de producto',
                 heroCta2: 'Agendar una llamada estratégica',
                 // Stats
@@ -3556,13 +4619,13 @@
                 statProjects: 'Proyectos completados',
                 // Product Section
                 productTitle: 'Producto & Web3',
-                productDesc: 'Diseño y lidero productos sobre infraestructura Web3 y activos digitales, conectando visión de negocio, tecnología y equipos para llevarlos de discovery a delivery.',
-                card1Title: 'Infraestructura Web3 & Digital Assets',
-                card1Desc: 'Diseño plataformas de activos digitales sobre wallets, custodia y servicios on‑chain, integradas con sistemas bancarios y fintech. Trabajo sobre arquitectura, seguridad y cumplimiento para que la infraestructura Web3 sea estable, escalable y lista para producción.',
-                card2Title: 'Product Leadership & Ownership',
-                card2Desc: 'Lidero decisiones de producto de principio a fin: qué problemas resolver, qué priorizar y cómo medir el impacto. Conecto equipos de negocio, tecnología y riesgo para transformar la visión en un roadmap claro y en releases que aportan valor real.',
-                card3Title: 'Discovery, Delivery & Operaciones',
-                card3Desc: 'Combino discovery continuo, experimentación y métricas para validar qué construir y por qué. Acompaño el delivery con procesos documentados claros que permiten iterar rápido sin perder calidad ni seguridad.',
+                productDesc: 'Diseño y lidero productos Web3 y relacionados con activos digitales, conectando visión de negocio, tecnología y equipos para completar el ciclo de vida completo.',
+                card1Title: 'Infra Web3 & Activos Digitales',
+                card1Desc: 'Diseño plataformas de activos digitales construidas sobre wallets, custodia y servicios on‑chain, integradas con sistemas bancarios, fintech y DeFI. Trabajo sobre las bases de seguridad y cumplimiento normativo.',
+                card2Title: 'Liderazgo de Producto & proyectos',
+                card2Desc: 'Lidero la toma de decisiones de producto de principio a fin: qué problemas resolver, qué priorizar y cómo medir el impacto. Conecto equipos de negocio, tecnología y riesgo para transformar la visión en un roadmap claro.',
+                card3Title: 'Conceptualizacion y desarrollo',
+                card3Desc: 'Combino descubrimiento continuo y experimentación para validar qué construir y por qué. Acompaño la entrega con procesos documentados claros que permiten iterar rápido sin perder calidad ni seguridad.',
                 // Projects
                 onyzeDesc: 'Responsable del area de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, exchange y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad, cumplimiento y escalabilidad para desplegar una infraestructura de activos digitales en entornos regulados.',
                 nfqDesc: 'Consultor Murex para proyectos de riesgos de mercado FRTB para BBVA, automatización de workflows críticos y arquitectura de datos para banca, combinando Control‑M, microservicios y datamarts regulatorios. Resultados en eficiencia operativa, calidad de reporting y resiliencia de sistemas de trading y riesgo.',
@@ -3572,7 +4635,18 @@
                 metricScalability: 'Escalabilidad',
                 metricSecurity: 'Seguridad',
                 metricTimeReduction: 'Tecnología',
-                // Crypto Section
+                // Market Intelligence Section
+                marketIntelligenceKicker: 'Market Intelligence',
+                marketIntelligenceTitle: 'Crypto & DeFI',
+                marketIntelligenceDesc: 'Principales protocolos DeFi y liquid staking. Datos en tiempo real desde Defillama.',
+                marketTabDefi: 'Protocolos DeFi',
+                marketTabStaking: 'Liquid Staking',
+                marketLoadingProtocols: 'Cargando protocolos...',
+                marketLoadingStaking: 'Cargando protocolos de staking...',
+                marketViewProtocol: 'Ver protocolo',
+                marketNoProtocols: 'No se encontraron protocolos',
+                marketPoweredBy: 'Datos actualizados en tiempo real •',
+                // Crypto Section (hidden)
                 cryptoKicker: 'Datos en tiempo real',
                 cryptoTitle: 'Mercado de criptoactivos',
                 cryptoSubtitle: 'Watchlist de activos que sigo para producto y gestión de tesorería digital.',
@@ -3583,15 +4657,15 @@
                 cryptoError: '⚠️ Error al cargar cotizaciones. Intenta de nuevo en unos momentos.',
                 // Experience
                 experienceTitle: 'Experiencia Profesional',
-                experienceDesc: 'Trayectoria en fintech, blockchain y automatización. De desarrollo a liderazgo de producto en empresas líderes.',
-                timelineOnyze: 'Responsable del area de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, exchange y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad, cumplimiento y escalabilidad para desplegar una infraestructura de activos digitales en entornos regulados.',
+                experienceDesc: '',
+                timelineOnyze: 'Responsable del area de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, brokeraje y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad y cumplimiento normativo para el despliegue una infraestructura de activos digitales en entornos regulados.',
                 timelineNfq: 'Consultor Murex para proyectos de riesgos de mercado FRTB para BBVA, automatización de workflows críticos y arquitectura de datos para banca, combinando Control‑M, microservicios y datamarts regulatorios. Resultados en eficiencia operativa, calidad de reporting y resiliencia de sistemas de trading y riesgo.',
                 timelineSopra: 'Desarrollador de servicios y módulos backend en Java para procesos de liquidación, reporting y operaciones diarias, siguiendo principios de clean code y patrones de diseño. Participé en el ciclo completo de desarrollo (análisis, diseño, pruebas y despliegue), aportando documentación técnica y soporte en la puesta en producción.',
-                achievement1: 'Lanzamiento de plataforma de custodia institucional',
-                achievement2: 'Arquitectura API-first para integraciones enterprise',
+                achievement1: 'Evolucion y diseño de Crypto-as-a-service',
+                achievement2: 'Arquitectura API para integraciones con core banking',
                 achievement3: 'Desarrollo de herramienta de cumplimiento normativa Transaction monitoring',
-                achievement4: 'Desarrollo e integración de la Travel Rule',
-                achievement5: 'Despliegue onpremise de módulo crypto en la banca online de Credit Andorra',
+                achievement4: 'Desarrollo e integración de la Travel Rule en la regulación de transferencia de fondos.',
+                achievement5: 'Despliegue de módulo crypto en la banca online de Credit Andorra.',
                 achievement6: 'Automatización de procesos críticos con Control-M',
                 achievement7: 'Arquitectura de microservicios para banca',
                 achievement8: 'Despligues CI/CD en entornos productivos',
@@ -3699,7 +4773,7 @@
                 // Hero
                 heroSubtitle1: 'Head of Digital Assets · Product Leader in digital assets and banking.',
                 heroSubtitle2: 'I design and lead API-first products for custody, tokenization, and brokerage for banks, fintechs, and Web3 companies, aligning regulation, security, and business.',
-                heroSubtitle3: 'I connect traditional financial infrastructure with crypto and digital assets innovation, combining expertise in systems, cloud and on-premise architecture, cybersecurity, and workflow automation to generate real P&L impact.',
+                heroSubtitle3: 'I connect traditional financial infrastructure with digital assets innovation, combining expertise in systems, cloud and on-premise architecture, cybersecurity, and workflow automation to generate real P&L impact.',
                 heroCta1: 'View product portfolio',
                 heroCta2: 'Schedule a strategic call',
                 // Stats
@@ -3708,13 +4782,13 @@
                 statProjects: 'Projects completed',
                 // Product Section
                 productTitle: 'Product & Web3',
-                productDesc: 'I design and lead products on Web3 infrastructure and digital assets, connecting business vision, technology, and teams to take them from discovery to delivery.',
-                card1Title: 'Web3 Infrastructure & Digital Assets',
-                card1Desc: 'I design digital asset platforms on wallets, custody, and on-chain services, integrated with banking and fintech systems. I work on architecture, security, and compliance so that Web3 infrastructure is stable, scalable, and production-ready.',
-                card2Title: 'Product Leadership & Ownership',
-                card2Desc: 'I lead product decisions end-to-end: what problems to solve, what to prioritize, and how to measure impact. I connect business, technology, and risk teams to transform vision into a clear roadmap and releases that deliver real value.',
-                card3Title: 'Discovery, Delivery & Operations',
-                card3Desc: 'I combine continuous discovery, experimentation, and metrics to validate what to build and why. I support delivery with clear documented processes that allow fast iteration without losing quality or security.',
+                productDesc: 'I design and lead Web3 products and those related to digital assets, connecting business vision, technology, and teams to complete the full lifecycle.',
+                card1Title: 'Web3 Infra & Digital Assets',
+                card1Desc: 'I design digital asset platforms built on wallets, custody and on-chain services, integrated with banking, fintech and DeFi systems. I work on the foundations of security and regulatory compliance.',
+                card2Title: 'Product Leadership & Projects',
+                card2Desc: 'I lead product decision-making from start to finish: what problems to solve, what to prioritize, and how to measure impact. I connect business, technology, and risk teams to transform vision into a clear roadmap.',
+                card3Title: 'Conceptualization and Development',
+                card3Desc: 'I combine continuous discovery and experimentation to validate what to build and why. I support delivery with clear documented processes that allow fast iteration without losing quality or security.',
                 // Projects
                 onyzeDesc: 'Head of Product. I design and conceptualize the evolution of the SaaS custody, exchange and tokenization platform, defining roadmap, API design and use cases for banking, institutional and fintechs. Priority on security, compliance and scalability to deploy digital asset infrastructure in regulated environments.',
                 nfqDesc: 'Murex Consultant for FRTB market risk projects for BBVA, critical workflow automation, and data architecture for banking, combining Control-M, microservices, and regulatory datamarts. Results in operational efficiency, reporting quality, and resilience of trading and risk systems.',
@@ -3724,7 +4798,18 @@
                 metricScalability: 'Scalability',
                 metricSecurity: 'Security',
                 metricTimeReduction: 'Technology',
-                // Crypto Section
+                // Market Intelligence Section
+                marketIntelligenceKicker: 'Market Intelligence',
+                marketIntelligenceTitle: 'Crypto & DeFI',
+                marketIntelligenceDesc: 'Main DeFi protocols and liquid staking. Real-time data from Defillama.',
+                marketTabDefi: 'DeFi Protocols',
+                marketTabStaking: 'Liquid Staking',
+                marketLoadingProtocols: 'Loading protocols...',
+                marketLoadingStaking: 'Loading staking protocols...',
+                marketViewProtocol: 'View protocol',
+                marketNoProtocols: 'No protocols found',
+                marketPoweredBy: 'Data updated in real-time •',
+                // Crypto Section (hidden)
                 cryptoKicker: 'Real-time data',
                 cryptoTitle: 'Digital Assets Market',
                 cryptoSubtitle: 'Watchlist of assets I follow for product and digital treasury management.',
@@ -3735,15 +4820,15 @@
                 cryptoError: '⚠️ Error loading prices. Please try again in a moment.',
                 // Experience
                 experienceTitle: 'Professional Experience',
-                experienceDesc: 'Career in fintech, blockchain, and automation. From development to product leadership in leading companies.',
-                timelineOnyze: 'Head of Product. I design and conceptualize the evolution of the SaaS custody, exchange and tokenization platform, defining roadmap, API design and use cases for banking, institutional and fintechs. Priority on security, compliance and scalability to deploy digital asset infrastructure in regulated environments.',
+                experienceDesc: '',
+                timelineOnyze: 'Head of Product. I design and conceptualize the evolution of the SaaS custody, brokerage and tokenization platform, defining roadmap, API design and use cases for banking, institutional and fintechs. Priority on security and regulatory compliance for deploying digital asset infrastructure in regulated environments.',
                 timelineNfq: 'Murex Consultant for FRTB market risk projects for BBVA, critical workflow automation, and data architecture for banking, combining Control-M, microservices, and regulatory datamarts. Results in operational efficiency, reporting quality, and resilience of trading and risk systems.',
                 timelineSopra: 'Developer of backend services and modules in Java for settlement, reporting, and daily operations processes, following clean code principles and design patterns. I participated in the complete development cycle (analysis, design, testing, and deployment), providing technical documentation and support during production deployment.',
-                achievement1: 'Launch of institutional custody platform',
-                achievement2: 'API-first architecture for enterprise integrations',
+                achievement1: 'Evolution and design of Crypto-as-a-service',
+                achievement2: 'API architecture for integrations with core banking',
                 achievement3: 'Development of regulatory compliance tool Transaction monitoring',
-                achievement4: 'Development and integration of Travel Rule',
-                achievement5: 'On-premise deployment of crypto module in Credit Andorra online banking',
+                achievement4: 'Development and integration of Travel Rule in funds transfer regulation.',
+                achievement5: 'Deployment of crypto module in Credit Andorra online banking.',
                 achievement6: 'Automation of critical processes with Control-M',
                 achievement7: 'Microservices architecture for banking',
                 achievement8: 'CI/CD deployments in production environments',
@@ -3909,7 +4994,35 @@
                 if (text === 'Technology' || text === 'Tecnología') metric.textContent = t.metricTimeReduction;
             });
 
-            // Crypto Section
+            // Market Intelligence Section
+            const marketKicker = document.querySelector('#market-intelligence .section-kicker');
+            if (marketKicker) marketKicker.textContent = t.marketIntelligenceKicker;
+            const marketTitle = document.querySelector('#market-intelligence h2');
+            if (marketTitle) marketTitle.textContent = t.marketIntelligenceTitle;
+            const marketDesc = document.querySelector('#market-intelligence .section-header p');
+            if (marketDesc) marketDesc.textContent = t.marketIntelligenceDesc;
+            
+            // Market tabs labels
+            const tabDefi = document.querySelector('.market-tab-btn[data-tab="defi"] .tab-label');
+            if (tabDefi) tabDefi.textContent = t.marketTabDefi;
+            const tabStaking = document.querySelector('.market-tab-btn[data-tab="staking"] .tab-label');
+            if (tabStaking) tabStaking.textContent = t.marketTabStaking;
+            
+            // Loading texts
+            const loadingDefi = document.querySelector('#tab-defi .loading-text');
+            if (loadingDefi) loadingDefi.textContent = t.marketLoadingProtocols;
+            const loadingStaking = document.querySelector('#tab-staking .loading-text');
+            if (loadingStaking) loadingStaking.textContent = t.marketLoadingStaking;
+            
+            // Footer
+            const marketFooterText = document.querySelector('.market-footer .market-timestamp');
+            if (marketFooterText) {
+                const link = marketFooterText.querySelector('a');
+                const linkText = link ? link.outerHTML : '';
+                marketFooterText.innerHTML = t.marketPoweredBy + ' ' + linkText;
+            }
+            
+            // Crypto Section (hidden)
             const cryptoKicker = document.querySelector('#crypto-prices .section-kicker');
             if (cryptoKicker) cryptoKicker.textContent = t.cryptoKicker;
             const cryptoTitle = document.querySelector('#crypto-prices h2');
@@ -3927,20 +5040,34 @@
             if (cryptoRefresh) cryptoRefresh.textContent = t.cryptoRefresh;
 
             // Experience
-            const expTitle = document.querySelector('#experiencia h2');
+            const expTitle = document.querySelector('#producto .timeline-container')?.previousElementSibling?.querySelector('h2');
             if (expTitle) expTitle.textContent = t.experienceTitle;
-            const expDesc = document.querySelector('#experiencia .section-header p');
-            if (expDesc) expDesc.textContent = t.experienceDesc;
-            const timelineDescs = document.querySelectorAll('.timeline-description');
+            const timelineDescs = document.querySelectorAll('#producto .timeline-description');
             if (timelineDescs[0]) timelineDescs[0].textContent = t.timelineOnyze;
             if (timelineDescs[1]) timelineDescs[1].textContent = t.timelineNfq;
             if (timelineDescs[2]) timelineDescs[2].textContent = t.timelineSopra;
-            const achievements = document.querySelectorAll('.timeline-achievements li');
-            if (achievements[0]) achievements[0].textContent = t.achievement1;
+            const achievements = document.querySelectorAll('#producto .timeline-achievements li');
+            if (achievements[0]) {
+                // El primer achievement incluye un link, usar innerHTML
+                const isSpanish = lang === 'es';
+                if (isSpanish) {
+                    achievements[0].innerHTML = 'Evolucion y diseño de <a href="https://onyze.com/es/#custody" target="_blank" rel="noopener noreferrer">Crypto-as-a-service</a>';
+                } else {
+                    achievements[0].innerHTML = 'Evolution and design of <a href="https://onyze.com/es/#custody" target="_blank" rel="noopener noreferrer">Crypto-as-a-service</a>';
+                }
+            }
             if (achievements[1]) achievements[1].textContent = t.achievement2;
             if (achievements[2]) achievements[2].textContent = t.achievement3;
             if (achievements[3]) achievements[3].textContent = t.achievement4;
-            if (achievements[4]) achievements[4].textContent = t.achievement5;
+            if (achievements[4]) {
+                // El último achievement incluye un link, usar innerHTML
+                const isSpanish = lang === 'es';
+                if (isSpanish) {
+                    achievements[4].innerHTML = 'Despliegue de módulo crypto en la banca online de <a href="https://creand.ad/es/personas/ahorro-e-inversion/cryptowallet/" target="_blank" rel="noopener noreferrer">Credit Andorra</a>.';
+                } else {
+                    achievements[4].innerHTML = 'Deployment of crypto module in <a href="https://creand.ad/es/personas/ahorro-e-inversion/cryptowallet/" target="_blank" rel="noopener noreferrer">Credit Andorra</a> online banking.';
+                }
+            }
             if (achievements[5]) achievements[5].textContent = t.achievement6;
             if (achievements[6]) achievements[6].textContent = t.achievement7;
             if (achievements[7]) achievements[7].textContent = t.achievement8;
@@ -4512,28 +5639,40 @@
             let title = '';
             let content = '';
             let imageSrc = '';
+            let imageUrl = '';
             
             if (type === 'cede') {
                 title = 'CEDEU';
                 content = t.cedeuDesc;
-                imageSrc = STATIC_IMAGES_URL + 'teaching/cedeu-logo.png';
+                imageSrc = STATIC_IMAGES_URL + 'cedeu3.png';
+                imageUrl = 'https://www.cedeu.es/';
             } else if (type === 'santander') {
-                title = 'Santander FI (BME)';
+                title = 'Santander FI';
                 content = t.santanderDesc;
                 imageSrc = STATIC_IMAGES_URL + 'teaching/santander-logo.png';
+                imageUrl = 'https://sanfi.es/';
             } else if (type === 'medusa') {
                 title = 'Medusa Capital';
                 content = t.medusaDesc;
                 imageSrc = STATIC_IMAGES_URL + 'teaching/medusa-logo.png';
+                imageUrl = 'https://medusacapital.xyz/';
             }
             
             modalTitle.textContent = title;
             modalContent.innerHTML = `
                 <div style="text-align: center; margin-bottom: var(--space-lg);">
-                    <img src="${imageSrc}" alt="${title} Logo" style="max-width: 200px; max-height: 100px; object-fit: contain;" />
+                    <a href="${imageUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block;">
+                        <img src="${imageSrc}" alt="${title} Logo" style="max-width: 200px; max-height: 100px; object-fit: contain; cursor: pointer; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" />
+                    </a>
                 </div>
                 <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary);">${content}</p>
             `;
+            
+            // Add data-type attribute to modal container for styling
+            const modalContainer = modal.querySelector('.modal-container');
+            if (modalContainer) {
+                modalContainer.setAttribute('data-modal-type', type);
+            }
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -4550,6 +5689,11 @@
             if (modal) {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
+                // Remove data-type attribute when closing
+                const modalContainer = modal.querySelector('.modal-container');
+                if (modalContainer) {
+                    modalContainer.removeAttribute('data-modal-type');
+                }
             }
         }
 
@@ -4608,10 +5752,10 @@
         };
 
         const CRYPTOS = [
-            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
-            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
             { id: 'solana', symbol: 'SOL', name: 'Solana' },
             { id: 'avalanche', symbol: 'AVAX', name: 'Avalanche' },
+            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
+            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
             { id: 'monero', symbol: 'XMR', name: 'Monero' },
             { id: 'binancecoin', symbol: 'BNB', name: 'BNB' },
             { id: 'ripple', symbol: 'XRP', name: 'Ripple' }
@@ -4876,6 +6020,201 @@
         } else {
             // DOM ya está listo
             fetchCryptoPrices();
+        }
+
+        // ============================================
+        // MARKET INTELLIGENCE - DEFILLAMA API
+        // ============================================
+        // Protocol images mapping - usar STATIC_IMAGES_URL que ya está definido
+        const PROTOCOL_IMAGES = {
+            'Lido': STATIC_IMAGES_URL + 'lido_dao.jpeg',
+            'Lido DAO': STATIC_IMAGES_URL + 'lido_dao.jpeg',
+            'SSV Network': STATIC_IMAGES_URL + 'ssv.png',
+            'SSV': STATIC_IMAGES_URL + 'ssv.png',
+            'Aave': STATIC_IMAGES_URL + 'aave-aave-logo.png',
+            'Aave V3': STATIC_IMAGES_URL + 'aave-aave-logo.png',
+            'Aave Horizon': STATIC_IMAGES_URL + 'aave-aave-logo.png',
+            'Aave Horizon RWA': STATIC_IMAGES_URL + 'aave-aave-logo.png',
+            'MakerDAO': STATIC_IMAGES_URL + 'maker-mkr-logo.png',
+            'Maker': STATIC_IMAGES_URL + 'maker-mkr-logo.png',
+            'Curve': STATIC_IMAGES_URL + 'curve-dao-token-crv-logo.png',
+            'Curve DEX': STATIC_IMAGES_URL + 'curve-dao-token-crv-logo.png',
+            'Convex': STATIC_IMAGES_URL + 'convex-finance-cvx-logo.png',
+            'Convex Finance': STATIC_IMAGES_URL + 'convex-finance-cvx-logo.png',
+            'Rocket Pool': STATIC_IMAGES_URL + 'rocket-pool-rpl-glass-crypto-coin-3d-illustration-free-png.webp',
+            'Stakewise': STATIC_IMAGES_URL + 'stakewise200.png',
+            'StakeWise': STATIC_IMAGES_URL + 'stakewise200.png',
+            'StakeWise ETH': STATIC_IMAGES_URL + 'stakewise200.png',
+            'Frax Ether': STATIC_IMAGES_URL + 'frax_images.png',
+            'Frax': STATIC_IMAGES_URL + 'frax_images.png',
+            'FRAX Ether': STATIC_IMAGES_URL + 'frax_images.png'
+        };
+
+        const MARKET_CONFIG = {
+            defi: {
+                names: ['Aave', 'MakerDAO', 'Curve', 'Lido', 'Balancer', 'Convex'],
+                minTVL: 100000000
+            },
+            staking: {
+                names: ['Lido', 'Rocket Pool', 'EigenLayer', 'Stakewise', 'Frax Ether'],
+                minTVL: 50000000
+            }
+        };
+
+        async function loadMarketData() {
+            try {
+                const response = await fetch('https://api.llama.fi/protocols');
+                if (!response.ok) throw new Error('Error fetching protocols');
+                
+                const allProtocols = await response.json();
+                
+                renderProtocolsTab('defi', allProtocols);
+                renderProtocolsTab('staking', allProtocols);
+                
+                setupMarketTabs();
+                
+            } catch (error) {
+                console.error('Error loading market data:', error);
+                showMarketError();
+            }
+        }
+
+        function renderProtocolsTab(tabType, allProtocols) {
+            const config = MARKET_CONFIG[tabType];
+            const container = document.getElementById(`${tabType}-grid`);
+            
+            if (!container) return;
+            
+            const filtered = allProtocols
+                .filter(p => 
+                    config.names.some(name => 
+                        p.name.toLowerCase().includes(name.toLowerCase())
+                    ) && p.tvl > config.minTVL
+                    // Excluir Aave V2 y Balancer V2
+                    && !p.name.toLowerCase().includes('aave v2')
+                    && !p.name.toLowerCase().includes('balancer v2')
+                )
+                .sort((a, b) => b.tvl - a.tvl)
+                .slice(0, 6);
+
+            if (filtered.length === 0) {
+                const t = translations[document.documentElement.lang || 'es'] || translations['es'];
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">${t.marketNoProtocols}</p>`;
+                return;
+            }
+
+            container.innerHTML = filtered
+                .map((p) => createProtocolCard(p))
+                .join('');
+        }
+
+        function createProtocolCard(protocol) {
+            const tvl = formatCurrency(protocol.tvl);
+            const change24h = protocol.change_1d || 0;
+            const change7d = protocol.change_7d || 0;
+            const changeClass = change24h >= 0 ? 'positive' : 'negative';
+            const changeSymbol = change24h >= 0 ? '↑' : '↓';
+            const t = translations[document.documentElement.lang || 'es'] || translations['es'];
+
+            // Buscar imagen para el protocolo
+            let logoHTML = '';
+            let protocolImage = PROTOCOL_IMAGES[protocol.name];
+            // Si no encuentra coincidencia exacta, buscar por coincidencia parcial (case-insensitive)
+            if (!protocolImage) {
+                const protocolNameLower = protocol.name.toLowerCase();
+                for (const [key, imagePath] of Object.entries(PROTOCOL_IMAGES)) {
+                    if (protocolNameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(protocolNameLower)) {
+                        protocolImage = imagePath;
+                        break;
+                    }
+                }
+            }
+            if (protocolImage) {
+                logoHTML = `<img src="${protocolImage}" alt="${protocol.name} logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">`;
+            } else {
+                // Fallback: usar las iniciales del protocolo
+                const initials = protocol.name.substring(0, 2).toUpperCase();
+                logoHTML = `<span style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary);">${initials}</span>`;
+            }
+
+            return `
+                <div class="protocol-card">
+                    <div class="protocol-header">
+                        <div class="protocol-logo">${logoHTML}</div>
+                        <div class="protocol-info">
+                            <h3 class="protocol-name">${protocol.name}</h3>
+                            <p class="protocol-category">${protocol.category || 'Protocol'}</p>
+                        </div>
+                    </div>
+
+                    <div class="protocol-metrics">
+                        <div class="metric">
+                            <p class="metric-label">TVL</p>
+                            <p class="metric-value">${tvl}</p>
+                            <div class="metric-change ${changeClass}">
+                                ${changeSymbol} ${Math.abs(change24h).toFixed(2)}% (24h)
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <p class="metric-label">7D Change</p>
+                            <p class="metric-value">
+                                ${change7d >= 0 ? '+' : ''}${change7d.toFixed(2)}%
+                            </p>
+                            <div class="metric-change ${change7d >= 0 ? 'positive' : 'negative'}">
+                                ${change7d >= 0 ? 'Creciendo' : 'Bajando'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="${protocol.url || '#'}" target="_blank" rel="noopener" class="protocol-link">
+                        ${t.marketViewProtocol} <span>→</span>
+                    </a>
+                </div>
+            `;
+        }
+
+        function formatCurrency(value) {
+            if (value >= 1e9) return `$${(value / 1e9).toFixed(2)}B`;
+            if (value >= 1e6) return `$${(value / 1e6).toFixed(1)}M`;
+            if (value >= 1e3) return `$${(value / 1e3).toFixed(0)}K`;
+            return `$${value.toFixed(0)}`;
+        }
+
+        function setupMarketTabs() {
+            const buttons = document.querySelectorAll('.market-tab-btn');
+            const contents = document.querySelectorAll('.market-tab-content');
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tab = btn.getAttribute('data-tab');
+
+                    buttons.forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-selected', 'false');
+                    });
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-selected', 'true');
+                    const tabContent = document.getElementById(`tab-${tab}`);
+                    if (tabContent) tabContent.classList.add('active');
+                });
+            });
+        }
+
+        function showMarketError() {
+            const containers = ['defi-grid', 'staking-grid'];
+            containers.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = '<p style="grid-column: 1/-1; color: var(--color-primary);">Error loading data</p>';
+            });
+        }
+
+        // Cargar datos de market intelligence cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadMarketData);
+        } else {
+            loadMarketData();
         }
     </script>
 </body>

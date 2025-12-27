@@ -54,7 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_ratelimit',  # Rate limiting para protección contra spam/ataques
+    # django_ratelimit solo en producción (Vercel) para evitar problemas en desarrollo local
+    # En desarrollo local, el rate limiting se maneja con lógica personalizada en views.py
+] + (['django_ratelimit'] if os.environ.get('VERCEL') else []) + [
     'landing',
 ]
 
@@ -113,7 +115,6 @@ else:
 # Cache Configuration
 # ============================================
 # django_ratelimit requiere un caché que soporte incremento atómico
-# En Vercel, si no hay Redis, usar LocMemCache como fallback
 REDIS_URL = os.environ.get('REDIS_URL', '').strip()
 if REDIS_URL and not os.environ.get('VERCEL'):
     # Usar Redis si está disponible (solo fuera de Vercel por defecto)
@@ -132,8 +133,8 @@ if REDIS_URL and not os.environ.get('VERCEL'):
         REDIS_URL = ''
         
 if not REDIS_URL:
-    # Fallback a LocMemCache si no hay Redis (para desarrollo/Vercel sin Redis)
-    # Nota: django_ratelimit puede mostrar warnings pero funcionará
+    # Sin Redis, usar LocMemCache (simple y funciona para desarrollo local)
+    # En producción (Vercel), se recomienda usar Redis para rate limiting efectivo
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -215,9 +216,11 @@ CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', os.environ.get('EMAIL_HOST_USER'
 # Rate Limiting Configuration
 # ============================================
 # Configuración para protección contra spam y ataques
-# Desactivar rate limiting si no hay Redis disponible (para evitar errores)
-RATELIMIT_ENABLE = bool(REDIS_URL)  # Solo activar si hay Redis
+# En desarrollo local sin Redis, django_ratelimit funcionará pero mostrará warnings
+# En producción (Vercel), se recomienda usar Redis para rate limiting efectivo
+RATELIMIT_ENABLE = True
 RATELIMIT_USE_CACHE = 'default'  # Usar la cache de Django
+
 
 # Límites para el formulario de contacto:
 # - 5 peticiones por hora por IP

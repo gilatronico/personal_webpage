@@ -39,6 +39,10 @@ fi
 echo -e "${YELLOW}Activando entorno virtual...${NC}"
 source venv/bin/activate
 
+# Desactivar checks de django_ratelimit en desarrollo local (sin Redis)
+# Esto debe establecerse ANTES de ejecutar cualquier comando de Django
+export DJANGO_RATELIMIT_DISABLE_CHECKS=1
+
 # Actualizar pip
 echo -e "${YELLOW}Actualizando pip...${NC}"
 pip install --upgrade pip --quiet
@@ -73,4 +77,5 @@ echo -e "${YELLOW}Presiona Ctrl+C para detener el servidor${NC}"
 echo ""
 
 # Iniciar servidor
+# La variable DJANGO_RATELIMIT_DISABLE_CHECKS ya está establecida al inicio del script
 python3 manage.py runserver
