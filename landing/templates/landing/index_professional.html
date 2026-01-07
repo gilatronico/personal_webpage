@@ -7,22 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- SEO Meta Tags -->
-    <title>Alejandro Gilabert</title>
+    <title>Alex Gilabert</title>
     <meta name="description" content="Product Leader especializado en Digital Assets y Blockchain. Docente universitario. Basado en Madrid.">
     <meta name="keywords" content="Product Owner, Blockchain, Digital Assets, Web3, Product Management">
-    <meta name="author" content="Alejandro Gilabert">
+    <meta name="author" content="Alex Gilabert">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://alejandrogilabert.com/professional">
-    <meta property="og:title" content="Alejandro Gilabert | Head of Product & Digital Assets">
+    <meta property="og:title" content="Alex Gilabert | Head of Product & Digital Assets">
     <meta property="og:description" content="Product Owner en Onyze | University Lecturer | Blockchain & Digital Assets Expert">
     <!-- og:image removed - no preview image -->
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="https://alejandrogilabert.com/professional">
-    <meta name="twitter:title" content="Alejandro Gilabert | Head of Product & Digital Assets">
+    <meta name="twitter:title" content="Alex Gilabert | Head of Product & Digital Assets">
     <meta name="twitter:description" content="Product Owner en Onyze | University Lecturer | Blockchain & Digital Assets Expert">
     <!-- twitter:image removed - no preview image -->
     
@@ -44,7 +44,7 @@
     {
         "@context": "https://schema.org",
         "@type": "Person",
-        "name": "Alejandro Gilabert Ramírez",
+                "name": "Alex Gilabert Ramírez",
         "jobTitle": "Head of Product & Digital Assets",
         "url": "https://alejandrogilabert.com",
         "sameAs": [
@@ -180,21 +180,21 @@
             /* Borders / dividers */
             --border-color: #1F2937;
             
-            /* Brand / accent colors - green only in dark mode */
-            --color-primary: #10B981;
-            --color-primary-hover: #059669;
-            --color-primary-soft: #064E3B;
+            /* Brand / accent colors - blue (same as light mode) */
+            --color-primary: #3B3FAF;
+            --color-primary-hover: #32389A;
+            --color-primary-soft: #1E2379;
             
-            /* Accent color same as primary (green) */
-            --color-accent: #10B981;
-            --color-accent-soft: #064E3B;
+            /* Accent color same as primary (blue) */
+            --color-accent: #3B3FAF;
+            --color-accent-soft: #1E2379;
             
             /* New warm accent for future use */
             --color-accent-warm: #F59E0B;
             
             --color-success: #00C58E;
             
-            /* Legacy mappings - all green */
+            /* Legacy mappings - all blue */
             --accent-1: var(--color-accent);
             --accent-1-soft: var(--color-accent-soft);
             --accent-link: var(--color-accent);
@@ -223,6 +223,12 @@
             --accent-tertiary: var(--color-accent);
             --border-light: var(--border-color);
             --white: var(--bg-elevated);
+            
+            /* Skills Colors - mismos colores azules que en light mode */
+            --skill-product: #3B3FAF;        /* Indigo #3B3FAF - esquina superior izquierda */
+            --skill-blockchain: #3B3FAF;     /* Azul #3B3FAF - esquina superior derecha (mismo que primary en dark) */
+            --skill-tech: #3B3FAF;           /* Azul #3B3FAF - esquina inferior izquierda (mismo que primary en dark) */
+            --skill-soft: #3B3FAF;           /* Indigo #3B3FAF - esquina inferior derecha */
         }
 
         /* ============================================
@@ -253,13 +259,70 @@
             background-color: var(--bg-main);
         }
 
+        /* ============================================
+           MAIN SECTIONS (Experiencia, Web3, Blog)
+           ============================================ */
+        .main-section {
+            display: block;
+        }
+
+        .main-section:not(.active) {
+            display: none !important;
+        }
+        
+        /* Asegurar que la sección Blog se muestre cuando está activa */
+        #blog.main-section.active {
+            display: block !important;
+        }
+        
+        /* Asegurar que las secciones activas sean visibles */
+        .main-section.active {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        /* Asegurar que el contenido dentro de blog sea visible */
+        #blog.active section,
+        #blog.active .section {
+            display: block !important;
+            visibility: visible !important;
+        }
+
+        .nav-section-link.active {
+            color: var(--accent-primary);
+        }
+
+        .nav-section-link.active::after {
+            width: 100%;
+        }
+
+        [data-theme="dark"] .nav-section-link.active {
+            color: var(--color-accent);
+        }
+
+        [data-theme="dark"] .nav-section-link.active::after {
+            background: var(--color-accent);
+            width: 100%;
+        }
+
         /* Typography */
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Exo 2', sans-serif;
             font-weight: 700;
             line-height: 1.2;
             letter-spacing: -0.01em;
-            color: var(--text-primary);
+            color: var(--color-primary);
+        }
+        
+        /* Dark mode: títulos en blanco */
+        [data-theme="dark"] h1,
+        [data-theme="dark"] h2,
+        [data-theme="dark"] h3,
+        [data-theme="dark"] h4,
+        [data-theme="dark"] h5,
+        [data-theme="dark"] h6 {
+            color: var(--text-main);
         }
 
         h1 {
@@ -362,7 +425,7 @@
             transform: scale(1.05);
         }
 
-        /* Dark mode nav logo - green */
+        /* Dark mode nav logo - blue */
         [data-theme="dark"] .nav-logo {
             color: var(--color-accent);
         }
@@ -404,7 +467,7 @@
             width: 100%;
         }
 
-        /* Dark mode: green hover color for navigation links */
+        /* Dark mode: blue hover color for navigation links */
         [data-theme="dark"] .nav-menu li a:hover,
         [data-theme="dark"] .nav-menu li a.active {
             color: var(--color-accent);
@@ -439,7 +502,7 @@
             border-color: var(--color-primary-hover) !important;
         }
         
-        /* Dark mode nav-cta - green */
+        /* Dark mode nav-cta - blue */
         [data-theme="dark"] .nav-cta {
             background: var(--color-accent) !important;
             border-color: var(--color-accent) !important;
@@ -449,7 +512,7 @@
             background: var(--color-primary-hover) !important;
             border-color: var(--color-primary-hover) !important;
         }
-
+        
         /* Asegurar visibilidad en modo light */
         [data-theme="light"] .nav-cta,
         body:not([data-theme]) .nav-cta {
@@ -507,11 +570,11 @@
             transform: translateY(-1px);
         }
 
-        /* Dark mode lang-btn - green */
+        /* Dark mode lang-btn - blue */
         [data-theme="dark"] .lang-btn.active {
             background: var(--color-accent);
             border-color: var(--color-accent);
-            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 2px 4px rgba(59, 63, 175, 0.2);
         }
 
         [data-theme="dark"] .lang-btn:hover:not(.active) {
@@ -544,7 +607,7 @@
             color: var(--accent-primary);
         }
 
-        /* Dark mode theme-toggle - green */
+        /* Dark mode theme-toggle - blue */
         [data-theme="dark"] .theme-toggle:hover {
             border-color: var(--color-accent);
             color: var(--color-accent);
@@ -629,7 +692,7 @@
             animation: none;
         }
 
-        /* Green decorative element in dark mode hero */
+        /* Blue decorative element in dark mode hero */
         [data-theme="dark"] .hero::after {
             content: '';
             position: absolute;
@@ -637,7 +700,7 @@
             left: -5%;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(59, 63, 175, 0.15) 0%, transparent 70%);
             border-radius: 50%;
             animation: float 35s ease-in-out infinite reverse;
             z-index: 0;
@@ -659,11 +722,16 @@
 
         .hero-content h1 {
             margin-bottom: var(--space-md);
-            color: var(--text-primary);
+            color: var(--color-primary);
             position: relative;
         }
+        
+        /* Dark mode: hero title en blanco */
+        [data-theme="dark"] .hero-content h1 {
+            color: var(--text-main);
+        }
 
-        /* Green accent underline for hero title in dark mode */
+        /* Blue accent underline for hero title in dark mode */
         [data-theme="dark"] .hero-content h1::after {
             content: '';
             position: absolute;
@@ -671,7 +739,7 @@
             left: 0;
             width: 120px;
             height: 3px;
-            background: linear-gradient(90deg, var(--color-accent) 0%, rgba(16, 185, 129, 0.3) 100%);
+            background: linear-gradient(90deg, var(--color-accent) 0%, rgba(59, 63, 175, 0.3) 100%);
             border-radius: 2px;
         }
 
@@ -740,7 +808,7 @@
             transform: translateY(-2px);
         }
 
-        /* Dark mode button styles - green only */
+        /* Dark mode button styles - blue only */
         [data-theme="dark"] .btn-primary {
             background: var(--color-accent);
             color: #FFFFFF;
@@ -760,7 +828,7 @@
             background: var(--color-accent-soft);
         }
 
-        /* Dark mode CTA buttons: subtle green accent underline on hover */
+        /* Dark mode CTA buttons: subtle blue accent underline on hover */
         [data-theme="dark"] .btn-primary:hover {
             position: relative;
         }
@@ -779,7 +847,7 @@
 
         .hero-image {
             width: 100%;
-            max-width: 280px;
+            max-width: 400px;
             aspect-ratio: 3 / 4;
             height: auto;
             margin-left: auto;
@@ -799,6 +867,23 @@
             object-fit: cover;
             display: block;
             min-height: 100%;
+            object-position: center 30%;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        
+        /* Responsive hero image */
+        @media (max-width: 768px) {
+            .hero-image {
+                max-width: 320px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-image {
+                max-width: 280px;
+            }
         }
         
         .hero-image:empty::after {
@@ -820,7 +905,7 @@
             position: relative;
         }
 
-        /* Green accent border on hero image in dark mode */
+        /* Blue accent border on hero image in dark mode */
         [data-theme="dark"] .hero-image::before {
             content: '';
             position: absolute;
@@ -841,7 +926,7 @@
 
         [data-theme="dark"] .hero-image:hover::before {
             opacity: 1;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 0 12px rgba(59, 63, 175, 0.4);
         }
 
         /* Stats Section */
@@ -879,7 +964,7 @@
             color: var(--text-secondary);
         }
 
-        /* Dark mode stats - all green */
+        /* Dark mode stats - all blue */
         [data-theme="dark"] .stat-value {
             color: var(--color-accent);
         }
@@ -928,7 +1013,12 @@
 
         .section-header h2 {
             margin-bottom: var(--space-md);
-            color: var(--text-primary);
+            color: var(--color-primary);
+        }
+        
+        /* Dark mode: section headers en blanco */
+        [data-theme="dark"] .section-header h2 {
+            color: var(--text-main);
         }
 
         .section-dark .section-header h2 {
@@ -1080,7 +1170,7 @@
             position: relative;
         }
 
-        /* Add subtle visual element under section title with green accent */
+        /* Add subtle visual element under section title with blue accent */
         [data-theme="dark"] #producto .section-header h2 {
             position: relative;
             color: var(--text-main);
@@ -1096,7 +1186,7 @@
             left: 0;
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, var(--color-accent) 0%, rgba(16, 185, 129, 0.4) 100%);
+            background: linear-gradient(90deg, var(--color-accent) 0%, rgba(59, 63, 175, 0.4) 100%);
             border-radius: 2px;
         }
 
@@ -1106,7 +1196,7 @@
             line-height: 1.85;
         }
 
-        /* Service cards: elevated appearance with green accent border */
+        /* Service cards: elevated appearance with blue accent border */
         [data-theme="dark"] #producto .service-card {
             background: var(--bg-elevated-soft);
             border: 1px solid rgba(31, 41, 55, 0.6);
@@ -1118,7 +1208,7 @@
             overflow: hidden;
         }
 
-        /* Subtle gradient overlay on cards for depth (green tint) */
+        /* Subtle gradient overlay on cards for depth (blue tint) */
         [data-theme="dark"] #producto .service-card::before {
             content: '';
             position: absolute;
@@ -1128,7 +1218,7 @@
             height: 1px;
             background: linear-gradient(90deg, 
                 transparent 0%, 
-                rgba(16, 185, 129, 0.3) 50%, 
+                rgba(59, 63, 175, 0.3) 50%, 
                 transparent 100%);
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -1151,10 +1241,10 @@
             font-size: 1rem;
         }
 
-        /* Hover effects: elevation and green accent intensification */
+        /* Hover effects: elevation and blue accent intensification */
         [data-theme="dark"] #producto .service-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2),
+            box-shadow: 0 8px 24px rgba(59, 63, 175, 0.2),
                         0 4px 12px rgba(0, 0, 0, 0.3);
             border-top-color: var(--color-accent);
             border-top-width: 5px;
@@ -1166,7 +1256,7 @@
             opacity: 1;
         }
 
-        /* Focus-visible for accessibility (green accent) */
+        /* Focus-visible for accessibility (blue accent) */
         [data-theme="dark"] #producto .service-card:focus-visible {
             outline: 2px solid var(--color-accent);
             outline-offset: 2px;
@@ -1221,7 +1311,7 @@
         .service-card h3 {
             margin-top: 0;
             margin-bottom: var(--space-md);
-            color: var(--text-primary);
+            color: var(--color-primary);
             font-size: 1.3rem;
             font-weight: 600;
         }
@@ -1255,6 +1345,15 @@
 
         .section-dark .service-card p {
             color: var(--text-body);
+        }
+        
+        /* En dark mode, las tarjetas de docencia y formación deben tener texto blanco para mejor legibilidad */
+        [data-theme="dark"] #teaching .service-card h3 {
+            color: var(--text-main) !important;
+        }
+        
+        [data-theme="dark"] #teaching .service-card p {
+            color: var(--text-main) !important;
         }
 
         /* ============================================
@@ -1293,7 +1392,7 @@
             background: linear-gradient(to bottom, var(--accent-primary), var(--accent-tertiary));
         }
 
-        /* Dark mode timeline: solid green line */
+        /* Dark mode timeline: solid blue line */
         [data-theme="dark"] .timeline::before {
             background: var(--color-accent);
         }
@@ -1336,7 +1435,7 @@
             box-shadow: 0 0 0 3px var(--accent-secondary);
         }
 
-        /* Dark mode timeline: all bullets use green */
+        /* Dark mode timeline: all bullets use blue */
         [data-theme="dark"] .timeline-item::before {
             background: var(--color-accent);
             box-shadow: 0 0 0 3px var(--color-accent);
@@ -1359,7 +1458,7 @@
             color: var(--accent-secondary);
         }
 
-        /* Dark mode timeline years: all use green */
+        /* Dark mode timeline years: all use blue */
         [data-theme="dark"] .timeline-year {
             color: var(--color-accent);
         }
@@ -1382,7 +1481,7 @@
             margin-bottom: var(--space-sm);
         }
 
-        /* Dark mode timeline company: use green for consistency */
+        /* Dark mode timeline company: use blue for consistency */
         [data-theme="dark"] .timeline-company {
             color: var(--color-accent);
         }
@@ -1425,7 +1524,7 @@
             font-weight: 700;
         }
 
-        /* Dark mode timeline achievements: use green accent */
+        /* Dark mode timeline achievements: use blue accent */
         [data-theme="dark"] .timeline-achievements li::before {
             color: var(--color-accent);
         }
@@ -1449,7 +1548,7 @@
         }
 
         [data-theme="dark"] .timeline-achievements li a:hover {
-            color: #26D07C;
+            color: var(--color-accent);
             border-bottom-color: var(--color-accent);
         }
 
@@ -1495,7 +1594,7 @@
             overflow: hidden;
         }
 
-        /* Dark mode: project card border-left uses green */
+        /* Dark mode: project card border-left uses blue */
         [data-theme="dark"] .project-card {
             border-left-color: var(--color-accent);
         }
@@ -1511,7 +1610,7 @@
             transition: width var(--transition-base);
         }
 
-        /* Dark mode: project card before uses green accent */
+        /* Dark mode: project card before uses blue accent */
         [data-theme="dark"] .project-card::before {
             background: var(--color-accent);
         }
@@ -1531,7 +1630,7 @@
         .project-title {
             font-weight: 700;
             font-size: 1.25rem;
-            color: var(--text-primary);
+            color: var(--color-primary);
             margin-bottom: var(--space-xs);
             display: flex;
             justify-content: space-between;
@@ -1803,9 +1902,21 @@
             background: var(--skill-soft);
         }
 
-        /* Dark mode skill bars - use primary for metrics */
-        [data-theme="dark"] .skill-category .skill-bar-fill {
-            background: var(--color-primary);
+        /* Dark mode skill bars - usar los mismos colores azules que en light mode */
+        [data-theme="dark"] .skill-category.category-product .skill-bar-fill {
+            background: var(--skill-product);
+        }
+
+        [data-theme="dark"] .skill-category.category-blockchain .skill-bar-fill {
+            background: var(--skill-blockchain);
+        }
+
+        [data-theme="dark"] .skill-category.category-tech .skill-bar-fill {
+            background: var(--skill-tech);
+        }
+
+        [data-theme="dark"] .skill-category.category-soft .skill-bar-fill {
+            background: var(--skill-soft);
         }
 
         [data-theme="dark"] .skill-category .skill-bar {
@@ -2178,12 +2289,20 @@
         .articles-section {
             margin-top: var(--space-3xl);
         }
+        
+        #articles {
+            padding-top: var(--space-3xl);
+        }
 
         .articles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 1fr;
             gap: var(--space-lg);
             margin-top: var(--space-xl);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .article-card {
@@ -2197,6 +2316,8 @@
             flex-direction: column;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            height: 100%;
         }
 
         .article-card > * {
@@ -2270,9 +2391,14 @@
         .article-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--color-primary);
             margin-bottom: var(--space-sm);
             line-height: 1.4;
+        }
+        
+        /* Dark mode: article titles en blanco */
+        [data-theme="dark"] .article-title {
+            color: var(--text-main);
         }
 
         .article-card:hover .article-title {
@@ -2383,6 +2509,12 @@
             color: var(--text-body);
         }
 
+        @media (max-width: 1200px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
         @media (max-width: 768px) {
             .articles-grid {
                 grid-template-columns: 1fr;
@@ -2969,7 +3101,7 @@
         }
 
         .crypto-change.positive {
-            color: #10B981;
+            color: #3B3FAF;
         }
 
         .crypto-change.negative {
@@ -3173,7 +3305,7 @@
         }
 
         [data-theme="dark"] .market-tab-btn {
-            border-color: rgba(16, 185, 129, 0.3);
+            border-color: rgba(59, 63, 175, 0.3);
             color: var(--text-body);
         }
 
@@ -3272,7 +3404,7 @@
         }
 
         [data-theme="dark"] .protocol-card.loading .spinner {
-            border-color: rgba(16, 185, 129, 0.2);
+            border-color: rgba(59, 63, 175, 0.2);
             border-top-color: var(--color-accent);
         }
 
@@ -3293,15 +3425,15 @@
             background: linear-gradient(
                 90deg,
                 transparent 0%,
-                rgba(16, 185, 129, 0.2) 50%,
+                rgba(59, 63, 175, 0.2) 50%,
                 transparent 100%
             );
         }
 
         [data-theme="dark"] .protocol-card:hover {
             background: var(--bg-elevated-soft);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
-            border-top-color: #26D07C;
+            box-shadow: 0 8px 24px rgba(59, 63, 175, 0.2);
+            border-top-color: var(--color-accent);
         }
 
         /* PROTOCOL HEADER - Smaller */
@@ -3327,8 +3459,8 @@
         }
 
         [data-theme="dark"] .protocol-logo {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(59, 63, 175, 0.1);
+            border-color: rgba(59, 63, 175, 0.3);
         }
 
         .protocol-info {
@@ -3448,7 +3580,7 @@
         }
 
         [data-theme="dark"] .protocol-link:hover {
-            color: #26D07C;
+            color: var(--color-accent);
         }
 
         /* MARKET FOOTER - More compact */
@@ -3587,15 +3719,14 @@
     <!-- Navigation -->
     <nav role="navigation" aria-label="Navegación principal">
         <div class="nav-content">
-            <a href="#home" class="nav-logo" aria-label="Alejandro Gilabert - Inicio">AGR</a>
+            <a href="#home" class="nav-logo" aria-label="Alex Gilabert - Inicio">AGR</a>
             <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
                 Menu
             </button>
             <ul class="nav-menu" role="menubar">
-                <li role="none"><a href="#producto" role="menuitem">Producto & Web3</a></li>
-                <li role="none"><a href="#teaching" role="menuitem">Docencia</a></li>
-                <li role="none"><a href="#articles" role="menuitem">Artículos</a></li>
-                <li role="none"><a href="#contact" role="menuitem">Contacto</a></li>
+                <li role="none"><a href="#experiencia" role="menuitem" class="nav-section-link" data-section="experiencia">Experiencia</a></li>
+                <li role="none"><a href="#web3" role="menuitem" class="nav-section-link" data-section="web3">Web3</a></li>
+                <li role="none"><a href="#blog" role="menuitem" class="nav-section-link" data-section="blog">Blog</a></li>
                 <li role="none"><button role="menuitem" class="nav-cta" onclick="openCalendlyModal()" style="background: none; border: none; font-family: inherit; cursor: pointer;">Agendar una llamada</button></li>
             </ul>
             <div class="nav-controls">
@@ -3617,12 +3748,14 @@
 
     <!-- Main Content -->
     <main id="main-content">
+        <!-- EXPERIENCIA SECTION -->
+        <div id="experiencia" class="main-section active">
         <!-- Hero Section -->
         <section id="home" class="hero section-light" aria-label="Hero section">
             <div class="container">
                 <div class="hero-grid">
                     <div class="hero-content fade-in">
-                        <h1>Alejandro Gilabert</h1>
+                        <h1>Alex Gilabert</h1>
                         <p class="hero-subtitle">
                             Head of Digital Assets · Product Leader en activos digitales.
                         </p>
@@ -3638,7 +3771,7 @@
                         </div>
                     </div>
                     <div class="hero-image fade-in">
-                        <img src="{% static 'images/corporativa copia 2.png' %}" alt="Alejandro Gilabert" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--color-primary-soft) 0%, var(--color-accent-soft) 100%)';">
+                        <img src="{% static 'images/IMG_0154 copia.JPG' %}" alt="Alex Gilabert" loading="eager" fetchpriority="high" decoding="async" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--color-primary-soft) 0%, var(--color-accent-soft) 100%)';">
                     </div>
                 </div>
 
@@ -3659,73 +3792,7 @@
             </div>
         </section>
 
-        <!-- Market Intelligence Section -->
-        <section id="market-intelligence" class="section section-light market-intelligence">
-            <div class="container">
-                <div class="section-header fade-in">
-                    <div class="section-kicker">Market Intelligence</div>
-                    <h2>Crypto & DeFI</h2>
-                    <p>Principales protocolos DeFi, liquid staking y activos reales tokenizados. 
-                       Datos en tiempo real desde Defillama.</p>
-                </div>
-
-                <!-- Crypto Prices Ticker - First section -->
-                <div class="crypto-ticker-wrapper" style="margin: var(--space-xl) 0;">
-                    <div class="crypto-prices-grid" id="cryptoPricesGrid">
-                        <div class="crypto-loading">
-                            <div class="spinner"></div>
-                            <p>Cargando cotizaciones...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="crypto-footer" style="text-align: center; margin-bottom: var(--space-xl); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--border-light);">
-                    <p class="crypto-timestamp">
-                        Datos en tiempo real proporcionados por CoinGecko · Última actualización: <span id="cryptoTimestamp">--:--</span>
-                    </p>
-                </div>
-
-                <!-- TABS NAVIGATION -->
-                <div class="market-tabs">
-                    <button class="market-tab-btn active" data-tab="defi" aria-selected="true">
-                        <span class="tab-label">DeFi Protocols</span>
-                    </button>
-                    <button class="market-tab-btn" data-tab="staking" aria-selected="false">
-                        <span class="tab-label">Liquid Staking</span>
-                    </button>
-                </div>
-
-                <!-- TAB 1: DeFi -->
-                <div class="market-tab-content active" id="tab-defi">
-                    <div class="protocols-grid" id="defi-grid">
-                        <div class="protocol-card loading">
-                            <div class="spinner"></div>
-                            <p class="loading-text">Cargando protocolos...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB 2: STAKING -->
-                <div class="market-tab-content" id="tab-staking">
-                    <div class="protocols-grid" id="staking-grid">
-                        <div class="protocol-card loading">
-                            <div class="spinner"></div>
-                            <p class="loading-text">Cargando protocolos de staking...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FOOTER -->
-                <div class="market-footer">
-                    <p class="market-timestamp">
-                        Datos actualizados en tiempo real • 
-                        <a href="https://defillama.com" target="_blank" rel="noopener">Powered by Defillama</a>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Product & Web3 -->
+        <!-- Product & Web3 (part of Experiencia) -->
         <section id="producto" class="section section-light" aria-label="Product and Web3">
             <div class="container">
                 <div class="section-header fade-in">
@@ -3825,7 +3892,7 @@
                     </div>
                 </div>
 
-                <!-- Experience Timeline -->
+        <!-- Experience Timeline -->
                 <div class="section-header fade-in experience-header" style="margin-top: var(--space-3xl);">
                     <h2>Experiencia Profesional</h2>
                     <p style="display: none;"></p>
@@ -3898,7 +3965,7 @@
                 </div>
 
                 <div class="crypto-ticker-wrapper">
-                    <div class="crypto-prices-grid" id="cryptoPricesGrid">
+                    <div class="crypto-prices-grid" id="cryptoPricesGridOld">
                         <div class="crypto-loading">
                             <div class="spinner"></div>
                             <p>Cargando cotizaciones...</p>
@@ -4015,10 +4082,10 @@
                         <div class="skill-category category-tech fade-in">
                             <h3>Tecnología y Arquitectura</h3>
                             <p style="margin-bottom: var(--space-md); font-size: 0.95rem;">Arquitecturas API-first, microservicios, cloud, datos y ciberseguridad aplicadas a plataformas financieras y Web3.</p>
-                            <div class="skill-item" data-level="3">
+                            <div class="skill-item" data-level="2">
                                 <div class="skill-header">
                                     <span class="skill-name">Control-M</span>
-                                    <span class="skill-level">Experto</span>
+                                    <span class="skill-level">Avanzado</span>
                                 </div>
                                 <div class="skill-bar">
                                     <div class="skill-bar-fill"></div>
@@ -4033,10 +4100,10 @@
                                     <div class="skill-bar-fill"></div>
                                 </div>
                             </div>
-                            <div class="skill-item" data-level="3">
+                            <div class="skill-item" data-level="2">
                                 <div class="skill-header">
                                     <span class="skill-name">n8n / Make</span>
-                                    <span class="skill-level">Experto</span>
+                                    <span class="skill-level">Avanzado</span>
                                 </div>
                                 <div class="skill-bar">
                                     <div class="skill-bar-fill"></div>
@@ -4142,11 +4209,124 @@
                 </div>
             </div>
         </section>
+        
+        <!-- Skills & Tech Stack (part of Experiencia) -->
+        <section id="skills" class="section section-dark" aria-label="Competencies and technologies">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: var(--space-3xl);" class="fade-in">
+                    <h2>Contacto</h2>
+                    <p style="font-size: 1.1rem;">¿Necesitas definir la estrategia de producto para activos digitales, lanzar una plataforma de custodia o diseñar un programa formativo en blockchain y Web3? Comparte contexto y objetivos y responderé en menos de 24 horas para evaluar próximos pasos.</p>
+                </div>
 
+                <div class="contact-wrapper">
+                    <form id="contact-form" aria-label="Contact form">
+                        {% csrf_token %}
+                        <div class="form-group fade-in">
+                            <label for="name">Nombre *</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                required 
+                                aria-required="true"
+                                autocomplete="name"
+                                placeholder="Tu nombre">
+                        </div>
+                        <div class="form-group fade-in">
+                            <label for="email">Email *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required 
+                                aria-required="true"
+                                autocomplete="email"
+                                placeholder="tu@email.com">
+                        </div>
+                        <div class="form-group fade-in">
+                            <label for="service">Tipo de consulta *</label>
+                            <select id="service" name="service" required aria-required="true">
+                                <option value="">Selecciona una opción</option>
+                                <option value="product">Producto & Web3</option>
+                                <option value="teaching">Docencia / Consultoría</option>
+                            </select>
+                        </div>
+                        <div class="form-group fade-in">
+                            <label for="message">Mensaje *</label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                rows="6" 
+                                placeholder="Cuéntame brevemente tu contexto (empresa, rol, problema que quieres resolver) y qué te gustaría trabajar: producto, Web3 o formación." 
+                                required
+                                aria-required="true"></textarea>
+                        </div>
+                        <!-- Honeypot field (anti-spam) - Oculto para usuarios reales -->
+                        <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                            <label for="website">Deja este campo vacío si eres humano</label>
+                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn btn-primary fade-in" style="width: 100%;">
+                            Enviar mensaje
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Modal de éxito para formulario de contacto -->
+                <div id="success-modal" class="success-modal-overlay" role="dialog" aria-labelledby="success-modal-title" aria-modal="true" aria-hidden="true">
+                    <div class="success-modal-container">
+                        <div class="success-modal-content">
+                            <div class="success-icon">✓</div>
+                            <h3 id="success-modal-title">¡Mensaje enviado!</h3>
+                            <p id="success-modal-message">Muchas gracias por tu mensaje. Contactaremos contigo pronto.</p>
+                            <button class="btn btn-primary" id="success-modal-close" style="margin-top: var(--space-lg);">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-social fade-in">
+                    <p>
+                        <a href="mailto:agilabertcomunicaciones@gmail.com" class="email-link">
+                            agilabertcomunicaciones@gmail.com
+                        </a>
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/alejandrogilabert" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           aria-label="LinkedIn">
+                            <img src="{% static 'images/linkedin.jpg' %}" alt="LinkedIn" class="social-icon">
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://x.com/0xpeculative" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           aria-label="Twitter">
+                            <img src="{% static 'images/twitter 2.png' %}" alt="Twitter" class="social-icon">
+                            <span>Twitter</span>
+                        </a>
+                        <a href="https://github.com/gilatronico" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           aria-label="GitHub">
+                            <img src="{% static 'images/github.png' %}" alt="GitHub" class="social-icon">
+                            <span>GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+        <!-- END EXPERIENCIA SECTION -->
+
+        <!-- BLOG SECTION (independiente de Experiencia) -->
+        <div id="blog" class="main-section">
         <!-- Articles & Papers -->
         <section id="articles" class="section section-light" aria-label="Articles and publications">
-            <div class="container">
-                <div class="section-header fade-in">
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-lg);">
+                <div class="section-header fade-in" style="text-align: center;">
                     <h2>Artículos & Publicaciones</h2>
                     <p>
                         Contenido sobre Product Management, Blockchain y Digital Assets con foco en aplicaciones reales para banca, fintech y empresas.
@@ -4154,7 +4334,28 @@
                 </div>
 
                 <div class="articles-section">
-                    <div class="articles-grid">
+                    <div class="articles-grid" style="justify-items: center;">
+                        <article class="article-card fade-in">
+                            <span class="article-type type-article">Article</span>
+                            <h3 class="article-title">Aave Labs y DAO. El conflicto por el control</h3>
+                            <div class="article-meta">
+                                <span class="article-date">
+                                    <span>📅</span>
+                                    <span>December 2025</span>
+                                </span>
+                                <span class="article-platform">
+                                    <span>🔗</span>
+                                    <span>LinkedIn</span>
+                                </span>
+                            </div>
+                            <p class="article-excerpt">
+                                El conflicto entre Aave Labs y la DAO por el control de activos estratégicos, revenue streams y gobernanza del protocolo. Análisis del caso de la integración con CoW Swap, donde Aave Labs capturó $10M en fees sin aprobación del DAO, y la propuesta de gobernanza para transferir dominios, marca y activos intelectuales al control de la comunidad.
+                            </p>
+                            <a href="https://www.linkedin.com/pulse/aave-labs-y-dao-el-conflicto-por-control-alex-gilabert-l6yce/" class="article-link" target="_blank" rel="noopener noreferrer">
+                                Leer artículo
+                            </a>
+                        </article>
+
                         <article class="article-card fade-in">
                             <span class="article-type type-blog">Blog</span>
                             <h3 class="article-title">¿Se puede ser rentable con poco capital en pools de liquidez? Guía técnica de DAMM v2 (Meteora)</h3>
@@ -4284,122 +4485,84 @@
                 </div>
             </div>
         </section>
+        </div>
+        <!-- END BLOG SECTION -->
 
-        <!-- Contact -->
-        <section id="contact" class="section section-light" aria-label="Contact">
+        <!-- WEB3 SECTION -->
+        <div id="web3" class="main-section">
+        <!-- Market Intelligence Section -->
+        <section id="market-intelligence" class="section section-light market-intelligence">
             <div class="container">
-                <div style="text-align: center; margin-bottom: var(--space-3xl);" class="fade-in">
-                    <h2>Contacto</h2>
-                    <p style="font-size: 1.1rem;">¿Necesitas definir la estrategia de producto para activos digitales, lanzar una plataforma de custodia o diseñar un programa formativo en blockchain y Web3? Comparte contexto y objetivos y responderé en menos de 24 horas para evaluar próximos pasos.</p>
+                <div class="section-header fade-in">
+                    <div class="section-kicker">Market Intelligence</div>
+                    <h2>Crypto & DeFI</h2>
+                    <p>Principales protocolos DeFi, liquid staking y activos reales tokenizados. 
+                       Datos en tiempo real desde Defillama.</p>
                 </div>
 
-                <div class="contact-wrapper">
-                    <form id="contact-form" aria-label="Contact form">
-                        {% csrf_token %}
-                        <div class="form-group fade-in">
-                            <label for="name">Nombre *</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                required 
-                                aria-required="true"
-                                autocomplete="name"
-                                placeholder="Tu nombre">
-                        </div>
-                        <div class="form-group fade-in">
-                            <label for="email">Email *</label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                name="email" 
-                                required 
-                                aria-required="true"
-                                autocomplete="email"
-                                placeholder="tu@email.com">
-                        </div>
-                        <div class="form-group fade-in">
-                            <label for="service">Tipo de consulta *</label>
-                            <select id="service" name="service" required aria-required="true">
-                                <option value="">Selecciona una opción</option>
-                                <option value="product">Producto & Web3</option>
-                                <option value="teaching">Docencia / Consultoría</option>
-                            </select>
-                        </div>
-                        <div class="form-group fade-in">
-                            <label for="message">Mensaje *</label>
-                            <textarea 
-                                id="message" 
-                                name="message" 
-                                rows="6" 
-                                placeholder="Cuéntame brevemente tu contexto (empresa, rol, problema que quieres resolver) y qué te gustaría trabajar: producto, Web3 o formación." 
-                                required
-                                aria-required="true"></textarea>
-                        </div>
-                        <!-- Honeypot field (anti-spam) - Oculto para usuarios reales -->
-                        <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
-                            <label for="website">Deja este campo vacío si eres humano</label>
-                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-                        </div>
-                        <button type="submit" class="btn btn-primary fade-in" style="width: 100%;">
-                            Enviar mensaje
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Modal de éxito para formulario de contacto -->
-                <div id="success-modal" class="success-modal-overlay" role="dialog" aria-labelledby="success-modal-title" aria-modal="true" aria-hidden="true">
-                    <div class="success-modal-container">
-                        <div class="success-modal-content">
-                            <div class="success-icon">✓</div>
-                            <h3 id="success-modal-title">¡Mensaje enviado!</h3>
-                            <p id="success-modal-message">Muchas gracias por tu mensaje. Contactaremos contigo pronto.</p>
-                            <button class="btn btn-primary" id="success-modal-close" style="margin-top: var(--space-lg);">
-                                Cerrar
-                            </button>
+                <!-- Crypto Prices Ticker - First section -->
+                <div class="crypto-ticker-wrapper" style="margin: var(--space-xl) 0;">
+                    <div class="crypto-prices-grid" id="cryptoPricesGrid">
+                        <div class="crypto-loading">
+                            <div class="spinner"></div>
+                            <p>Cargando cotizaciones...</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="contact-social fade-in">
-                    <p>
-                        <a href="mailto:agilabertcomunicaciones@gmail.com" class="email-link">
-                            agilabertcomunicaciones@gmail.com
-                        </a>
+                <div class="crypto-footer" style="text-align: center; margin-bottom: var(--space-xl); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--border-light);">
+                    <p class="crypto-timestamp">
+                        <span id="crypto-timestamp-text">Datos en tiempo real proporcionados por CoinGecko · Última actualización:</span> <span id="cryptoTimestamp">--:--</span>
                     </p>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/alejandrogilabert" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           aria-label="LinkedIn">
-                            <img src="{% static 'images/linkedin.jpg' %}" alt="LinkedIn" class="social-icon">
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://x.com/0xpeculative" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           aria-label="Twitter">
-                            <img src="{% static 'images/twitter 2.png' %}" alt="Twitter" class="social-icon">
-                            <span>Twitter</span>
-                        </a>
-                        <a href="https://github.com/gilatronico" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           aria-label="GitHub">
-                            <img src="{% static 'images/github.png' %}" alt="GitHub" class="social-icon">
-                            <span>GitHub</span>
-                        </a>
+                </div>
+
+                <!-- TABS NAVIGATION -->
+                <div class="market-tabs">
+                    <button class="market-tab-btn active" data-tab="defi" aria-selected="true">
+                        <span class="tab-label">DeFi Protocols</span>
+                    </button>
+                    <button class="market-tab-btn" data-tab="staking" aria-selected="false">
+                        <span class="tab-label">Liquid Staking</span>
+                    </button>
+                </div>
+
+                <!-- TAB 1: DeFi -->
+                <div class="market-tab-content active" id="tab-defi">
+                    <div class="protocols-grid" id="defi-grid">
+                        <div class="protocol-card loading">
+                            <div class="spinner"></div>
+                            <p class="loading-text">Cargando protocolos...</p>
+                        </div>
                     </div>
+                </div>
+
+                <!-- TAB 2: STAKING -->
+                <div class="market-tab-content" id="tab-staking">
+                    <div class="protocols-grid" id="staking-grid">
+                        <div class="protocol-card loading">
+                            <div class="spinner"></div>
+                            <p class="loading-text">Cargando protocolos de staking...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="market-footer">
+                    <p class="market-timestamp">
+                        Datos actualizados en tiempo real • 
+                        <a href="https://defillama.com" target="_blank" rel="noopener">Powered by Defillama</a>
+                    </p>
                 </div>
             </div>
         </section>
-    </main>
+        </div>
+        <!-- END WEB3 SECTION -->
 
     <!-- Footer -->
     <footer role="contentinfo">
         <div class="container">
             <div class="footer-minimal">
-                <p>&copy; 2025 Alejandro Gilabert</p>
+                <p>&copy; 2025 Alex Gilabert</p>
                 <p>
                     <!-- <a href="index-artist.html" class="footer-link">Ver perfil artístico</a> -->
                 </p>
@@ -4447,9 +4610,114 @@
             }
         })();
 
-        // Smooth Scroll & Active Nav
+        // Section Navigation (Experiencia, Web3, Blog)
         (function() {
-            const navLinks = document.querySelectorAll('.nav-menu a');
+            const sectionLinks = document.querySelectorAll('.nav-section-link');
+            const sections = {
+                'experiencia': document.getElementById('experiencia'),
+                'web3': document.getElementById('web3'),
+                'blog': document.getElementById('blog')
+            };
+
+            // Show experiencia by default
+            function showSection(sectionId) {
+                // Hide all sections
+                Object.values(sections).forEach(section => {
+                    if (section) {
+                        section.classList.remove('active');
+                        section.style.setProperty('display', 'none', 'important');
+                        section.style.setProperty('visibility', 'hidden', 'important');
+                    }
+                });
+
+                // Show selected section
+                if (sections[sectionId]) {
+                    sections[sectionId].classList.add('active');
+                    sections[sectionId].style.setProperty('display', 'block', 'important');
+                    sections[sectionId].style.setProperty('visibility', 'visible', 'important');
+                    sections[sectionId].style.setProperty('opacity', '1', 'important');
+                    
+                    // Load data when Web3 section is shown
+                    if (sectionId === 'web3') {
+                        // Use setTimeout to ensure DOM is ready
+                        setTimeout(() => {
+                            // Load market data if not already loaded
+                            if (typeof loadMarketData === 'function') {
+                                const defiGrid = document.getElementById('defi-grid');
+                                const stakingGrid = document.getElementById('staking-grid');
+                                const needsLoad = (defiGrid && (defiGrid.innerHTML.includes('loading') || defiGrid.innerHTML.includes('Cargando') || defiGrid.innerHTML.trim() === '')) ||
+                                                 (stakingGrid && (stakingGrid.innerHTML.includes('loading') || stakingGrid.innerHTML.includes('Cargando') || stakingGrid.innerHTML.trim() === ''));
+                                if (needsLoad) {
+                                    loadMarketData();
+                                }
+                            }
+                            // Load crypto prices if not already loaded
+                            if (typeof fetchCryptoPrices === 'function') {
+                                // Buscar el grid en la sección visible
+                                const marketIntelligence = document.getElementById('market-intelligence');
+                                const cryptoGrid = marketIntelligence ? marketIntelligence.querySelector('#cryptoPricesGrid') : document.getElementById('cryptoPricesGrid');
+                                if (cryptoGrid && (cryptoGrid.innerHTML.includes('loading') || cryptoGrid.innerHTML.includes('Cargando') || cryptoGrid.innerHTML.trim() === '' || cryptoGrid.querySelector('.crypto-loading'))) {
+                                    // Esperar un poco más para asegurar que el DOM esté listo
+                                    setTimeout(() => {
+                                        fetchCryptoPrices();
+                                        setupCryptoScrollListeners();
+                                    }, 200);
+                                }
+                            }
+                        }, 100);
+                    }
+                }
+
+                // Update nav links
+                sectionLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === sectionId) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Handle nav clicks
+            sectionLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    showSection(sectionId);
+                    
+                    // Update URL hash without scrolling
+                    if (history.pushState) {
+                        history.pushState(null, null, '#' + sectionId);
+                    }
+                });
+            });
+
+            // Handle hash on load
+            window.addEventListener('load', function() {
+                const hash = window.location.hash.substring(1);
+                if (hash && sections[hash]) {
+                    showSection(hash);
+                } else {
+                    showSection('experiencia');
+                }
+            });
+
+            // Handle browser back/forward
+            window.addEventListener('popstate', function() {
+                const hash = window.location.hash.substring(1);
+                if (hash && sections[hash]) {
+                    showSection(hash);
+                } else {
+                    showSection('experiencia');
+                }
+            });
+        })();
+
+        // Smooth Scroll & Active Nav (only for internal links within sections)
+        (function() {
+            const navLinks = document.querySelectorAll('.nav-menu a:not(.nav-section-link)');
             const sections = document.querySelectorAll('section[id]');
             
             function updateActiveNav() {
@@ -4605,6 +4873,8 @@
                 navProduct: 'Producto & Web3',
                 navTeaching: 'Docencia',
                 navArticles: 'Artículos',
+                navExperiencia: 'Experiencia',
+                navWeb3: 'Web3',
                 navContact: 'Contacto',
                 navSchedule: 'Agendar una llamada',
                 // Hero
@@ -4710,6 +4980,10 @@
                 // Articles
                 articlesTitle: 'Artículos & Publicaciones',
                 articlesDesc: 'Contenido sobre Product Management, Blockchain y Digital Assets con foco en aplicaciones reales para banca, fintech y empresas.',
+                article0Title: 'Aave Labs y DAO. El conflicto por el control',
+                article0Excerpt: 'El conflicto entre Aave Labs y la DAO por el control de activos estratégicos, revenue streams y gobernanza del protocolo. Análisis del caso de la integración con CoW Swap, donde Aave Labs capturó $10M en fees sin aprobación del DAO, y la propuesta de gobernanza para transferir dominios, marca y activos intelectuales al control de la comunidad.',
+                article0Link: 'Leer artículo',
+                article0Url: 'https://www.linkedin.com/pulse/aave-labs-y-dao-el-conflicto-por-control-alex-gilabert-l6yce/',
                 article1Title: '¿Se puede ser rentable con poco capital en pools de liquidez? Guía técnica de DAMM v2 (Meteora)',
                 article1Excerpt: 'Defi no frena en verano. El pasado 31 de Julio apareció en escena el último producto lanzado al mercado por Meteora, uno de los protocolos más innovadores del entorno DeFI en Solana, pretende dar más opciones en la generación de comisiones a los proveedores de liquidez. DAMM v2 es un AMM de producto constante diseñado para optimizar la captura de comisiones por parte de los proveedores de liquidez (LPs) en cortos periodos de tiempo.',
                 article1Link: 'Leer artículo',
@@ -4873,6 +5147,10 @@
                 // Articles
                 articlesTitle: 'Articles & Publications',
                 articlesDesc: 'Content on Product Management, Blockchain, and Digital Assets with focus on real applications for banking, fintech, and companies.',
+                article0Title: 'Aave Labs and DAO. The conflict for control',
+                article0Excerpt: 'The conflict between Aave Labs and the DAO over control of strategic assets, revenue streams, and protocol governance. Analysis of the CoW Swap integration case, where Aave Labs captured $10M in fees without DAO approval, and the governance proposal to transfer domains, brand, and intellectual assets to community control.',
+                article0Link: 'Read article',
+                article0Url: 'https://www.linkedin.com/pulse/aave-labs-y-dao-el-conflicto-por-control-alex-gilabert-l6yce/',
                 article1Title: 'Can you be profitable with low capital in liquidity pools? Technical guide to DAMM v2 (Meteora)',
                 article1Excerpt: 'DeFi doesn\'t slow down in summer. On July 31st, Meteora, one of the most innovative protocols in the DeFi ecosystem on Solana, launched its latest product to the market, aiming to provide more options for commission generation to liquidity providers. DAMM v2 is a constant product AMM designed to optimize fee capture by liquidity providers (LPs) in short time periods.',
                 article1Link: 'Read article',
@@ -4935,12 +5213,13 @@
             // Update HTML lang attribute
             document.documentElement.lang = lang;
 
-            // Navigation
-            document.querySelector('a[href="#producto"]').textContent = t.navProduct;
-            document.querySelector('a[href="#teaching"]').textContent = t.navTeaching;
-            document.querySelector('a[href="#articles"]').textContent = t.navArticles;
-            const contactLink = document.querySelector('a[href="#contact"]');
-            if (contactLink) contactLink.textContent = t.navContact;
+            // Navigation - Update new section links
+            const experienciaLink = document.querySelector('a[data-section="experiencia"]');
+            if (experienciaLink) experienciaLink.textContent = t.navExperiencia || 'Experiencia';
+            const web3Link = document.querySelector('a[data-section="web3"]');
+            if (web3Link) web3Link.textContent = t.navWeb3 || 'Web3';
+            const blogLink = document.querySelector('a[data-section="blog"]');
+            if (blogLink) blogLink.textContent = t.navArticles || 'Blog';
             const scheduleBtn = document.querySelector('.nav-cta');
             if (scheduleBtn) scheduleBtn.textContent = t.navSchedule;
 
@@ -5031,10 +5310,13 @@
             if (cryptoSubtitle) cryptoSubtitle.textContent = t.cryptoSubtitle;
             const cryptoLoading = document.querySelector('#crypto-prices .crypto-loading p');
             if (cryptoLoading) cryptoLoading.textContent = t.cryptoLoading;
-            const cryptoTimestamp = document.querySelector('#crypto-prices .crypto-timestamp');
+            // Actualizar timestamp en market-intelligence (sección visible)
+            const marketIntelligence = document.getElementById('market-intelligence');
+            const cryptoTimestamp = marketIntelligence ? marketIntelligence.querySelector('.crypto-timestamp') : document.querySelector('#crypto-prices .crypto-timestamp');
             if (cryptoTimestamp) {
-                const time = cryptoTimestamp.querySelector('span').textContent;
-                cryptoTimestamp.innerHTML = t.cryptoTimestamp + ' <span id="cryptoTimestamp">' + time + '</span>';
+                const timeSpan = cryptoTimestamp.querySelector('#cryptoTimestamp');
+                const currentTime = timeSpan ? timeSpan.textContent : '--:--';
+                cryptoTimestamp.innerHTML = t.cryptoTimestamp + ' <span id="cryptoTimestamp">' + currentTime + '</span>';
             }
             const cryptoRefresh = document.querySelector('#crypto-prices .refresh-text');
             if (cryptoRefresh) cryptoRefresh.textContent = t.cryptoRefresh;
@@ -5187,42 +5469,51 @@
             if (articlesDesc) articlesDesc.textContent = t.articlesDesc;
             const articleCards = document.querySelectorAll('.article-card');
             if (articleCards[0]) {
-                articleCards[0].querySelector('.article-title').textContent = t.article1Title;
-                articleCards[0].querySelector('.article-excerpt').textContent = t.article1Excerpt;
-                const link1 = articleCards[0].querySelector('.article-link');
+                articleCards[0].querySelector('.article-title').textContent = t.article0Title;
+                articleCards[0].querySelector('.article-excerpt').textContent = t.article0Excerpt;
+                const link0 = articleCards[0].querySelector('.article-link');
+                if (link0) {
+                    link0.textContent = t.article0Link;
+                    if (t.article0Url) link0.href = t.article0Url;
+                }
+            }
+            if (articleCards[1]) {
+                articleCards[1].querySelector('.article-title').textContent = t.article1Title;
+                articleCards[1].querySelector('.article-excerpt').textContent = t.article1Excerpt;
+                const link1 = articleCards[1].querySelector('.article-link');
                 if (link1) {
                     link1.textContent = t.article1Link;
                     if (t.article1Url) link1.href = t.article1Url;
                 }
             }
-            if (articleCards[1]) {
-                articleCards[1].querySelector('.article-title').textContent = t.article2Title;
-                articleCards[1].querySelector('.article-excerpt').textContent = t.article2Excerpt;
-                const link2 = articleCards[1].querySelector('.article-link');
+            if (articleCards[2]) {
+                articleCards[2].querySelector('.article-title').textContent = t.article2Title;
+                articleCards[2].querySelector('.article-excerpt').textContent = t.article2Excerpt;
+                const link2 = articleCards[2].querySelector('.article-link');
                 if (link2) {
                     link2.textContent = t.article2Link;
                     if (t.article2Url) link2.href = t.article2Url;
                 }
             }
-            if (articleCards[2]) {
-                articleCards[2].querySelector('.article-title').textContent = t.article3Title;
-                articleCards[2].querySelector('.article-excerpt').textContent = t.article3Excerpt;
-                articleCards[2].querySelector('.article-link').textContent = t.article3Link;
-            }
             if (articleCards[3]) {
-                articleCards[3].querySelector('.article-title').textContent = t.article4Title;
-                articleCards[3].querySelector('.article-excerpt').textContent = t.article4Excerpt;
-                articleCards[3].querySelector('.article-link').textContent = t.article4Link;
+                articleCards[3].querySelector('.article-title').textContent = t.article3Title;
+                articleCards[3].querySelector('.article-excerpt').textContent = t.article3Excerpt;
+                articleCards[3].querySelector('.article-link').textContent = t.article3Link;
             }
             if (articleCards[4]) {
-                articleCards[4].querySelector('.article-title').textContent = t.article5Title;
-                articleCards[4].querySelector('.article-excerpt').textContent = t.article5Excerpt;
-                articleCards[4].querySelector('.article-link').textContent = t.article5Link;
+                articleCards[4].querySelector('.article-title').textContent = t.article4Title;
+                articleCards[4].querySelector('.article-excerpt').textContent = t.article4Excerpt;
+                articleCards[4].querySelector('.article-link').textContent = t.article4Link;
             }
             if (articleCards[5]) {
-                articleCards[5].querySelector('.article-title').textContent = t.article6Title;
-                articleCards[5].querySelector('.article-excerpt').textContent = t.article6Excerpt;
-                articleCards[5].querySelector('.article-link').textContent = t.article6Link;
+                articleCards[5].querySelector('.article-title').textContent = t.article5Title;
+                articleCards[5].querySelector('.article-excerpt').textContent = t.article5Excerpt;
+                articleCards[5].querySelector('.article-link').textContent = t.article5Link;
+            }
+            if (articleCards[6]) {
+                articleCards[6].querySelector('.article-title').textContent = t.article6Title;
+                articleCards[6].querySelector('.article-excerpt').textContent = t.article6Excerpt;
+                articleCards[6].querySelector('.article-link').textContent = t.article6Link;
             }
 
             // Contact
@@ -5582,7 +5873,7 @@
         // Google Calendar - Redirigir a Google Calendar de agilabertcomunicaciones@gmail.com
         function openCalendlyModal() {
             // Crear evento nuevo en Google Calendar para agilabertcomunicaciones@gmail.com
-            const eventTitle = 'Consulta con Alejandro Gilabert';
+            const eventTitle = 'Consulta con Alex Gilabert';
             const eventDetails = 'Consulta desde landing page profesional';
             const eventLocation = 'Online';
             const organizerEmail = 'agilabertcomunicaciones@gmail.com';
@@ -5754,17 +6045,27 @@
         const CRYPTOS = [
             { id: 'solana', symbol: 'SOL', name: 'Solana' },
             { id: 'avalanche', symbol: 'AVAX', name: 'Avalanche' },
-            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
-            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
             { id: 'monero', symbol: 'XMR', name: 'Monero' },
             { id: 'binancecoin', symbol: 'BNB', name: 'BNB' },
+            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
+            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
             { id: 'ripple', symbol: 'XRP', name: 'Ripple' }
         ];
 
         async function fetchCryptoPrices() {
-            const grid = document.getElementById('cryptoPricesGrid');
+            // Buscar el grid en la sección visible (market-intelligence), no en la oculta
+            const marketIntelligence = document.getElementById('market-intelligence');
+            const grid = marketIntelligence ? marketIntelligence.querySelector('#cryptoPricesGrid') : document.getElementById('cryptoPricesGrid');
+            
             if (!grid) {
                 console.error('Crypto grid not found');
+                return;
+            }
+            
+            // Verificar que el elemento esté visible
+            const section = grid.closest('section');
+            if (section && section.style.display === 'none') {
+                console.log('Crypto section is hidden, skipping fetch');
                 return;
             }
             
@@ -5851,14 +6152,16 @@
         }
 
         function pauseCryptoScroll() {
-            const grid = document.getElementById('cryptoPricesGrid');
+            const marketIntelligence = document.getElementById('market-intelligence');
+            const grid = marketIntelligence ? marketIntelligence.querySelector('#cryptoPricesGrid') : document.getElementById('cryptoPricesGrid');
             if (grid) {
                 grid.classList.add('paused');
             }
         }
 
         function resumeCryptoScroll() {
-            const grid = document.getElementById('cryptoPricesGrid');
+            const marketIntelligence = document.getElementById('market-intelligence');
+            const grid = marketIntelligence ? marketIntelligence.querySelector('#cryptoPricesGrid') : document.getElementById('cryptoPricesGrid');
             if (grid) {
                 grid.classList.remove('paused');
             }
@@ -5873,10 +6176,14 @@
             }
         });
 
-        const gridEl = document.getElementById('cryptoPricesGrid');
-        if (gridEl) {
-            gridEl.addEventListener('mouseenter', pauseCryptoScroll);
-            gridEl.addEventListener('mouseleave', resumeCryptoScroll);
+        // Event listeners para pause/resume se configuran dinámicamente cuando se muestra la sección
+        function setupCryptoScrollListeners() {
+            const marketIntelligence = document.getElementById('market-intelligence');
+            const gridEl = marketIntelligence ? marketIntelligence.querySelector('#cryptoPricesGrid') : document.getElementById('cryptoPricesGrid');
+            if (gridEl) {
+                gridEl.addEventListener('mouseenter', pauseCryptoScroll);
+                gridEl.addEventListener('mouseleave', resumeCryptoScroll);
+            }
         }
 
         function hexToRgb(hex) {
@@ -5897,7 +6204,9 @@
         }
 
         function renderCryptoPrices(data, marketCapData = {}) {
-            const grid = document.getElementById('cryptoPricesGrid');
+            // Buscar el grid en la sección visible (market-intelligence)
+            const marketIntelligence = document.getElementById('market-intelligence');
+            const grid = marketIntelligence ? marketIntelligence.querySelector('#cryptoPricesGrid') : document.getElementById('cryptoPricesGrid');
             if (!grid) {
                 console.error('Crypto grid not found for rendering');
                 return;
@@ -5990,7 +6299,23 @@
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('cryptoTimestamp').textContent = `${hours}:${minutes}`;
+            const timeString = `${hours}:${minutes}`;
+            
+            // Buscar el timestamp en la sección visible (market-intelligence)
+            const marketIntelligence = document.getElementById('market-intelligence');
+            const timestampSpan = marketIntelligence ? marketIntelligence.querySelector('#cryptoTimestamp') : document.getElementById('cryptoTimestamp');
+            
+            if (timestampSpan) {
+                timestampSpan.textContent = timeString;
+            }
+            
+            // También actualizar el texto completo con traducción si existe el contenedor
+            const timestampContainer = marketIntelligence ? marketIntelligence.querySelector('.crypto-timestamp') : document.querySelector('.crypto-timestamp');
+            if (timestampContainer) {
+                const currentLang = localStorage.getItem('preferredLanguage') || document.documentElement.lang || 'es';
+                const t = translations[currentLang] || translations['es'];
+                timestampContainer.innerHTML = t.cryptoTimestamp + ' <span id="cryptoTimestamp">' + timeString + '</span>';
+            }
         }
 
         function refreshCryptoPrices() {
@@ -6014,13 +6339,8 @@
         // Intervalo de actualización: 4 minutos (x1.25 más rápido que antes)
         setInterval(fetchCryptoPrices, 4 * 60 * 1000);
 
-        // Cargar precios cuando el DOM esté listo
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fetchCryptoPrices);
-        } else {
-            // DOM ya está listo
-            fetchCryptoPrices();
-        }
+        // NO cargar automáticamente - solo cuando se muestre la sección Web3
+        // La función showSection ya maneja esto cuando sectionId === 'web3'
 
         // ============================================
         // MARKET INTELLIGENCE - DEFILLAMA API
@@ -6210,12 +6530,9 @@
             });
         }
 
-        // Cargar datos de market intelligence cuando el DOM esté listo
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadMarketData);
-        } else {
-            loadMarketData();
-        }
+        // Cargar datos de market intelligence cuando se muestre la sección Web3
+        // No cargar automáticamente, solo cuando se muestre la sección
+        // La función showSection ya maneja esto
     </script>
 </body>
 </html>
