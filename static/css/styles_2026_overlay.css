@@ -1,0 +1,223 @@
+/* ============================================
+   2026 OVERLAY — "Tactile Maximalism" Tokens
+   Loaded AFTER the inline <style> block.
+   Only overrides design tokens & adds new elements.
+   ============================================ */
+
+/* 1. PALETTE OVERRIDES */
+:root {
+  /* Warm Parchment base instead of cool gray */
+  --bg-main: #FFFFFF;
+  --bg-elevated: #F9F8F6;
+  --bg-elevated-soft: #EAE8E4;
+  --bg-secondary: #F9F8F6;
+
+  /* Electric blue primary */
+  --color-primary: #3B59FF;
+  --color-primary-hover: #2B45D9;
+  --color-primary-soft: rgba(59, 89, 255, 0.08);
+
+  /* Ochre secondary accent */
+  --color-accent: #D97706;
+  --color-accent-soft: rgba(217, 119, 6, 0.08);
+
+  /* Border warmth */
+  --border-color: #D1CFCA;
+
+  /* Skills & Badges — keep mapped */
+  --skill-product: #3B59FF;
+  --skill-blockchain: #D97706;
+  --skill-tech: #D97706;
+  --skill-soft: #3B59FF;
+  --badge-product: #3B59FF;
+  --badge-blockchain: #D97706;
+}
+
+/* 2. TYPOGRAPHY OVERRIDES */
+body {
+  font-family: 'Inter', 'Geist Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Newsreader', 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nav-logo {
+  font-family: 'Newsreader', 'Fraunces', Georgia, serif;
+}
+
+.stat-value {
+  font-family: 'Newsreader', 'Fraunces', Georgia, serif;
+}
+
+.btn {
+  font-family: 'Inter', sans-serif;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  font-family: 'Inter', sans-serif;
+}
+
+.market-tab-btn {
+  font-family: 'Inter', sans-serif;
+}
+
+.protocol-name {
+  font-family: 'Newsreader', 'Fraunces', Georgia, serif;
+}
+
+/* 3. GRAIN TEXTURE OVERLAY */
+.grain-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* 4. INK-BLEED PAGE ENTRY */
+body {
+  animation: inkBleed 1.2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+}
+@keyframes inkBleed {
+  0%   { clip-path: circle(0% at 50% 50%); opacity: 0; }
+  100% { clip-path: circle(150% at 50% 50%); opacity: 1; }
+}
+
+/* 5. TOP CONTROLS + ISLAND NAV */
+.top-controls-2026 {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(249, 248, 246, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 99px;
+  padding: 6px 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.top-controls-2026 .theme-toggle {
+  font-size: 1.15rem;
+  line-height: 1;
+  min-width: 2rem;
+  padding: 4px 8px;
+}
+
+[data-theme="dark"] .top-controls-2026 {
+  background: rgba(11, 18, 32, 0.75);
+  border-color: rgba(31, 41, 55, 0.6);
+}
+
+.island-nav-2026 {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: rgba(249, 248, 246, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 99px;
+  padding: 8px 28px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.island-nav-2026 a,
+.island-nav-2026 button {
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-main, #1A1A1A);
+  transition: color 0.2s ease;
+  padding: 4px 0;
+}
+.island-nav-2026 a:hover,
+.island-nav-2026 button:hover {
+  color: var(--color-primary);
+}
+
+/* 6. HAND-INKED DIVIDERS */
+hr {
+  border: none;
+  height: 1px;
+  background: url("data:image/svg+xml,%3Csvg width='100%25' height='1' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 .5 Q 50 1.5 100 .5 T 200 .5' stroke='%231A1A1A' stroke-width='1' fill='none' vector-effect='non-scaling-stroke' opacity='0.15'/%3E%3C/svg%3E") repeat-x;
+  margin: 32px 0;
+}
+
+/* 7. HERO GRADIENT — WARMER */
+.hero {
+  background: linear-gradient(135deg, #F9F8F6 0%, rgba(59, 89, 255, 0.06) 50%, rgba(217, 119, 6, 0.04) 100%) !important;
+  background-size: 200% 200% !important;
+}
+
+/* 8. FIX PADDING-TOP since we removed the fixed nav */
+.hero {
+  padding-top: 80px !important;
+}
+
+/* 9. DARK MODE ISLAND NAV */
+[data-theme="dark"] .island-nav-2026 {
+  background: rgba(11, 18, 32, 0.75);
+  border-color: rgba(31, 41, 55, 0.6);
+}
+[data-theme="dark"] .island-nav-2026 a,
+[data-theme="dark"] .island-nav-2026 button {
+  color: var(--text-main);
+}
+
+/* 10. MAGNETIC HOVER ENHANCEMENT */
+.service-card,
+.project-card,
+.article-card,
+.skill-category,
+.protocol-card {
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+/* 11. FORCE ALL MAIN-SECTIONS VISIBLE (override tab system) */
+.main-section {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 12. MOBILE ISLAND NAV */
+@media (max-width: 768px) {
+  .top-controls-2026 {
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    gap: 8px;
+  }
+  .island-nav-2026 {
+    top: 12px;
+    right: 12px;
+    padding: 6px 16px;
+    gap: 16px;
+  }
+  .island-nav-2026 a,
+  .island-nav-2026 button {
+    font-size: 0.8rem;
+  }
+  .hero {
+    padding-top: 60px !important;
+  }
+}

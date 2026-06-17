@@ -40,6 +40,12 @@ def index_professional(request):
     """
     return render(request, 'landing/index_professional.html')
 
+def index_2026(request):
+    """
+    Vista para el rediseño 2026 (Bento Grid)
+    """
+    return render(request, 'landing/index_2026.html')
+
 @csrf_exempt
 @require_http_methods(["POST"])
 # Rate limiting - se aplica solo si el cache backend lo soporta
