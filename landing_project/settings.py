@@ -4,6 +4,7 @@ Django settings for landing_project project.
 
 from pathlib import Path
 import os
+import secrets
 
 # Crear directorio de logs si no existe (solo si es posible)
 try:
@@ -22,8 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# En producción, usar variable de entorno
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-this-in-production-1234567890')
+# En producción, usar variable de entorno (Vercel > Settings > Environment Variables).
+# Si no está configurada, se genera una clave aleatoria por proceso en vez de usar un
+# valor público fijo: ese valor por defecto ("django-insecure-change-this...") es un
+# patrón conocido y rastreable en repos públicos de GitHub, así que nunca debe usarse
+# en producción aunque sea "solo" un fallback.
+SECRET_KEY = os.environ.get('SECRET_KEY') or secrets.token_urlsafe(50)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # En Vercel, detectar automáticamente si estamos en producción
@@ -34,15 +39,43 @@ if os.environ.get('VERCEL') or DEBUG_ENV in ('false', '0', 'no'):
 else:
     DEBUG = DEBUG_ENV not in ('false', '0', 'no', '') if DEBUG_ENV else True
 
-# Allowed hosts para producción
-# En Vercel, aceptar cualquier dominio de Vercel automáticamente
+# Allowed hosts para producción.
+# ALLOWED_HOSTS protege contra ataques de Host header (envenenamiento de caché,
+# enlaces de reseteo de contraseña con dominio falso, etc.) incluso detrás de Vercel:
+# la plataforma no filtra esto por ti, así que '*' anula la protección por completo.
 if os.environ.get('VERCEL'):
-    # En Vercel, aceptar cualquier subdominio de vercel.app
-    ALLOWED_HOSTS = ['*']  # Vercel maneja la seguridad a nivel de plataforma
+    # Si se configuró la variable ALLOWED_HOSTS en Vercel, respetarla; si no,
+    # usar el dominio real como valor por defecto seguro (no '*').
+    allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', '')
+    if allowed_hosts_env:
+        ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',')]
+    else:
+        ALLOWED_HOSTS = ['alexgilabert.xyz', 'www.alexgilabert.xyz', '.vercel.app']
 else:
     # En desarrollo, usar la variable de entorno o permitir localhost
     allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
     ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',')]
+
+CSRF_TRUSTED_ORIGINS = ['https://alexgilabert.xyz', 'https://www.alexgilabert.xyz']
+
+# Cabeceras de seguridad de producción (checklist estándar de Django). Solo se activan
+# fuera de DEBUG: forzarlas en local rompería `runserver` en http://127.0.0.1.
+if not DEBUG:
+    # Vercel termina TLS en el borde y reenvía la petición por HTTP internamente,
+    # indicando el protocolo original en X-Forwarded-Proto. Sin esto, Django no
+    # sabría distinguir HTTPS real de HTTP y SECURE_SSL_REDIRECT causaría un bucle.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+    # HSTS: le dice al navegador que recuerde usar HTTPS en este dominio.
+    # Se empieza en un valor bajo (1 día) para poder revertir sin castigar a los
+    # visitantes si algo fallara; se puede subir a 31536000 (1 año) con confianza
+    # una vez confirmado que todo funciona bien en HTTPS de forma sostenida.
+    SECURE_HSTS_SECONDS = 86400
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 
 # Application definition
@@ -116,8 +149,12 @@ else:
 # ============================================
 # django_ratelimit requiere un caché que soporte incremento atómico
 REDIS_URL = os.environ.get('REDIS_URL', '').strip()
-if REDIS_URL and not os.environ.get('VERCEL'):
-    # Usar Redis si está disponible (solo fuera de Vercel por defecto)
+# Antes esto excluía Redis explícitamente en Vercel ("and not os.environ.get('VERCEL')"),
+# que es justo donde hace falta: LocMemCache vive en memoria de un proceso, y cada
+# invocación serverless es un proceso nuevo y aislado, así que el rate limiting nunca
+# persistía entre peticiones en producción. Con esto, si REDIS_URL está configurada
+# (en cualquier entorno) se usa; si no, cae a LocMemCache como hasta ahora.
+if REDIS_URL:
     try:
         CACHES = {
             'default': {

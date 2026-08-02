@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -60,6 +59,9 @@ def robots_txt(request):
         'Allow: /',
         'Disallow: /admin/',
         'Disallow: /api/',
+        # El CV incluye un email personal (no el de contacto público);
+        # se evita que buscadores lo indexen y lo dejen cosechable.
+        'Disallow: /static/documents/',
         '',
         f'Sitemap: {SITE_URL}/sitemap.xml',
     ]
@@ -92,8 +94,9 @@ def sitemap_xml(request):
     )
     return HttpResponse(xml, content_type='application/xml')
 
-@csrf_exempt
 @require_http_methods(["POST"])
+# El frontend ya envía X-CSRFToken correctamente (ver fetch en el template),
+# así que csrf_exempt aquí solo quitaba protección real sin ninguna ventaja.
 # Rate limiting - se aplica solo si el cache backend lo soporta
 # En desarrollo local con DatabaseCache funcionará correctamente
 @ratelimit(key='ip', rate='3/m', method='POST', block=True)  # 3 peticiones por minuto
@@ -210,18 +213,28 @@ ID de registro: #{submission_id or 'N/A'}
 Para responder, simplemente responde a este email o contacta a: {email}
 """
             
-            send_mail(
-            subject,
-            email_message,
-            settings.DEFAULT_FROM_EMAIL or 'noreply@alejandrogilabert.com',
-            [settings.CONTACT_EMAIL or 'agilabertcomunicaciones@gmail.com'],
-            fail_silently=True,  # No fallar si el email no se puede enviar
-        )
+            sent_count = send_mail(
+                subject,
+                email_message,
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.CONTACT_EMAIL],
+                fail_silently=False,  # Necesitamos saber si falla: es el único canal fiable
+            )
+            email_sent = sent_count > 0
         except Exception as email_error:
-            # Si falla el email, aún guardamos en BD pero registramos el error
+            # La BD en Vercel es efímera (/tmp), así que si el email falla el
+            # mensaje se pierde de verdad. Lo registramos con detalle para depurar.
+            logger.error(f'Error al enviar email de contacto: {email_error}. IP: {ip_address}')
             print(f'Error al enviar email: {email_error}')
-            # No fallamos la petición si el email falla, solo lo registramos
-        
+            email_sent = False
+
+        if not email_sent:
+            return JsonResponse({
+                'success': False,
+                'error': 'No se pudo enviar tu mensaje por un problema técnico. '
+                         'Por favor, escribe directamente a agilabertcomunicaciones@gmail.com.',
+            }, status=502)
+
         return JsonResponse({
             'success': True,
             'message': 'Mensaje enviado correctamente',
