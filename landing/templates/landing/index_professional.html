@@ -8,27 +8,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta Tags -->
-    <title>Alex Gilabert</title>
+    <title>Alex Gilabert | Senior Product Manager · Custodia de Activos Digitales</title>
     <meta name="description"
-        content="Product Leader especializado en Digital Assets y Blockchain. Docente universitario. Basado en Madrid.">
-    <meta name="keywords" content="Product Owner, Blockchain, Digital Assets, Web3, Product Management">
+        content="Senior Product Manager en Bitpanda. Especialista en custodia de activos digitales, tokenización, MiCA y Custody-as-a-Service para banca y fintechs. Docente universitario. Madrid.">
+    <meta name="keywords" content="Product Manager, Custodia de Activos Digitales, Tokenización, MiCA, Custody-as-a-Service, Travel Rule, Blockchain, Digital Assets, Web3, Product Management">
     <meta name="author" content="Alex Gilabert">
+    <link rel="canonical" href="https://alexgilabert.xyz/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://alexgilabert.xyz/">
-    <meta property="og:title" content="Alex Gilabert | Head of Product & Digital Assets">
+    <meta property="og:title" content="Alex Gilabert | Senior Product Manager en Bitpanda">
     <meta property="og:description"
-        content="Head of Product en Onyze · Docente universitario · Blockchain & Digital Assets">
-    <meta property="og:image" content="https://alexgilabert.xyz/static/images/corporativa%20copia%202.png">
+        content="Senior Product Manager en Bitpanda · Custodia de activos digitales, tokenización y MiCA · Docente universitario">
+    <meta property="og:image" content="https://alexgilabert.xyz/static/images/alex-gilabert-og.jpg">
+    <meta property="og:image:alt" content="Alex Gilabert, Senior Product Manager en Bitpanda">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="en_US">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://alexgilabert.xyz/">
-    <meta name="twitter:title" content="Alex Gilabert | Head of Product & Digital Assets">
+    <meta name="twitter:title" content="Alex Gilabert | Senior Product Manager en Bitpanda">
     <meta name="twitter:description"
-        content="Head of Product en Onyze · Docente universitario · Blockchain & Digital Assets">
-    <meta name="twitter:image" content="https://alexgilabert.xyz/static/images/corporativa%20copia%202.png">
+        content="Senior Product Manager en Bitpanda · Custodia de activos digitales, tokenización y MiCA · Docente universitario">
+    <meta name="twitter:image" content="https://alexgilabert.xyz/static/images/alex-gilabert-og.jpg">
+    <meta name="twitter:image:alt" content="Alex Gilabert, Senior Product Manager en Bitpanda">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon_world.png' %}?v=2">
@@ -45,13 +51,16 @@
         href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
+    <!-- Marcar que JS está activo: las animaciones fade-in solo ocultan contenido si esta clase existe -->
+    <script>document.documentElement.classList.add('js');</script>
+
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Person",
                 "name": "Alex Gilabert Ramírez",
-        "jobTitle": "Head of Product & Digital Assets",
+        "jobTitle": "Senior Product Manager",
         "url": "https://alexgilabert.xyz",
         "sameAs": [
             "https://www.linkedin.com/in/alejandrogilabertramirez/",
@@ -60,7 +69,7 @@
         ],
         "worksFor": {
             "@type": "Organization",
-            "name": "Onyze"
+            "name": "Bitpanda"
         },
         "alumniOf": [
             {
@@ -388,13 +397,14 @@
             padding: 0 var(--space-xl);
         }
 
-        .fade-in {
+        /* Solo ocultar contenido animado cuando JS está activo (evita página en blanco sin JS) */
+        html.js .fade-in {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
-        .fade-in.visible {
+        html.js .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -661,9 +671,71 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            padding: var(--space-xs);
             color: var(--text-primary);
-            font-size: 1.5rem;
+            /* 44x44 = objetivo táctil mínimo recomendado */
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+        }
+
+        .mobile-menu-toggle:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        /* Icono hamburguesa: 3 barras que se transforman en ✕ al abrir */
+        .hamburger,
+        .hamburger::before,
+        .hamburger::after {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+        }
+
+        .hamburger {
+            position: relative;
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            left: 0;
+        }
+
+        .hamburger::before {
+            top: -7px;
+        }
+
+        .hamburger::after {
+            top: 7px;
+        }
+
+        .mobile-menu-toggle[aria-expanded="true"] .hamburger {
+            background: transparent;
+        }
+
+        .mobile-menu-toggle[aria-expanded="true"] .hamburger::before {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .mobile-menu-toggle[aria-expanded="true"] .hamburger::after {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .hamburger,
+            .hamburger::before,
+            .hamburger::after {
+                transition: none;
+            }
         }
 
         /* ============================================
@@ -749,7 +821,8 @@
             margin-bottom: var(--space-3xl);
         }
 
-        @media (min-width: 768px) {
+        /* 769px para no solapar con las reglas móviles de max-width: 768px */
+        @media (min-width: 769px) {
             .hero-grid {
                 grid-template-columns: 2fr 1fr;
             }
@@ -941,28 +1014,8 @@
             position: relative;
         }
 
-        /* Blue accent border on hero image in dark mode */
-        [data-theme="dark"] .hero-image::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 40px;
-            height: 40px;
-            border-top: 3px solid var(--color-accent);
-            border-right: 3px solid var(--color-accent);
-            border-radius: 0 var(--radius-md) 0 0;
-            opacity: 0.8;
-            transition: opacity var(--transition-base);
-        }
-
         [data-theme="dark"] .hero-image:hover {
             box-shadow: var(--shadow-md);
-        }
-
-        [data-theme="dark"] .hero-image:hover::before {
-            opacity: 1;
-            box-shadow: 0 0 12px rgba(59, 63, 175, 0.4);
         }
 
         /* Stats Section */
@@ -2701,33 +2754,52 @@
            FOOTER
            ============================================ */
         footer {
-            background: var(--bg-accent-1);
-            color: var(--white);
+            /* Antes usaba --white sobre un fondo claro: contraste ~1.1:1, ilegible.
+               Ahora usa tokens de tema para contraste correcto en claro y oscuro. */
+            background: var(--bg-elevated);
+            color: var(--text-body);
             padding: var(--space-3xl) 0 var(--space-xl);
+            border-top: 1px solid var(--border-color);
         }
 
         .footer-minimal {
             text-align: center;
             padding: var(--space-xl) 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border-color);
         }
 
         .footer-minimal p {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-muted);
             font-size: 0.9rem;
             margin-bottom: var(--space-md);
         }
 
+        .footer-minimal p:last-child {
+            margin-bottom: 0;
+        }
+
         .footer-link {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--color-primary);
             text-decoration: none;
             font-weight: 500;
             transition: color var(--transition-base);
         }
 
-        .footer-link:hover {
-            color: var(--white);
+        .footer-link:hover,
+        .footer-link:focus-visible {
+            color: var(--color-primary-hover);
             text-decoration: underline;
+        }
+
+        /* En oscuro --color-primary no se aclara (contraste 2.2:1),
+           así que el enlace del footer usa un indigo claro legible. */
+        [data-theme="dark"] .footer-link {
+            color: #A5B4FC;
+        }
+
+        [data-theme="dark"] .footer-link:hover,
+        [data-theme="dark"] .footer-link:focus-visible {
+            color: var(--text-main);
         }
 
         /* ============================================
@@ -2753,14 +2825,28 @@
                 padding: var(--space-md);
                 border-top: 1px solid var(--border-light);
                 gap: var(--space-md);
+                /* Separación visual del contenido que queda debajo */
+                box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.25);
+                z-index: 1001;
+                max-height: calc(100vh - 100%);
+                overflow-y: auto;
+            }
+
+            [data-theme="dark"] .nav-menu {
+                box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.6);
             }
 
             .nav-menu.active {
                 display: flex;
             }
 
-            .mobile-menu-toggle {
+            .nav-menu a {
                 display: block;
+                padding: var(--space-sm) 0;
+            }
+
+            .mobile-menu-toggle {
+                display: inline-flex;
             }
 
             .hero {
@@ -4100,10 +4186,10 @@
     <nav role="navigation" aria-label="Navegación principal">
         <div class="nav-content">
             <a href="#home" class="nav-logo" aria-label="Alex Gilabert - Inicio">AGR</a>
-            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-                Menu
+            <button class="mobile-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+                <span class="hamburger" aria-hidden="true"></span>
             </button>
-            <ul class="nav-menu" role="menubar">
+            <ul class="nav-menu" id="nav-menu" role="menubar">
                 <li role="none"><a href="#experiencia" role="menuitem" class="nav-section-link"
                         data-section="experiencia">Experiencia</a></li>
                 <li role="none"><a href="#web3" role="menuitem" class="nav-section-link" data-section="web3">Web3</a>
@@ -4119,10 +4205,10 @@
                 <!-- <a href="index-artist.html" class="nav-switch">Artista</a> -->
                 <div class="lang-switch" role="group" aria-label="Language selector">
                     <button class="lang-btn active" data-lang="es" aria-pressed="true" aria-label="Español">
-                        <img src="{% static 'images/spain.png' %}" alt="Español" class="flag-icon">
+                        <img src="{% static 'images/spain.png' %}" alt="" aria-hidden="true" class="flag-icon">
                     </button>
                     <button class="lang-btn" data-lang="en" aria-pressed="false" aria-label="English">
-                        <img src="{% static 'images/uk.png' %}" alt="English" class="flag-icon">
+                        <img src="{% static 'images/uk.png' %}" alt="" aria-hidden="true" class="flag-icon">
                     </button>
                 </div>
                 <button class="theme-toggle" aria-label="Cambiar a modo oscuro" title="Cambiar tema claro/oscuro">🌙</button>
@@ -4141,7 +4227,8 @@
                         <div class="hero-content fade-in">
                             <h1>Alex Gilabert</h1>
                             <p class="hero-subtitle">
-                                Senior Product Manager en Bitpanda | Digital Assets Custody | Tokenization | DeFi | Payment Rails
+                                Senior Product Manager en Bitpanda | Custodia de Activos Digitales | Tokenización | DeFi
+                                | Infraestructura de Pagos
                             </p>
                             <p class="hero-subtitle" style="margin-top: var(--space-md);">
                                 Diseño y lidero productos de custodia, tokenización y brokeraje para banca, fintechs y
@@ -4159,23 +4246,30 @@
                             </div>
                         </div>
                         <div class="hero-image fade-in">
-                            <img src="{% static 'images/IMG_0154 copia.JPG' %}" alt="Alex Gilabert" loading="eager"
-                                fetchpriority="high" decoding="async"
+                            <img src="{% static 'images/alex-gilabert-foto-perfil.jpg' %}"
+                                srcset="{% static 'images/alex-gilabert-foto-perfil-640w.webp' %} 640w,
+                                        {% static 'images/alex-gilabert-foto-perfil-960w.webp' %} 960w,
+                                        {% static 'images/alex-gilabert-foto-perfil-1280w.webp' %} 1280w,
+                                        {% static 'images/alex-gilabert-foto-perfil-1600w.webp' %} 1600w"
+                                sizes="(max-width: 768px) 300px, 400px"
+                                width="853" height="1280"
+                                alt="Alex Gilabert, Senior Product Manager especializado en custodia de activos digitales"
+                                loading="eager" fetchpriority="high" decoding="async"
                                 onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--color-primary-soft) 0%, var(--color-accent-soft) 100%)';">
                         </div>
                     </div>
 
                     <div class="hero-stats fade-in">
                         <div class="stat-card">
-                            <div class="stat-value counter" data-target="5" data-suffix="+">0</div>
+                            <div class="stat-value counter" data-target="5" data-suffix="+">5+</div>
                             <div class="stat-label">Años fintech & Web3</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value counter" data-target="3">0</div>
+                            <div class="stat-value counter" data-target="3">3</div>
                             <div class="stat-label">Universidades (docencia)</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value counter" data-target="30" data-suffix="+">0</div>
+                            <div class="stat-value counter" data-target="30" data-suffix="+">30+</div>
                             <div class="stat-label">Proyectos completados</div>
                         </div>
                     </div>
@@ -4197,7 +4291,7 @@
                         <div class="service-card fade-in">
                             <h3>Infra Web3 & Activos Digitales</h3>
                             <p>Diseño plataformas de activos digitales construidas sobre wallets, custodia y servicios
-                                on‑chain, integradas con sistemas bancarios, fintech y DeFI. Trabajo sobre las bases de
+                                on‑chain, integradas con sistemas bancarios, fintech y DeFi. Trabajo sobre las bases de
                                 seguridad y cumplimiento normativo.</p>
                         </div>
                         <div class="service-card fade-in">
@@ -4207,7 +4301,7 @@
                                 transformar la visión en un roadmap claro.</p>
                         </div>
                         <div class="service-card fade-in">
-                            <h3>Conceptualizacion y desarrollo</h3>
+                            <h3>Conceptualización y desarrollo</h3>
                             <p>Combino descubrimiento continuo y experimentación para validar qué construir y por qué.
                                 Acompaño la entrega con procesos documentados claros que permiten iterar rápido sin
                                 perder calidad ni seguridad.</p>
@@ -4246,7 +4340,7 @@
                                 <span class="project-badge">2024 – Mayo 2026</span>
                             </div>
                             <p class="project-role">Onyze (Digital Asset Custody)</p>
-                            <p class="project-description">Responsable del area de producto. Diseño y conceptualizo la
+                            <p class="project-description">Responsable del área de producto. Diseño y conceptualizo la
                                 evolución de la plataforma SaaS de custodia, exchange y tokenización, definiendo
                                 roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad
                                 en seguridad, cumplimiento y escalabilidad para desplegar una infraestructura de activos
@@ -4334,7 +4428,7 @@
                             <div class="timeline-item">
                                 <div class="timeline-year">2026</div>
                                 <div class="timeline-role">Senior Product Manager</div>
-                                <div class="timeline-company">Bitpanda</div>
+                                <div class="timeline-company">Bitpanda · Jun 2026 – Presente</div>
                                 <p class="timeline-description">
                                     Senior PM en Bitpanda Technology Solutions, el brazo SaaS B2B de Bitpanda. Defino y priorizo requerimientos de producto para la plataforma de Custody-as-a-Service dirigida a clientes institucionales que quieren integrar activos digitales sin construir infraestructura propia.
                                 </p>
@@ -4353,15 +4447,15 @@
                                 <div class="timeline-role">Head of product & digital assets</div>
                                 <div class="timeline-company">Onyze (Digital Asset Custody) · 2024 – Mayo 2026</div>
                                 <p class="timeline-description">
-                                    Responsable del area de producto. Diseño y conceptualizo la evolución de la
+                                    Responsable del área de producto. Diseño y conceptualizo la evolución de la
                                     plataforma SaaS de custodia, brokeraje y tokenización, definiendo roadmap, diseño de
                                     APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad y
-                                    cumplimiento normativo para el despliegue una infraestructura de activos digitales
+                                    cumplimiento normativo para el despliegue de una infraestructura de activos digitales
                                     en entornos regulados.
                                 </p>
                                 <div class="timeline-achievements">
                                     <ul>
-                                        <li>Evolucion y diseño de <a href="https://onyze.com/es/#custody"
+                                        <li>Evolución y diseño de <a href="https://onyze.com/es/#custody"
                                                 target="_blank" rel="noopener noreferrer">Crypto-as-a-service</a></li>
                                         <li>Arquitectura API para integraciones con core banking</li>
                                         <li>Desarrollo de herramienta de cumplimiento normativa Transaction monitoring
@@ -4501,36 +4595,41 @@
                         <div class="service-card cedeu-card fade-in" onclick="openTeachingModal('cede')"
                             style="cursor: pointer;">
                             <div class="teaching-card-image">
-                                <img src="{% static 'images/cedeu3.png' %}" alt="CEDEU Logo" />
+                                <img src="{% static 'images/cedeu3.png' %}"
+                                    alt="Logotipo de CEDEU, centro universitario donde imparto docencia" loading="lazy" />
                             </div>
                             <h3>CEDEU</h3>
-                            <p class="teaching-card-description" style="display: none;">Courses on digital assets,
-                                blockchain, APIs, and product, with work focused on infrastructures and financial
-                                systems flows.</p>
+                            <p class="teaching-card-description" style="display: none;">Cursos sobre activos digitales,
+                                blockchain, APIs y producto, con un enfoque práctico en infraestructuras y flujos de
+                                sistemas financieros.</p>
                         </div>
 
                         <!-- Card 2 -->
                         <div class="service-card santander-card fade-in" onclick="openTeachingModal('santander')"
                             style="cursor: pointer;">
                             <div class="teaching-card-image">
-                                <img src="{% static 'images/teaching/santander-logo.png' %}" alt="Santander FI Logo" />
+                                <img src="{% static 'images/teaching/santander-logo.png' %}"
+                                    alt="Logotipo de Santander Financial Institute, donde imparto formación"
+                                    loading="lazy" />
                             </div>
                             <h3>Santander Financial Institute</h3>
-                            <p class="teaching-card-description" style="display: none;">Training programs in product,
-                                Web3, and crypto for financial market professionals, with focus on regulation, risks,
-                                and real use cases.</p>
+                            <p class="teaching-card-description" style="display: none;">Programas de formación en
+                                producto, Web3 y cripto para profesionales del mercado financiero, con foco en
+                                regulación, riesgos y casos de uso reales.</p>
                         </div>
 
                         <!-- Card 3 -->
                         <div class="service-card medusa-card fade-in" onclick="openTeachingModal('medusa')"
                             style="cursor: pointer;">
                             <div class="teaching-card-image">
-                                <img src="{% static 'images/teaching/medusa-logo.png' %}" alt="Medusa Capital Logo" />
+                                <img src="{% static 'images/teaching/medusa-logo.png' %}"
+                                    alt="Logotipo de Medusa Capital, donde imparto programas de blockchain"
+                                    loading="lazy" />
                             </div>
                             <h3>Medusa Capital</h3>
-                            <p class="teaching-card-description" style="display: none;">Blockchain and digital assets
-                                programs for teams that want to move from theory to production implementation safely.
-                            </p>
+                            <p class="teaching-card-description" style="display: none;">Programas de blockchain y
+                                activos digitales para equipos que quieren pasar de la teoría a implementaciones reales
+                                en producción de forma segura.</p>
                         </div>
                     </div>
 
@@ -4616,17 +4715,20 @@
                         <div class="social-links">
                             <a href="https://www.linkedin.com/in/alejandrogilabertramirez/" target="_blank"
                                 rel="noopener noreferrer" aria-label="LinkedIn">
-                                <img src="{% static 'images/linkedin.jpg' %}" alt="LinkedIn" class="social-icon">
+                                <img src="{% static 'images/linkedin.jpg' %}" alt="" aria-hidden="true"
+                                    class="social-icon" width="24" height="24" loading="lazy">
                                 <span>LinkedIn</span>
                             </a>
                             <a href="https://x.com/0xpeculative" target="_blank" rel="noopener noreferrer"
                                 aria-label="Twitter">
-                                <img src="{% static 'images/twitter 2.png' %}" alt="Twitter" class="social-icon">
+                                <img src="{% static 'images/twitter-x.png' %}" alt="" aria-hidden="true"
+                                    class="social-icon" width="24" height="24" loading="lazy">
                                 <span>Twitter</span>
                             </a>
                             <a href="https://github.com/gilatronico" target="_blank" rel="noopener noreferrer"
                                 aria-label="GitHub">
-                                <img src="{% static 'images/github.png' %}" alt="GitHub" class="social-icon">
+                                <img src="{% static 'images/github.png' %}" alt="" aria-hidden="true"
+                                    class="social-icon" width="24" height="24" loading="lazy">
                                 <span>GitHub</span>
                             </a>
                         </div>
@@ -4692,9 +4794,9 @@
                                     </span>
                                 </div>
                                 <p class="article-excerpt">
-                                    Defi no frena en verano. El pasado 31 de Julio apareció en escena el último producto
+                                    DeFi no frena en verano. El pasado 31 de Julio apareció en escena el último producto
                                     lanzado al mercado por Meteora, uno de los protocolos más innovadores del entorno
-                                    DeFI en Solana, pretende dar más opciones en la generación de comisiones a los
+                                    DeFi en Solana, pretende dar más opciones en la generación de comisiones a los
                                     proveedores de liquidez. DAMM v2 es un AMM de producto constante diseñado para
                                     optimizar la captura de comisiones por parte de los proveedores de liquidez (LPs) en
                                     cortos periodos de tiempo.
@@ -4720,7 +4822,7 @@
                                     </span>
                                 </div>
                                 <p class="article-excerpt">
-                                    En noviembre de 2025, vimos como JPMorgan lanzó JPM Coin, su deposito tokenizado en
+                                    En noviembre de 2025, vimos como JPMorgan lanzó JPM Coin, su depósito tokenizado en
                                     Base, la L2 desarrollada por Coinbase. Simultáneamente, stablecoins de emisores como
                                     Tether y Circle procesan más de $4 billones en transacciones de manera anual.
                                     Podemos identificar atisbos de una batalla silenciosa pero profunda en las
@@ -4747,9 +4849,9 @@
                 <div class="container">
                     <div class="section-header fade-in">
                         <div class="section-kicker">Market Intelligence</div>
-                        <h2>Crypto & DeFI</h2>
+                        <h2>Crypto & DeFi</h2>
                         <p>Principales protocolos DeFi, liquid staking y activos reales tokenizados.
-                            Datos en tiempo real desde Defillama.</p>
+                            Datos en tiempo real desde DefiLlama.</p>
                     </div>
 
                     <!-- Crypto Prices Ticker - First section -->
@@ -4804,7 +4906,7 @@
                     <div class="market-footer">
                         <p class="market-timestamp">
                             Datos actualizados en tiempo real •
-                            <a href="https://defillama.com" target="_blank" rel="noopener">Powered by Defillama</a>
+                            <a href="https://defillama.com" target="_blank" rel="noopener">Datos de DefiLlama</a>
                         </p>
                     </div>
                 </div>
@@ -4818,7 +4920,8 @@
                 <div class="footer-minimal">
                     <p>&copy; 2026 Alex Gilabert</p>
                     <p>
-                        <!-- <a href="index-artist.html" class="footer-link">Ver perfil artístico</a> -->
+                        <a href="/privacidad" class="footer-link" data-i18n="footerPrivacy">Política de privacidad y
+                            aviso legal</a>
                     </p>
                 </div>
             </div>
@@ -5152,7 +5255,7 @@
                     navContact: 'Contacto',
                     navSchedule: 'Agendar una llamada',
                     // Hero
-                    heroSubtitle1: 'Senior Product Manager en Bitpanda | Digital Assets Custody | Tokenization | DeFi | Payment Rails',
+                    heroSubtitle1: 'Senior Product Manager en Bitpanda | Custodia de Activos Digitales | Tokenización | DeFi | Infraestructura de Pagos',
                     heroSubtitle2: 'Diseño y lidero productos de custodia, tokenización y brokeraje para banca, fintechs y empresas Web3, alineando regulación, seguridad y negocio.',
                     heroSubtitle3: 'Conecto la infraestructura financiera tradicional con la innovación en activos digitales, combinando experiencia en arquitectura cloud y on‑premise, ciberseguridad y automatización de workflows para generar impacto real.',
                     heroCta1: 'Ver portfolio de producto',
@@ -5165,14 +5268,14 @@
                     productTitle: 'Producto & Web3',
                     productDesc: 'Diseño y lidero productos Web3 y relacionados con activos digitales, conectando visión de negocio, tecnología y equipos para completar el ciclo de vida completo.',
                     card1Title: 'Infra Web3 & Activos Digitales',
-                    card1Desc: 'Diseño plataformas de activos digitales construidas sobre wallets, custodia y servicios on‑chain, integradas con sistemas bancarios, fintech y DeFI. Trabajo sobre las bases de seguridad y cumplimiento normativo.',
+                    card1Desc: 'Diseño plataformas de activos digitales construidas sobre wallets, custodia y servicios on‑chain, integradas con sistemas bancarios, fintech y DeFi. Trabajo sobre las bases de seguridad y cumplimiento normativo.',
                     card2Title: 'Liderazgo de Producto & proyectos',
                     card2Desc: 'Lidero la toma de decisiones de producto de principio a fin: qué problemas resolver, qué priorizar y cómo medir el impacto. Conecto equipos de negocio, tecnología y riesgo para transformar la visión en un roadmap claro.',
-                    card3Title: 'Conceptualizacion y desarrollo',
+                    card3Title: 'Conceptualización y desarrollo',
                     card3Desc: 'Combino descubrimiento continuo y experimentación para validar qué construir y por qué. Acompaño la entrega con procesos documentados claros que permiten iterar rápido sin perder calidad ni seguridad.',
                     // Projects
                     bitpandaDesc: 'Senior PM en Bitpanda Technology Solutions, el brazo SaaS B2B de Bitpanda. Defino y priorizo requerimientos de producto para la plataforma de Custody-as-a-Service dirigida a clientes institucionales —bancos, fintechs y gestoras— que quieren integrar activos digitales en su oferta sin construir infraestructura propia.',
-                    onyzeDesc: 'Responsable del area de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, exchange y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad, cumplimiento y escalabilidad para desplegar una infraestructura de activos digitales en entornos regulados.',
+                    onyzeDesc: 'Responsable del área de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, exchange y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad, cumplimiento y escalabilidad para desplegar una infraestructura de activos digitales en entornos regulados.',
                     nfqDesc: 'Consultor Murex para proyectos de riesgos de mercado FRTB para BBVA, automatización de workflows críticos y arquitectura de datos para banca, combinando Control‑M, microservicios y datamarts regulatorios. Resultados en eficiencia operativa, calidad de reporting y resiliencia de sistemas de trading y riesgo.',
                     sopraDesc: 'Desarrollador de servicios y módulos backend en Java para procesos de liquidación, reporting y operaciones diarias, siguiendo principios de clean code y patrones de diseño. Participé en el ciclo completo de desarrollo (análisis, diseño, pruebas y despliegue), aportando documentación técnica y soporte en la puesta en producción.',
                     metricArchitecture: 'Arquitectura',
@@ -5182,8 +5285,8 @@
                     metricTimeReduction: 'Tecnología',
                     // Market Intelligence Section
                     marketIntelligenceKicker: 'Market Intelligence',
-                    marketIntelligenceTitle: 'Crypto & DeFI',
-                    marketIntelligenceDesc: 'Principales protocolos DeFi y liquid staking. Datos en tiempo real desde Defillama.',
+                    marketIntelligenceTitle: 'Crypto & DeFi',
+                    marketIntelligenceDesc: 'Principales protocolos DeFi y liquid staking. Datos en tiempo real desde DefiLlama.',
                     marketTabDefi: 'Protocolos DeFi',
                     marketTabStaking: 'Liquid Staking',
                     marketLoadingProtocols: 'Cargando protocolos...',
@@ -5194,24 +5297,30 @@
                     // Crypto Section (hidden)
                     cryptoKicker: 'Datos en tiempo real',
                     cryptoTitle: 'Mercado de criptoactivos',
-                    cryptoSubtitle: 'Watchlist de activos que sigo para producto y gestión de tesorería digital.',
+                    cryptoSubtitle: 'Lista de activos que sigo para producto y gestión de tesorería digital.',
                     cryptoLoading: 'Cargando cotizaciones...',
                     cryptoTimestamp: 'Datos en tiempo real proporcionados por CoinGecko · Última actualización:',
                     cryptoRefresh: 'Refrescar mercado',
                     cryptoUpdating: 'Actualizando...',
                     cryptoError: '⚠️ Error al cargar cotizaciones. Intenta de nuevo en unos momentos.',
+                    marketFooterUpdated: 'Datos actualizados en tiempo real',
+                    poweredBy: 'Datos de DefiLlama',
+                    footerPrivacy: 'Política de privacidad y aviso legal',
+                    menuOpen: 'Abrir menú',
+                    menuClose: 'Cerrar menú',
+                    marketCapLabel: 'Cap. de mercado',
                     // Experience
                     experienceTitle: 'Experiencia Profesional',
                     experienceDesc: '',
                     timelineBitpanda: 'Senior PM en Bitpanda Technology Solutions, el brazo SaaS B2B de Bitpanda. Defino y priorizo requerimientos de producto para la plataforma de Custody-as-a-Service dirigida a clientes institucionales que quieren integrar activos digitales sin construir infraestructura propia.',
-                    timelineOnyze: 'Responsable del area de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, brokeraje y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad y cumplimiento normativo para el despliegue una infraestructura de activos digitales en entornos regulados.',
+                    timelineOnyze: 'Responsable del área de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, brokeraje y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad y cumplimiento normativo para el despliegue de una infraestructura de activos digitales en entornos regulados.',
                     timelineNfq: 'Consultor Murex para proyectos de riesgos de mercado FRTB para BBVA, automatización de workflows críticos y arquitectura de datos para banca, combinando Control‑M, microservicios y datamarts regulatorios. Resultados en eficiencia operativa, calidad de reporting y resiliencia de sistemas de trading y riesgo.',
                     timelineSopra: 'Desarrollador de servicios y módulos backend en Java para procesos de liquidación, reporting y operaciones diarias, siguiendo principios de clean code y patrones de diseño. Participé en el ciclo completo de desarrollo (análisis, diseño, pruebas y despliegue), aportando documentación técnica y soporte en la puesta en producción.',
                     achievementBitpanda1: 'Conceptualización y desarrollo de requerimientos de cumplimiento normativo para productos de custodia B2B en jurisdicciones reguladas (MiCA, BaFin, VASP)',
                     achievementBitpanda2: 'Diseño de soluciones de custodia ad-hoc para instituciones financieras que expanden su catálogo a activos digitales',
                     achievementBitpanda3: 'Definición del roadmap de Custody-as-a-Service como proveedor SaaS B2B, incluyendo gestión de wallets, integración de APIs y soporte multichain',
                     achievementBitpanda4: 'Expansión de la oferta de tokens y blockchains soportados, ampliando el catálogo de activos disponibles para clientes institucionales',
-                    achievement1: 'Evolucion y diseño de Crypto-as-a-service',
+                    achievement1: 'Evolución y diseño de Crypto-as-a-service',
                     achievement2: 'Arquitectura API para integraciones con core banking',
                     achievement3: 'Desarrollo de herramienta de cumplimiento normativa Transaction monitoring',
                     achievement4: 'Desarrollo e integración de la Travel Rule en la regulación de transferencia de fondos.',
@@ -5266,11 +5375,11 @@
                     article0Link: 'Leer artículo',
                     article0Url: 'https://www.linkedin.com/pulse/aave-labs-y-dao-el-conflicto-por-control-alex-gilabert-l6yce/',
                     article1Title: '¿Se puede ser rentable con poco capital en pools de liquidez? Guía técnica de DAMM v2 (Meteora)',
-                    article1Excerpt: 'Defi no frena en verano. El pasado 31 de Julio apareció en escena el último producto lanzado al mercado por Meteora, uno de los protocolos más innovadores del entorno DeFI en Solana, pretende dar más opciones en la generación de comisiones a los proveedores de liquidez. DAMM v2 es un AMM de producto constante diseñado para optimizar la captura de comisiones por parte de los proveedores de liquidez (LPs) en cortos periodos de tiempo.',
+                    article1Excerpt: 'DeFi no frena en verano. El pasado 31 de Julio apareció en escena el último producto lanzado al mercado por Meteora, uno de los protocolos más innovadores del entorno DeFi en Solana, pretende dar más opciones en la generación de comisiones a los proveedores de liquidez. DAMM v2 es un AMM de producto constante diseñado para optimizar la captura de comisiones por parte de los proveedores de liquidez (LPs) en cortos periodos de tiempo.',
                     article1Link: 'Leer artículo',
                     article1Url: 'https://www.linkedin.com/pulse/se-puede-ser-rentable-con-poco-capital-en-pools-de-v2-alejandro-nd58f/',
                     article2Title: 'Depósitos tokenizados, stablecoins y MMFs: shadow banking, colateral y la batalla por el dinero onchain',
-                    article2Excerpt: 'En noviembre de 2025, vimos como JPMorgan lanzó JPM Coin, su deposito tokenizado en Base, la L2 desarrollada por Coinbase. Simultáneamente, stablecoins de emisores como Tether y Circle procesan más de $4 billones en transacciones de manera anual. Podemos identificar atisbos de una batalla silenciosa pero profunda en las trincheras de la blockchain: ¿quién controla el dinero onchain, cómo se emite y quién lo define?',
+                    article2Excerpt: 'En noviembre de 2025, vimos como JPMorgan lanzó JPM Coin, su depósito tokenizado en Base, la L2 desarrollada por Coinbase. Simultáneamente, stablecoins de emisores como Tether y Circle procesan más de $4 billones en transacciones de manera anual. Podemos identificar atisbos de una batalla silenciosa pero profunda en las trincheras de la blockchain: ¿quién controla el dinero onchain, cómo se emite y quién lo define?',
                     article2Link: 'Leer artículo',
                     article2Url: 'https://www.linkedin.com/pulse/dep%C3%B3sitos-tokenizados-stablecoins-y-mmfs-shadow-banking-alex-gilabert-clgse/',
                     article3Title: 'Product Roadmapping en Web3: Estrategias y Desafíos',
@@ -5323,6 +5432,8 @@
                     navProduct: 'Product & Web3',
                     navTeaching: 'Teaching',
                     navArticles: 'Articles',
+                    navExperiencia: 'Experience',
+                    navWeb3: 'Web3',
                     navContact: 'Contact',
                     navSchedule: 'Schedule a call',
                     // Hero
@@ -5356,8 +5467,8 @@
                     metricTimeReduction: 'Technology',
                     // Market Intelligence Section
                     marketIntelligenceKicker: 'Market Intelligence',
-                    marketIntelligenceTitle: 'Crypto & DeFI',
-                    marketIntelligenceDesc: 'Main DeFi protocols and liquid staking. Real-time data from Defillama.',
+                    marketIntelligenceTitle: 'Crypto & DeFi',
+                    marketIntelligenceDesc: 'Main DeFi protocols and liquid staking. Real-time data from DefiLlama.',
                     marketTabDefi: 'DeFi Protocols',
                     marketTabStaking: 'Liquid Staking',
                     marketLoadingProtocols: 'Loading protocols...',
@@ -5374,6 +5485,12 @@
                     cryptoRefresh: 'Refresh market',
                     cryptoUpdating: 'Updating...',
                     cryptoError: '⚠️ Error loading prices. Please try again in a moment.',
+                    marketFooterUpdated: 'Data updated in real time',
+                    poweredBy: 'Powered by DefiLlama',
+                    footerPrivacy: 'Privacy policy and legal notice',
+                    menuOpen: 'Open menu',
+                    menuClose: 'Close menu',
+                    marketCapLabel: 'Market cap',
                     // Experience
                     experienceTitle: 'Professional Experience',
                     experienceDesc: '',
@@ -5508,6 +5625,8 @@
                 if (web3Link) web3Link.textContent = t.navWeb3 || 'Web3';
                 const blogLink = document.querySelector('a[data-section="blog"]');
                 if (blogLink) blogLink.textContent = t.navArticles || 'Blog';
+                const contactLinkNav = document.querySelector('.nav-contact-link');
+                if (contactLinkNav) contactLinkNav.textContent = t.navContact;
                 const scheduleBtn = document.querySelector('.nav-cta');
                 if (scheduleBtn) scheduleBtn.textContent = t.navSchedule;
 
@@ -5609,6 +5728,13 @@
                 }
                 const cryptoRefresh = document.querySelector('#crypto-prices .refresh-text');
                 if (cryptoRefresh) cryptoRefresh.textContent = t.cryptoRefresh;
+                const privacyLink = document.querySelector('.footer-link[data-i18n="footerPrivacy"]');
+                if (privacyLink) privacyLink.textContent = t.footerPrivacy;
+                document.querySelectorAll('.market-footer .market-timestamp').forEach(p => {
+                    if (p.childNodes[0]) p.childNodes[0].textContent = t.marketFooterUpdated + ' • ';
+                    const dlLink = p.querySelector('a');
+                    if (dlLink) dlLink.textContent = t.poweredBy;
+                });
 
                 // Experience
                 const expTitle = document.querySelector('#producto .timeline-container')?.previousElementSibling?.querySelector('h2');
@@ -5629,7 +5755,7 @@
                 if (achievements[4]) {
                     // Incluye un link, usar innerHTML
                     if (isSpanish) {
-                        achievements[4].innerHTML = 'Evolucion y diseño de <a href="https://onyze.com/es/#custody" target="_blank" rel="noopener noreferrer">Crypto-as-a-service</a>';
+                        achievements[4].innerHTML = 'Evolución y diseño de <a href="https://onyze.com/es/#custody" target="_blank" rel="noopener noreferrer">Crypto-as-a-service</a>';
                     } else {
                         achievements[4].innerHTML = 'Evolution and design of <a href="https://onyze.com/es/#custody" target="_blank" rel="noopener noreferrer">Crypto-as-a-service</a>';
                     }
@@ -5840,10 +5966,6 @@
                 const modalClose = document.querySelector('.modal-close');
                 if (modalClose) modalClose.setAttribute('aria-label', t.modalClose);
 
-                // Footer
-                const footerLink = document.querySelector('.footer-link');
-                if (footerLink) footerLink.textContent = t.footerArtist;
-
                 // Skip link
                 const skipLink = document.querySelector('.skip-link');
                 if (skipLink) skipLink.textContent = t.skipLink;
@@ -5916,17 +6038,42 @@
                 const navMenu = document.querySelector('.nav-menu');
 
                 if (menuToggle) {
-                    menuToggle.addEventListener('click', function () {
-                        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                        this.setAttribute('aria-expanded', !isExpanded);
-                        navMenu.classList.toggle('active');
+                    const setMenu = (open) => {
+                        navMenu.classList.toggle('active', open);
+                        menuToggle.setAttribute('aria-expanded', String(open));
+                        const lang = localStorage.getItem('preferredLanguage') || 'es';
+                        const t = translations[lang] || translations['es'];
+                        menuToggle.setAttribute('aria-label', open ? t.menuClose : t.menuOpen);
+                    };
+
+                    menuToggle.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        setMenu(this.getAttribute('aria-expanded') !== 'true');
                     });
 
-                    navMenu.querySelectorAll('a').forEach(link => {
-                        link.addEventListener('click', () => {
-                            navMenu.classList.remove('active');
-                            menuToggle.setAttribute('aria-expanded', 'false');
-                        });
+                    navMenu.querySelectorAll('a, button').forEach(el => {
+                        el.addEventListener('click', () => setMenu(false));
+                    });
+
+                    // Cerrar al pulsar fuera del menú
+                    document.addEventListener('click', (e) => {
+                        if (navMenu.classList.contains('active') &&
+                            !navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                            setMenu(false);
+                        }
+                    });
+
+                    // Cerrar con Escape y devolver el foco al botón
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                            setMenu(false);
+                            menuToggle.focus();
+                        }
+                    });
+
+                    // Si se vuelve a escritorio con el menú abierto, resetear el estado
+                    window.matchMedia('(min-width: 769px)').addEventListener('change', (ev) => {
+                        if (ev.matches) setMenu(false);
                     });
                 }
             })();
@@ -6531,8 +6678,10 @@
                         const changeSymbol = change24h > 0 ? '↑' : change24h < 0 ? '↓' : '→';
 
                         const marketInfo = marketCapData[crypto.id];
+                        const cardLang = localStorage.getItem('preferredLanguage') || 'es';
+                        const marketCapLabel = (translations[cardLang] || translations['es']).marketCapLabel;
                         const marketCapText = marketInfo && marketInfo.rank
-                            ? `#${marketInfo.rank} · Market cap ${formatMarketCap(marketInfo.marketCap)}`
+                            ? `#${marketInfo.rank} · ${marketCapLabel} ${formatMarketCap(marketInfo.marketCap)}`
                             : '';
 
                         const card = document.createElement('div');

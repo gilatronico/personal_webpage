@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
@@ -34,17 +34,63 @@ except ImportError:
     Ratelimited = Exception
     REDIS_AVAILABLE = False
 
+SITE_URL = 'https://alexgilabert.xyz'
+
+
 def index_professional(request):
     """
     Vista para la landing page profesional
     """
     return render(request, 'landing/index_professional.html')
 
-def index_2026(request):
+
+def privacidad(request):
     """
-    Vista para el rediseño 2026 (Bento Grid)
+    Política de privacidad y aviso legal (RGPD).
     """
-    return render(request, 'landing/index_2026.html')
+    return render(request, 'landing/privacidad.html')
+
+
+def robots_txt(request):
+    """
+    robots.txt servido dinámicamente para que apunte siempre al sitemap correcto.
+    """
+    lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin/',
+        'Disallow: /api/',
+        '',
+        f'Sitemap: {SITE_URL}/sitemap.xml',
+    ]
+    return HttpResponse('\n'.join(lines), content_type='text/plain')
+
+
+def sitemap_xml(request):
+    """
+    Sitemap mínimo con las URLs indexables del sitio.
+    """
+    today = timezone.now().strftime('%Y-%m-%d')
+    urls = [
+        (f'{SITE_URL}/', '1.0', 'monthly'),
+        (f'{SITE_URL}/privacidad', '0.3', 'yearly'),
+    ]
+    entries = '\n'.join(
+        f'  <url>\n'
+        f'    <loc>{loc}</loc>\n'
+        f'    <lastmod>{today}</lastmod>\n'
+        f'    <changefreq>{freq}</changefreq>\n'
+        f'    <priority>{prio}</priority>\n'
+        f'  </url>'
+        for loc, prio, freq in urls
+    )
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f'{entries}\n'
+        '</urlset>\n'
+    )
+    return HttpResponse(xml, content_type='application/xml')
 
 @csrf_exempt
 @require_http_methods(["POST"])

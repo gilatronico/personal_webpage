@@ -1,0 +1,401 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad y Aviso Legal | Alex Gilabert</title>
+    <meta name="description"
+        content="Política de privacidad y aviso legal de alexgilabert.xyz: qué datos se recogen en el formulario de contacto, con qué finalidad y cómo ejercer tus derechos.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://alexgilabert.xyz/privacidad">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon_world.png' %}?v=2">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon_world.png' %}?v=2">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #3B3FAF;
+            --color-accent: #0EA5E9;
+            --bg-main: #FFFFFF;
+            --bg-elevated: #F9FAFB;
+            --text-main: #0F172A;
+            --text-body: #1F2937;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+            --radius-md: 8px;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0B1220;
+            --bg-elevated: #111A2B;
+            --text-main: #F8FAFC;
+            --text-body: #CBD5E1;
+            --text-muted: #94A3B8;
+            --border-color: #1E293B;
+            --color-primary: #7C82F5;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg-main: #0B1220;
+                --bg-elevated: #111A2B;
+                --text-main: #F8FAFC;
+                --text-body: #CBD5E1;
+                --text-muted: #94A3B8;
+                --border-color: #1E293B;
+                --color-primary: #7C82F5;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-body);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        .legal-header {
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-elevated);
+        }
+
+        .legal-header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-md);
+            padding-top: var(--space-md);
+            padding-bottom: var(--space-md);
+        }
+
+        .brand {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .back-link:hover,
+        .back-link:focus-visible {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+            padding-left: var(--space-lg);
+            padding-right: var(--space-lg);
+        }
+
+        main.container {
+            padding-top: var(--space-2xl);
+            padding-bottom: var(--space-2xl);
+        }
+
+        h1 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            line-height: 1.2;
+            color: var(--text-main);
+            margin: 0 0 var(--space-sm);
+        }
+
+        .updated {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0 0 var(--space-2xl);
+        }
+
+        h2 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin: var(--space-2xl) 0 var(--space-md);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        h2:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        p {
+            margin: 0 0 var(--space-md);
+        }
+
+        ul {
+            margin: 0 0 var(--space-md);
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: var(--space-sm);
+        }
+
+        a {
+            color: var(--color-primary);
+        }
+
+        strong {
+            color: var(--text-main);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 0 var(--space-md);
+            font-size: 0.95rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: var(--space-md);
+        }
+
+        .data-table th,
+        .data-table td {
+            text-align: left;
+            padding: var(--space-sm) var(--space-md);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .data-table th {
+            color: var(--text-main);
+            font-weight: 600;
+            background: var(--bg-elevated);
+            white-space: nowrap;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: var(--space-xl) 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .skip-link:focus {
+            left: var(--space-md);
+            top: var(--space-md);
+            background: var(--color-primary);
+            color: #fff;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#contenido" class="skip-link">Saltar al contenido principal</a>
+
+    <header class="legal-header">
+        <div class="container">
+            <a href="/" class="brand">AGR</a>
+            <a href="/" class="back-link">← Volver a la web</a>
+        </div>
+    </header>
+
+    <main class="container" id="contenido">
+        <h1>Política de Privacidad y Aviso Legal</h1>
+        <p class="updated">Última actualización: 26 de julio de 2026</p>
+
+        <h2>1. Responsable del tratamiento</h2>
+        <p>
+            El responsable del tratamiento de los datos recogidos a través de este sitio web es
+            <strong>Alex Gilabert Ramírez</strong>, titular del dominio <strong>alexgilabert.xyz</strong>.
+        </p>
+        <p>
+            Puedes contactar en cualquier momento escribiendo a
+            <a href="mailto:agilabertcomunicaciones@gmail.com">agilabertcomunicaciones@gmail.com</a>.
+        </p>
+
+        <h2>2. Qué datos se recogen y con qué finalidad</h2>
+        <p>
+            Este sitio es una web personal de carácter informativo. El único punto donde se recogen datos
+            personales es el <strong>formulario de contacto</strong>. Al enviarlo se tratan los siguientes datos:
+        </p>
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Dato</th>
+                        <th scope="col">Origen</th>
+                        <th scope="col">Finalidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Lo facilitas tú</td>
+                        <td>Dirigirme a ti al responder</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>Lo facilitas tú</td>
+                        <td>Responder a tu consulta</td>
+                    </tr>
+                    <tr>
+                        <td>Tipo de consulta y mensaje</td>
+                        <td>Lo facilitas tú</td>
+                        <td>Entender y atender tu solicitud</td>
+                    </tr>
+                    <tr>
+                        <td>Dirección IP</td>
+                        <td>Recogida automáticamente</td>
+                        <td>Seguridad: prevención de spam y envíos automatizados</td>
+                    </tr>
+                    <tr>
+                        <td>Navegador (User-Agent)</td>
+                        <td>Recogida automáticamente</td>
+                        <td>Seguridad: prevención de spam y envíos automatizados</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            No se elaboran perfiles, no se toman decisiones automatizadas con efectos jurídicos y
+            <strong>no se utilizan estos datos con fines comerciales ni publicitarios</strong>.
+        </p>
+
+        <h2>3. Base jurídica</h2>
+        <p>
+            El tratamiento de los datos que facilitas voluntariamente en el formulario se basa en tu
+            <strong>consentimiento</strong> al enviarlo (art. 6.1.a RGPD). El tratamiento de la dirección IP y del
+            navegador se basa en el <strong>interés legítimo</strong> en proteger el sitio frente a spam y abusos
+            (art. 6.1.f RGPD).
+        </p>
+
+        <h2>4. Plazo de conservación</h2>
+        <p>
+            Los datos se conservan durante el tiempo necesario para atender tu consulta y, después, durante el plazo
+            legalmente exigible para atender posibles responsabilidades. Puedes solicitar su supresión en cualquier
+            momento.
+        </p>
+
+        <h2>5. Destinatarios y encargados de tratamiento</h2>
+        <p>
+            No se ceden datos a terceros salvo obligación legal. Para el funcionamiento del sitio se utilizan los
+            siguientes proveedores, que actúan como encargados del tratamiento:
+        </p>
+        <ul>
+            <li><strong>Vercel Inc.</strong> — alojamiento del sitio web.</li>
+            <li><strong>Google LLC (Gmail)</strong> — envío y recepción de los emails generados por el formulario.</li>
+        </ul>
+        <p>
+            Algunos de estos proveedores pueden tratar datos fuera del Espacio Económico Europeo, amparándose en las
+            garantías previstas en el Capítulo V del RGPD (cláusulas contractuales tipo y marcos de adecuación
+            vigentes).
+        </p>
+
+        <h2>6. Servicios de terceros embebidos</h2>
+        <p>
+            Las secciones de mercado de este sitio consultan las APIs públicas de <strong>CoinGecko</strong> y
+            <strong>DefiLlama</strong> para mostrar cotizaciones y datos de protocolos DeFi. Al cargarse, tu navegador
+            se conecta directamente a esos servicios, que pueden registrar tu dirección IP conforme a sus propias
+            políticas de privacidad. Estos datos no son tratados ni almacenados por este sitio.
+        </p>
+        <p>
+            Las tipografías se cargan desde <strong>Google Fonts</strong>, lo que implica una conexión a servidores de
+            Google.
+        </p>
+
+        <h2>7. Cookies</h2>
+        <p>
+            Este sitio <strong>no utiliza cookies</strong> de analítica, publicidad ni seguimiento. Únicamente se
+            emplea el almacenamiento local del navegador (<code>localStorage</code>) para recordar dos preferencias
+            tuyas: el <strong>idioma</strong> y el <strong>tema claro u oscuro</strong>. Esa información permanece en tu
+            dispositivo, no se envía a ningún servidor y puedes borrarla vaciando los datos del sitio en tu navegador.
+        </p>
+        <p>
+            Adicionalmente, el formulario de contacto utiliza una cookie técnica de sesión estrictamente necesaria para
+            la protección frente a ataques CSRF.
+        </p>
+
+        <h2>8. Tus derechos</h2>
+        <p>
+            Puedes ejercer en cualquier momento tus derechos de <strong>acceso, rectificación, supresión, oposición,
+            limitación del tratamiento y portabilidad</strong>, así como retirar el consentimiento prestado, escribiendo
+            a <a href="mailto:agilabertcomunicaciones@gmail.com">agilabertcomunicaciones@gmail.com</a>.
+        </p>
+        <p>
+            Si consideras que el tratamiento no se ajusta a la normativa, puedes presentar una reclamación ante la
+            <strong>Agencia Española de Protección de Datos</strong> (<a href="https://www.aepd.es" target="_blank"
+                rel="noopener noreferrer">www.aepd.es</a>).
+        </p>
+
+        <h2>9. Aviso legal y propiedad intelectual</h2>
+        <p>
+            Los contenidos de este sitio (textos, diseño y elementos gráficos) son titularidad de Alex Gilabert
+            Ramírez, salvo los logotipos de terceros, que pertenecen a sus respectivos titulares y se muestran
+            únicamente con fines identificativos y descriptivos de la trayectoria profesional.
+        </p>
+        <p>
+            Las opiniones expresadas en este sitio y en los artículos enlazados son estrictamente personales y no
+            representan la posición de las empresas o instituciones con las que el titular mantiene o ha mantenido
+            relación profesional. <strong>El contenido tiene carácter divulgativo y no constituye asesoramiento
+            financiero, de inversión ni legal.</strong>
+        </p>
+
+        <h2>10. Cambios en esta política</h2>
+        <p>
+            Esta política puede actualizarse para adaptarse a cambios normativos o del propio sitio. La fecha de la
+            última actualización figura al inicio del documento.
+        </p>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Alex Gilabert · <a href="/">Volver a la web</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Respetar el tema elegido por el usuario en la web principal
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                if (saved) document.documentElement.setAttribute('data-theme', saved);
+            } catch (e) { /* localStorage no disponible */ }
+        })();
+    </script>
+</body>
+
+</html>

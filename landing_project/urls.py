@@ -67,8 +67,11 @@ def serve_static_file(request, path):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_professional, name='index_professional'),
-    path('2026/', views.index_2026, name='index_2026'),
+    path('privacidad', views.privacidad, name='privacidad'),
     path('api/contact/', views.submit_contact, name='submit_contact'),
+    # SEO
+    re_path(r'^robots\.txt$', views.robots_txt, name='robots_txt'),
+    re_path(r'^sitemap\.xml$', views.sitemap_xml, name='sitemap_xml'),
     # Favicon route - many browsers automatically request /favicon.ico
     re_path(r'^favicon\.ico$', lambda request: serve_static_file(request, 'images/favicon_world.png')),
 ]
