@@ -1577,7 +1577,7 @@
                 bitcoin: STATIC_IMAGES_URL + 'bitcoin.png',
                 ethereum: STATIC_IMAGES_URL + 'eth.png',
                 solana: STATIC_IMAGES_URL + 'solana.png',
-                'avalanche-2': STATIC_IMAGES_URL + 'bitcoin.png', // Fallback si no existe
+                'avalanche-2': STATIC_IMAGES_URL + 'avalanche.png',
                 monero: STATIC_IMAGES_URL + 'monero.png',
                 binancecoin: STATIC_IMAGES_URL + 'bnb.png',
                 ripple: STATIC_IMAGES_URL + 'xrp.png'
