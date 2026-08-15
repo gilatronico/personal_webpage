@@ -1570,7 +1570,8 @@
                 'avalanche-2': '#E84142',
                 monero: '#FF6600',
                 binancecoin: '#F3BA2F',
-                ripple: '#23292F'
+                ripple: '#23292F',
+                hyperliquid: '#97FCE4'
             };
 
             const CRYPTO_IMAGES = {
@@ -1580,7 +1581,8 @@
                 'avalanche-2': STATIC_IMAGES_URL + 'avalanche.png',
                 monero: STATIC_IMAGES_URL + 'monero.png',
                 binancecoin: STATIC_IMAGES_URL + 'bnb.png',
-                ripple: STATIC_IMAGES_URL + 'xrp.png'
+                ripple: STATIC_IMAGES_URL + 'xrp.png',
+                hyperliquid: STATIC_IMAGES_URL + 'hyperliquid.jpeg'
             };
 
             const CRYPTOS = [
@@ -1590,7 +1592,8 @@
                 { id: 'binancecoin', symbol: 'BNB', name: 'BNB' },
                 { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
                 { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
-                { id: 'ripple', symbol: 'XRP', name: 'Ripple' }
+                { id: 'ripple', symbol: 'XRP', name: 'Ripple' },
+                { id: 'hyperliquid', symbol: 'HYPE', name: 'Hyperliquid' }
             ];
 
             async function fetchCryptoPrices() {
