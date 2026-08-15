@@ -4157,3 +4157,101 @@
             color: #FFFFFF;
             border-color: transparent;
         }
+
+/* ============================================
+   WEB3 SIMULATOR — append to static/css/main.css
+   Reuses existing tokens (--color-primary, --color-accent,
+   --bg-*, --text-*, --border-color, --radius-*, --shadow-*).
+   ============================================ */
+
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-success);
+  display: inline-block; margin-right: 6px;
+  animation: pulseDot 1.8s ease-in-out infinite;
+}
+@keyframes pulseDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.75); } }
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+
+/* Stock cards reuse .protocol-card from main.css; this just adds the ticker badge + trend row */
+.stock-card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.stock-badge {
+  width: 32px; height: 32px; border-radius: 6px; flex-shrink: 0;
+  color: #fff; font-weight: 800; font-size: 0.7rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.stock-price-row { display: flex; align-items: baseline; justify-content: space-between; }
+.stock-price { font-size: 1.3rem; font-weight: 800; }
+.stock-change { font-size: 0.8rem; font-weight: 600; }
+.stock-change.positive { color: #10b981; }
+.stock-change.negative { color: #ef4444; }
+[data-theme="dark"] .stock-change.positive { color: #34d399; }
+[data-theme="dark"] .stock-change.negative { color: #f87171; }
+.stock-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
+
+.risk-note {
+  font-size: 0.85rem; color: #ef4444; max-width: 680px; margin-bottom: 32px;
+  padding: 12px 16px; border: 1px solid var(--border-color); border-left: 3px solid #ef4444;
+  border-radius: var(--radius-sm); background: var(--white);
+}
+
+.strategy-layout { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 860px) { .strategy-layout { display: flex; flex-direction: column; } }
+
+.strategy-console-sticky { position: sticky; top: 88px; }
+@media (max-width: 860px) { .strategy-console-sticky { position: sticky; top: 64px; z-index: 5; } }
+
+.strategy-console { border-top: 3px solid var(--color-primary); }
+
+.strategy-label { font-size: 0.85rem; color: var(--text-body); display: block; margin-bottom: 6px; }
+.strategy-price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.strategy-price { font-size: 1.5rem; font-weight: 800; color: var(--color-primary); }
+.strategy-live { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; }
+
+#btcSlider { width: 100%; margin-bottom: 20px; -webkit-appearance: none; appearance: none; height: 4px; border-radius: 4px; background: var(--border-color); outline: none; }
+#btcSlider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--color-primary); cursor: pointer; }
+
+.strategy-input-wrap {
+  display: flex; align-items: center; background: var(--bg-elevated-soft);
+  border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+  padding: 10px 12px; margin-bottom: 20px; gap: 4px; color: var(--text-muted);
+}
+.strategy-input-wrap input { background: transparent; border: none; outline: none; color: var(--text-main); font-size: 15px; width: 100%; }
+
+.strategy-horizon-group { display: flex; gap: 8px; margin-bottom: 24px; }
+.strategy-horizon-btn {
+  padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);
+  background: transparent; color: var(--text-muted); font-weight: 600; font-size: 0.8rem; cursor: pointer;
+}
+.strategy-horizon-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+
+.strategy-mnav-row { display: flex; align-items: center; gap: 18px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+.strategy-mnav-ring {
+  width: 88px; height: 88px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.strategy-mnav-ring-inner {
+  width: 68px; height: 68px; border-radius: 50%; background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.15rem; color: var(--text-main);
+}
+.strategy-mnav-label { font-size: 0.8rem; color: var(--text-body); line-height: 1.4; }
+
+.instrument-row { border-left: 4px solid; margin-bottom: 12px; overflow: hidden; }
+.instrument-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; }
+.instrument-head:hover { background: var(--bg-elevated-soft); }
+.instrument-badge { width: 38px; height: 26px; border-radius: var(--radius-sm); background: var(--bg-elevated-soft); font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+.instrument-chevron { transition: transform 300ms ease; color: var(--text-muted); }
+.instrument-row.expanded .instrument-chevron { transform: rotate(180deg); }
+.instrument-panel { max-height: 0; opacity: 0; transition: max-height 300ms ease, opacity 300ms ease; overflow: hidden; }
+.instrument-row.expanded .instrument-panel { max-height: 260px; opacity: 1; }
+.instrument-panel-inner { padding: 0 20px 20px; border-top: 1px solid var(--border-color); }
+.instrument-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.instrument-metric { background: var(--bg-elevated-soft); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; }
+.instrument-convert-note {
+  margin-top: 12px; font-size: 0.8rem; padding: 10px 12px; border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-accent-warm, #F59E0B); background: var(--bg-elevated-soft);
+}
+
+.strategy-summary { border-top: 3px solid var(--color-primary); margin-top: 20px; }
+.strategy-disclaimer { margin-top: 20px; font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); }
