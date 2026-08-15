@@ -899,18 +899,21 @@
                                 <label class="strategy-label" for="investAmount">Importe a invertir</label>
                                 <div class="strategy-input-wrap">
                                     <span>$</span>
-                                    <input type="number" id="investAmount" value="10000" min="0"
-                                        aria-label="Importe a invertir">
+                                    <input type="text" id="investAmount" value="10,000" inputmode="numeric"
+                                        autocomplete="off" aria-label="Importe a invertir">
                                 </div>
 
                                 <label class="strategy-label">Horizonte para alcanzar ese precio</label>
                                 <div class="strategy-horizon-group" id="horizonGroup" role="group"
                                     aria-label="Horizonte temporal">
-                                    <button type="button" class="strategy-horizon-btn" data-months="1">1m</button>
-                                    <button type="button" class="strategy-horizon-btn" data-months="6">6m</button>
-                                    <button type="button" class="strategy-horizon-btn active"
-                                        data-months="12">12m</button>
-                                    <button type="button" class="strategy-horizon-btn" data-months="24">24m</button>
+                                    <button type="button" class="strategy-horizon-btn" data-months="1"
+                                        aria-pressed="false">1m</button>
+                                    <button type="button" class="strategy-horizon-btn" data-months="6"
+                                        aria-pressed="false">6m</button>
+                                    <button type="button" class="strategy-horizon-btn active" data-months="12"
+                                        aria-pressed="true">12m</button>
+                                    <button type="button" class="strategy-horizon-btn" data-months="24"
+                                        aria-pressed="false">24m</button>
                                 </div>
 
                                 <div class="strategy-mnav-row">
@@ -925,6 +928,9 @@
                                             BTC/acción</div>
                                     </div>
                                 </div>
+                                <p class="strategy-mnav-help">mNAV = capitalización de Strategy ÷ valor de mercado de los
+                                    BTC en su balance. Por encima de <strong>1.0×</strong>, emitir acciones para comprar
+                                    más BTC añade BTC por acción (accretive); por debajo, lo diluye.</p>
                             </div>
                         </div>
 

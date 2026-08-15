@@ -1,21 +1,24 @@
 /* ============================================
    WEB3 SIMULATOR — vanilla JS, no framework.
-   Save as static/js/web3-simulator.js and reference from the
-   #web3 template (see web3-simulator.html).
-   Same math as the HTML prototype approved in design review.
+   static/js/web3-simulator.js
    ============================================ */
 (function () {
   const REF_BTC = 118000;
   const MSTR_REF_PRICE = 402;
 
+  // Nota: el color rojo/verde NO se guarda aquí. La variación (delta) se pinta
+  // siempre en rojo si es negativa y verde si es positiva vía las clases
+  // .stock-change.positive/.negative — es la única señal semántica. El badge y
+  // el borde usan colores de marca (indigo/cyan), decorativos, nunca verde/rojo,
+  // para no competir con la lectura financiera del delta.
   const CRYPTO_STOCKS = [
-    { ticker: 'MSTR', company: 'Strategy', initials: 'MS', price: 402.15, delta: 3.2, positive: true, accent: 'primary', note: 'Mayor tenedor corporativo de BTC del mundo.' },
-    { ticker: 'COIN', company: 'Coinbase', initials: 'CB', price: 289.40, delta: -1.1, positive: false, accent: 'accent', note: 'Exchange cotizado.' },
-    { ticker: 'CRCL', company: 'Circle', initials: 'CR', price: 118.75, delta: 5.4, positive: true, accent: 'success', note: 'Emisor de USDC · IPO 2025.' },
-    { ticker: 'SECZ', company: 'Securitize', initials: 'SC', price: 14.20, delta: 2.8, positive: true, accent: 'primary', note: 'Tokenización (BlackRock BUIDL, Apollo, KKR) · NYSE desde jul. 2026.' },
-    { ticker: 'HOOD', company: 'Robinhood', initials: 'HD', price: 92.30, delta: 0.6, positive: true, accent: 'accent', note: 'Broker · tokenización de acciones.' },
-    { ticker: 'MARA', company: 'Marathon Digital', initials: 'MD', price: 22.85, delta: -2.3, positive: false, accent: 'success', note: 'Minería de BTC.' },
-    { ticker: 'MTPLF', company: 'Metaplanet', initials: 'MP', price: 6.45, delta: 8.1, positive: true, accent: 'primary', note: 'Bitcoin treasury company (Japón) · ticker OTC.' },
+    { ticker: 'MSTR', company: 'Strategy', initials: 'MS', price: 402.15, delta: 3.2, positive: true, note: 'Mayor tenedor corporativo de BTC del mundo (~600k BTC en balance).' },
+    { ticker: 'COIN', company: 'Coinbase', initials: 'CB', price: 289.40, delta: -1.1, positive: false, note: 'Mayor exchange cripto cotizado de EE. UU. (Nasdaq desde 2021).' },
+    { ticker: 'CRCL', company: 'Circle', initials: 'CR', price: 118.75, delta: 5.4, positive: true, note: 'Emisor de USDC, la 2ª stablecoin del mundo · IPO 2025.' },
+    { ticker: 'SECZ', company: 'Securitize', initials: 'SC', price: 14.20, delta: 2.8, positive: true, note: 'Tokenización de activos reales (BlackRock BUIDL, Apollo, KKR) · NYSE desde jul. 2026.' },
+    { ticker: 'HOOD', company: 'Robinhood', initials: 'HD', price: 92.30, delta: 0.6, positive: true, note: 'Broker minorista pionero en tokenización de acciones en la UE.' },
+    { ticker: 'MARA', company: 'Marathon Digital', initials: 'MD', price: 22.85, delta: -2.3, positive: false, note: 'Uno de los mayores mineros de BTC cotizados de EE. UU.' },
+    { ticker: 'MTPLF', company: 'Metaplanet', initials: 'MP', price: 6.45, delta: 8.1, positive: true, note: 'La "MicroStrategy japonesa": treasury company de BTC · ticker OTC.' },
   ];
 
   const INSTRUMENTS = [
@@ -36,6 +39,7 @@
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function fmtUSD(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
   function fmtUSD2(n) { return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function fmtThousands(n) { return (n || 0).toLocaleString('en-US'); }
 
   function computeMNAV(btcPrice) {
     const ratio = btcPrice / REF_BTC;
@@ -53,9 +57,31 @@
       case 'blue': return cssVar('--color-primary');
       case 'primary': return cssVar('--color-primary');
       case 'accent': return cssVar('--color-accent');
-      case 'success': return cssVar('--color-success') || '#00C58E';
       default: return cssVar('--text-main');
     }
+  }
+
+  // Mini-gráfico de tendencia determinista por ticker. La forma general respeta
+  // el signo del delta (sube si positive) y el color es semántico (verde/rojo).
+  function sparkline(seedKey, positive) {
+    const pts = 18, w = 100, h = 30;
+    let seed = 0;
+    for (let i = 0; i < seedKey.length; i++) seed += seedKey.charCodeAt(i) * (i + 1);
+    const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const vals = [];
+    let v = 0.5;
+    for (let i = 0; i < pts; i++) {
+      const drift = (positive ? 1 : -1) * 0.035;         // tendencia coherente con el signo
+      v += (rand() - 0.5) * 0.22 + drift;
+      v = clamp(v, 0.08, 0.92);
+      vals.push(v);
+    }
+    const pathPts = vals.map((val, i) => `${((i / (pts - 1)) * w).toFixed(1)},${((1 - val) * h).toFixed(1)}`).join(' ');
+    const areaPts = `0,${h} ${pathPts} ${w},${h}`;
+    return `<svg class="stock-spark ${positive ? 'positive' : 'negative'}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <polygon class="stock-spark-area" points="${areaPts}"></polygon>
+      <polyline points="${pathPts}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"></polyline>
+    </svg>`;
   }
 
   let state = {
@@ -69,22 +95,25 @@
   function renderStocks() {
     const grid = document.getElementById('cryptoStocksGrid');
     if (!grid) return;
-    grid.innerHTML = CRYPTO_STOCKS.map((s) => {
-      const trendColor = s.positive ? 'var(--stock-trend-positive, currentColor)' : 'var(--stock-trend-negative, currentColor)';
-      const accentColor = colorFor(s.accent);
+    // Alternancia de marca (indigo/cyan) — decorativa, nunca verde/rojo.
+    const brandKeys = ['primary', 'accent'];
+    grid.innerHTML = CRYPTO_STOCKS.map((s, i) => {
+      const brand = colorFor(brandKeys[i % brandKeys.length]);
+      const sign = s.positive ? '' : '-';
       return `
-        <div class="protocol-card" style="border-top-color:${accentColor}">
+        <div class="protocol-card stock-card" style="border-top-color:${brand}">
           <div class="stock-card-head">
-            <div class="stock-badge" style="background:${accentColor}">${s.initials}</div>
+            <div class="stock-badge" style="background:${brand}">${s.initials}</div>
             <div>
-              <div style="font-weight:700;color:var(--text-main)">${s.ticker}</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">${s.company}</div>
+              <div class="stock-ticker">${s.ticker}</div>
+              <div class="stock-company">${s.company}</div>
             </div>
           </div>
           <div class="stock-price-row">
-            <div class="stock-price" style="color:${accentColor}">$${s.price}</div>
-            <div class="stock-change ${s.positive ? 'positive' : 'negative'}">${s.positive ? '▲' : '▼'} ${s.delta}%</div>
+            <div class="stock-price">$${s.price}</div>
+            <div class="stock-change ${s.positive ? 'positive' : 'negative'}">${s.positive ? '▲' : '▼'} ${sign}${Math.abs(s.delta)}%</div>
           </div>
+          ${sparkline(s.ticker, s.positive)}
           <div class="stock-note">${s.note}</div>
         </div>`;
     }).join('');
@@ -107,15 +136,20 @@
     const horizonYears = state.horizonMonths / 12;
     const invest = state.investAmount || 0;
 
-    const valuesByTicker = {
+    // "Principal" = valor de la posición sin contar el cupón.
+    const principalByTicker = {
       MSTR: invest * (mstrPrice / MSTR_REF_PRICE),
       STRK: invest * (strkVal / 100),
       STRF: invest * (strfVal / 100),
       STRD: invest * (strdVal / 100),
       STRC: invest * (strcVal / 100),
     };
+    // "Cupón" = income por dividendos a lo largo del horizonte (aparte del principal).
     const couponByTicker = {};
     Object.keys(YIELD_RATES).forEach((t) => { couponByTicker[t] = invest * YIELD_RATES[t] * horizonYears; });
+    // "Total" = principal + cupón (lo que el usuario intenta sumar mentalmente).
+    const totalByTicker = {};
+    Object.keys(principalByTicker).forEach((t) => { totalByTicker[t] = principalByTicker[t] + (couponByTicker[t] || 0); });
 
     // mNAV ring + readout
     const mnavPct = clamp((mnav - 0.4) / (3 - 0.4), 0, 1) * 100;
@@ -131,9 +165,11 @@
     accordion.innerHTML = INSTRUMENTS.map((inst) => {
       const accentColor = colorFor(inst.color);
       const isExpanded = state.expandedTicker === inst.ticker;
-      const value = valuesByTicker[inst.ticker];
+      const principal = principalByTicker[inst.ticker];
       const coupon = couponByTicker[inst.ticker];
-      const couponFmt = inst.ticker === 'MSTR' ? '— (sin dividendo)' : fmtUSD(coupon);
+      const total = totalByTicker[inst.ticker];
+      const isMstr = inst.ticker === 'MSTR';
+      const couponFmt = isMstr ? '— (sin dividendo)' : fmtUSD(coupon);
       const convertNote = inst.ticker === 'STRK'
         ? (shouldConvert
             ? `Con BTC en ${fmtUSD(btcPrice)}, el valor de conversión ($${fmtUSD2(strkConv)}) supera al valor como preferente ($${fmtUSD2(strkPar)}) — convendría convertir a MSTR.`
@@ -143,7 +179,7 @@
         <div class="protocol-card instrument-row ${isExpanded ? 'expanded' : ''}" style="border-left-color:${accentColor}" data-ticker="${inst.ticker}">
           <div class="instrument-head" role="button" tabindex="0" aria-expanded="${isExpanded}">
             <div style="display:flex;align-items:center;gap:14px">
-              <div class="instrument-badge" style="color:${accentColor}">${inst.code}</div>
+              <div class="instrument-badge">${inst.code}</div>
               <div>
                 <div style="font-weight:700;color:var(--text-main)">${inst.ticker} <span style="font-weight:400;font-size:0.85rem;color:var(--text-muted)">— ${inst.name}</span></div>
                 <div style="font-size:0.8rem;color:var(--text-muted);margin-top:2px">${inst.yieldLabel} · ${inst.seniorityLabel}</div>
@@ -151,8 +187,8 @@
             </div>
             <div style="display:flex;align-items:center;gap:16px">
               <div style="text-align:right">
-                <div style="font-weight:700;color:var(--text-main)">${fmtUSD(value)}</div>
-                <div style="font-size:0.75rem;color:var(--text-muted)">valor estimado</div>
+                <div style="font-weight:700;color:var(--text-main)">${fmtUSD(total)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted)">valor total est.</div>
               </div>
               <div class="instrument-chevron">⌄</div>
             </div>
@@ -162,13 +198,17 @@
               <div style="font-size:0.85rem;color:var(--text-body);line-height:1.6;margin:16px 0">${inst.description}</div>
               <div class="instrument-metrics">
                 <div class="instrument-metric">
-                  <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px">Valor de tu posición</div>
-                  <div style="font-weight:700;font-size:1.1rem;color:var(--text-main)">${fmtUSD(value)}</div>
+                  <div class="instrument-metric-label">Valor del principal <span class="instrument-metric-hint">(sin cupón)</span></div>
+                  <div class="instrument-metric-value">${fmtUSD(principal)}</div>
                 </div>
                 <div class="instrument-metric">
-                  <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px">Dividendo/cupón estimado</div>
-                  <div style="font-weight:700;font-size:1.1rem;color:var(--text-main)">${couponFmt}</div>
+                  <div class="instrument-metric-label">Cupón estimado <span class="instrument-metric-hint">(${state.horizonMonths}m, aparte)</span></div>
+                  <div class="instrument-metric-value">${couponFmt}</div>
                 </div>
+              </div>
+              <div class="instrument-total">
+                <span class="instrument-total-label">Valor total estimado <span class="instrument-metric-hint">(principal + cupón)</span></span>
+                <span class="instrument-total-value">${fmtUSD(total)}</span>
               </div>
               ${convertNote ? `<div class="instrument-convert-note">${convertNote}</div>` : ''}
             </div>
@@ -187,14 +227,14 @@
       });
     });
 
-    // Summary
+    // Summary — usa el total (principal + cupón) frente a lo invertido.
     const bestReturn = INSTRUMENTS.reduce((best, i) => {
-      const total = valuesByTicker[i.ticker] + (couponByTicker[i.ticker] || 0) - invest;
-      return (best.total === undefined || total > best.total) ? { ticker: i.ticker, total } : best;
+      const net = totalByTicker[i.ticker] - invest;
+      return (best.net === undefined || net > best.net) ? { ticker: i.ticker, net } : best;
     }, {});
     const conservative = mnav < 0.85 ? 'STRF' : 'STRC';
     document.getElementById('summaryText').textContent =
-      `Con BTC en ${fmtUSD(btcPrice)} (mNAV ${mnav.toFixed(2)}×) a ${state.horizonMonths} meses, la opción con mayor rendimiento esperado sobre ${fmtUSD(invest)} invertidos sería ${bestReturn.ticker}, y la más conservadora sería ${conservative}${mnav < 0.85 ? ' (riesgo de estrés de crédito elevado en este escenario)' : '.'}`;
+      `Con BTC en ${fmtUSD(btcPrice)} (mNAV ${mnav.toFixed(2)}×) a ${state.horizonMonths} meses, la opción con mayor valor total esperado sobre ${fmtUSD(invest)} invertidos sería ${bestReturn.ticker}, y la más conservadora sería ${conservative}${mnav < 0.85 ? ' (riesgo de estrés de crédito elevado en este escenario).' : '.'}`;
   }
 
   function renderAll() {
@@ -213,14 +253,25 @@
       state.manualOverride = true;
       renderAll();
     });
-    document.getElementById('investAmount').addEventListener('input', (e) => {
-      state.investAmount = Math.max(0, parseFloat(e.target.value) || 0);
+
+    // Importe con separador de miles: input de texto que se reformatea al escribir.
+    const investEl = document.getElementById('investAmount');
+    investEl.value = fmtThousands(state.investAmount);
+    investEl.addEventListener('input', (e) => {
+      const digits = e.target.value.replace(/[^\d]/g, '');
+      state.investAmount = digits ? parseInt(digits, 10) : 0;
+      e.target.value = digits ? fmtThousands(state.investAmount) : '';
       renderInstruments();
     });
+
     document.querySelectorAll('.strategy-horizon-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.strategy-horizon-btn').forEach((b) => b.classList.remove('active'));
+        document.querySelectorAll('.strategy-horizon-btn').forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         state.horizonMonths = parseInt(btn.dataset.months, 10);
         renderInstruments();
       });

@@ -4174,19 +4174,37 @@
 @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
 
 /* Stock cards reuse .protocol-card from main.css; this just adds the ticker badge + trend row */
+/* Grid de 4 columnas en desktop → 4+3 (más equilibrado que el 5+2 de auto-fit). */
+#cryptoStocksGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (min-width: 640px) { #cryptoStocksGrid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 960px) { #cryptoStocksGrid { grid-template-columns: repeat(4, 1fr); } }
+
+.stock-card { display: flex; flex-direction: column; }
 .stock-card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .stock-badge {
   width: 32px; height: 32px; border-radius: 6px; flex-shrink: 0;
   color: #fff; font-weight: 800; font-size: 0.7rem;
   display: flex; align-items: center; justify-content: center;
 }
+.stock-ticker { font-weight: 700; color: var(--text-main); }
+.stock-company { font-size: 0.75rem; color: var(--text-muted); }
 .stock-price-row { display: flex; align-items: baseline; justify-content: space-between; }
-.stock-price { font-size: 1.3rem; font-weight: 800; }
-.stock-change { font-size: 0.8rem; font-weight: 600; }
+/* Precio en color neutro: la única señal semántica rojo/verde es el delta. */
+.stock-price { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
+.stock-change { font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
 .stock-change.positive { color: #10b981; }
 .stock-change.negative { color: #ef4444; }
 [data-theme="dark"] .stock-change.positive { color: #34d399; }
 [data-theme="dark"] .stock-change.negative { color: #f87171; }
+
+/* Sparkline: color semántico (verde sube / rojo baja), a juego con el delta. */
+.stock-spark { width: 100%; height: 30px; display: block; margin: 12px 0 2px; }
+.stock-spark.positive { color: #10b981; }
+.stock-spark.negative { color: #ef4444; }
+[data-theme="dark"] .stock-spark.positive { color: #34d399; }
+[data-theme="dark"] .stock-spark.negative { color: #f87171; }
+.stock-spark-area { fill: currentColor; opacity: 0.10; stroke: none; }
+
 .stock-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
 
 .risk-note {
@@ -4220,10 +4238,17 @@
 
 .strategy-horizon-group { display: flex; gap: 8px; margin-bottom: 24px; }
 .strategy-horizon-btn {
-  padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);
+  padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);
   background: transparent; color: var(--text-muted); font-weight: 600; font-size: 0.8rem; cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
-.strategy-horizon-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.strategy-horizon-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.strategy-horizon-btn.active {
+  background: var(--color-primary); border-color: var(--color-primary); color: #fff; font-weight: 700;
+  box-shadow: 0 2px 8px rgba(59, 63, 175, 0.35);
+}
+.strategy-horizon-btn:focus-visible,
+.instrument-head:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 
 .strategy-mnav-row { display: flex; align-items: center; gap: 18px; padding-top: 16px; border-top: 1px solid var(--border-color); }
 .strategy-mnav-ring {
@@ -4236,18 +4261,34 @@
   font-weight: 800; font-size: 1.15rem; color: var(--text-main);
 }
 .strategy-mnav-label { font-size: 0.8rem; color: var(--text-body); line-height: 1.4; }
+.strategy-mnav-help { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; margin-top: 14px; }
 
 .instrument-row { border-left: 4px solid; margin-bottom: 12px; overflow: hidden; }
 .instrument-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; }
 .instrument-head:hover { background: var(--bg-elevated-soft); }
-.instrument-badge { width: 38px; height: 26px; border-radius: var(--radius-sm); background: var(--bg-elevated-soft); font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+/* Badge neutro: el color por seniority vive solo en la barra lateral izquierda,
+   sin duplicarse aquí — evita competir con el acento índigo de la sección. */
+.instrument-badge { width: 38px; height: 26px; border-radius: var(--radius-sm); background: var(--bg-elevated-soft); color: var(--text-muted); font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; }
 .instrument-chevron { transition: transform 300ms ease; color: var(--text-muted); }
 .instrument-row.expanded .instrument-chevron { transform: rotate(180deg); }
 .instrument-panel { max-height: 0; opacity: 0; transition: max-height 300ms ease, opacity 300ms ease; overflow: hidden; }
-.instrument-row.expanded .instrument-panel { max-height: 260px; opacity: 1; }
+.instrument-row.expanded .instrument-panel { max-height: 460px; opacity: 1; }
 .instrument-panel-inner { padding: 0 20px 20px; border-top: 1px solid var(--border-color); }
 .instrument-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .instrument-metric { background: var(--bg-elevated-soft); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; }
+.instrument-metric-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+.instrument-metric-hint { color: var(--text-muted); opacity: 0.8; }
+.instrument-metric-value { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
+/* Fila de total: deja claro que principal y cupón se suman aquí (evita que el
+   usuario intente sumarlos mentalmente de forma inconsistente). */
+.instrument-total {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-md);
+  background: var(--color-primary-soft); border: 1px solid var(--color-primary);
+}
+.instrument-total-label { font-size: 0.8rem; color: var(--text-body); }
+.instrument-total-value { font-weight: 800; font-size: 1.15rem; color: var(--color-primary); }
+[data-theme="dark"] .instrument-total-value { color: var(--text-main); }
 .instrument-convert-note {
   margin-top: 12px; font-size: 0.8rem; padding: 10px 12px; border-radius: var(--radius-sm);
   border-left: 3px solid var(--color-accent-warm, #F59E0B); background: var(--bg-elevated-soft);
