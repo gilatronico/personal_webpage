@@ -3041,6 +3041,17 @@
         @media (min-width: 769px) {
             .crypto-prices-grid {
                 animation: crypto-scroll 12s linear infinite;
+                /* Sin esto, translateX(-50%) se calcula sobre el ancho VISIBLE del
+                   contenedor (el de .crypto-ticker-wrapper, que hace overflow-x:hidden),
+                   no sobre el ancho real de las tarjetas duplicadas. El resultado era
+                   que la animación solo recorría media pantalla y luego saltaba de
+                   golpe al principio, en vez de completar una vuelta entera y enlazar
+                   sin corte con la copia duplicada. max-content hace que la caja del
+                   grid mida lo que realmente ocupa su contenido (el doble de tarjetas),
+                   así que -50% coincide exactamente con el punto de costura entre la
+                   primera y la segunda copia.
+                */
+                width: max-content;
             }
 
             .crypto-prices-grid.paused {

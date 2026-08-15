@@ -44,13 +44,17 @@ else:
 # enlaces de reseteo de contraseña con dominio falso, etc.) incluso detrás de Vercel:
 # la plataforma no filtra esto por ti, así que '*' anula la protección por completo.
 if os.environ.get('VERCEL'):
-    # Si se configuró la variable ALLOWED_HOSTS en Vercel, respetarla; si no,
-    # usar el dominio real como valor por defecto seguro (no '*').
+    # INCIDENTE 2026-08-02: esto antes usaba el valor de la variable ALLOWED_HOSTS de
+    # Vercel *en vez de* los dominios reales si esa variable existía. Ya había una
+    # variable ALLOWED_HOSTS configurada de antes (con un valor que no incluía
+    # alexgilabert.xyz) y el sitio entero empezó a devolver 400 Bad Request.
+    # Ahora los dominios reales SIEMPRE están incluidos, y cualquier valor de esa
+    # variable solo se añade encima — nunca puede faltar el dominio real por muy
+    # rara que sea la variable de entorno.
+    default_hosts = ['alexgilabert.xyz', 'www.alexgilabert.xyz', '.vercel.app']
     allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', '')
-    if allowed_hosts_env:
-        ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',')]
-    else:
-        ALLOWED_HOSTS = ['alexgilabert.xyz', 'www.alexgilabert.xyz', '.vercel.app']
+    extra_hosts = [h.strip() for h in allowed_hosts_env.split(',') if h.strip()]
+    ALLOWED_HOSTS = list(dict.fromkeys(default_hosts + extra_hosts))
 else:
     # En desarrollo, usar la variable de entorno o permitir localhost
     allowed_hosts_env = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')

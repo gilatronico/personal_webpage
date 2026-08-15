@@ -374,7 +374,9 @@
                     experienceTitle: 'Experiencia Profesional',
                     experienceDesc: '',
                     timelineBitpanda: 'Senior PM en Bitpanda Technology Solutions, el brazo SaaS B2B de Bitpanda. Defino y priorizo requerimientos de producto para la plataforma de Custody-as-a-Service dirigida a clientes institucionales que quieren integrar activos digitales sin construir infraestructura propia.',
+                    timelineBitpandaCompany: 'Bitpanda · Jun 2026 – Presente',
                     timelineOnyze: 'Responsable del área de producto. Diseño y conceptualizo la evolución de la plataforma SaaS de custodia, brokeraje y tokenización, definiendo roadmap, diseño de APIs y casos de uso para banca, institucional y fintechs. Prioridad en seguridad y cumplimiento normativo para el despliegue de una infraestructura de activos digitales en entornos regulados.',
+                    timelineOnyzeCompany: 'Onyze (Digital Asset Custody) · 2024 – Mayo 2026',
                     timelineNfq: 'Consultor Murex para proyectos de riesgos de mercado FRTB para BBVA, automatización de workflows críticos y arquitectura de datos para banca, combinando Control‑M, microservicios y datamarts regulatorios. Resultados en eficiencia operativa, calidad de reporting y resiliencia de sistemas de trading y riesgo.',
                     timelineSopra: 'Desarrollador de servicios y módulos backend en Java para procesos de liquidación, reporting y operaciones diarias, siguiendo principios de clean code y patrones de diseño. Participé en el ciclo completo de desarrollo (análisis, diseño, pruebas y despliegue), aportando documentación técnica y soporte en la puesta en producción.',
                     achievementBitpanda1: 'Conceptualización y desarrollo de requerimientos de cumplimiento normativo para productos de custodia B2B en jurisdicciones reguladas (MiCA, BaFin, VASP)',
@@ -467,6 +469,8 @@
                     contactMessage: 'Mensaje *',
                     contactPlaceholder: 'Cuéntame brevemente tu contexto (empresa, rol, problema que quieres resolver) y qué te gustaría trabajar: producto, Web3 o formación.',
                     contactSend: 'Enviar mensaje',
+                    contactSending: 'Enviando...',
+                    connectionError: 'Error de conexión. Por favor, intenta de nuevo más tarde.',
                     contactFormError: 'Por favor, completa todos los campos requeridos.',
                     contactEmailError: 'Por favor, ingresa un email válido.',
                     contactSuccess: 'Muchas gracias por tu mensaje. Contactaremos contigo pronto.',
@@ -565,7 +569,9 @@
                     experienceTitle: 'Professional Experience',
                     experienceDesc: '',
                     timelineBitpanda: 'Senior PM at Bitpanda Technology Solutions, Bitpanda\'s B2B SaaS arm. I define and prioritize product requirements for the Custody-as-a-Service platform aimed at institutional clients that want to integrate digital assets without building their own infrastructure.',
+                    timelineBitpandaCompany: 'Bitpanda · Jun 2026 – Present',
                     timelineOnyze: 'Head of Product. I design and conceptualize the evolution of the SaaS custody, brokerage and tokenization platform, defining roadmap, API design and use cases for banking, institutional and fintechs. Priority on security and regulatory compliance for deploying digital asset infrastructure in regulated environments.',
+                    timelineOnyzeCompany: 'Onyze (Digital Asset Custody) · 2024 – May 2026',
                     timelineNfq: 'Murex Consultant for FRTB market risk projects for BBVA, critical workflow automation, and data architecture for banking, combining Control-M, microservices, and regulatory datamarts. Results in operational efficiency, reporting quality, and resilience of trading and risk systems.',
                     timelineSopra: 'Developer of backend services and modules in Java for settlement, reporting, and daily operations processes, following clean code principles and design patterns. I participated in the complete development cycle (analysis, design, testing, and deployment), providing technical documentation and support during production deployment.',
                     achievementBitpanda1: 'Conceptualization and development of regulatory compliance requirements for B2B custody products in regulated jurisdictions (MiCA, BaFin, VASP)',
@@ -658,6 +664,8 @@
                     contactMessage: 'Message *',
                     contactPlaceholder: 'Briefly tell me your context (company, role, problem you want to solve) and what you\'d like to work on: product, Web3, or training.',
                     contactSend: 'Send message',
+                    contactSending: 'Sending...',
+                    connectionError: 'Connection error. Please try again later.',
                     contactFormError: 'Please complete all required fields.',
                     contactEmailError: 'Please enter a valid email.',
                     contactSuccess: 'Thank you for your message! We will contact you soon.',
@@ -792,24 +800,21 @@
                     marketFooterText.innerHTML = t.marketPoweredBy + ' ' + linkText;
                 }
 
-                // Crypto Section (hidden)
-                const cryptoKicker = document.querySelector('#crypto-prices .section-kicker');
-                if (cryptoKicker) cryptoKicker.textContent = t.cryptoKicker;
-                const cryptoTitle = document.querySelector('#crypto-prices h2');
-                if (cryptoTitle) cryptoTitle.textContent = t.cryptoTitle;
-                const cryptoSubtitle = document.querySelector('#crypto-prices .section-subtitle');
-                if (cryptoSubtitle) cryptoSubtitle.textContent = t.cryptoSubtitle;
-                const cryptoLoading = document.querySelector('#crypto-prices .crypto-loading p');
+                // Crypto ticker (vive dentro de #market-intelligence; kicker/h2/subtitle
+                // de esa sección ya se traducen más arriba vía '#market-intelligence ...').
+                // Antes esto buscaba dentro de '#crypto-prices', un id que no existe en el
+                // HTML, así que el texto de carga se quedaba en español en cargas frescas
+                // con inglés guardado como idioma preferido.
+                const cryptoLoading = document.querySelector('.crypto-loading p');
                 if (cryptoLoading) cryptoLoading.textContent = t.cryptoLoading;
-                // Actualizar timestamp en market-intelligence (sección visible)
                 const marketIntelligence = document.getElementById('market-intelligence');
-                const cryptoTimestamp = marketIntelligence ? marketIntelligence.querySelector('.crypto-timestamp') : document.querySelector('#crypto-prices .crypto-timestamp');
+                const cryptoTimestamp = marketIntelligence ? marketIntelligence.querySelector('.crypto-timestamp') : document.querySelector('.crypto-timestamp');
                 if (cryptoTimestamp) {
                     const timeSpan = cryptoTimestamp.querySelector('#cryptoTimestamp');
                     const currentTime = timeSpan ? timeSpan.textContent : '--:--';
                     cryptoTimestamp.innerHTML = t.cryptoTimestamp + ' <span id="cryptoTimestamp">' + currentTime + '</span>';
                 }
-                const cryptoRefresh = document.querySelector('#crypto-prices .refresh-text');
+                const cryptoRefresh = document.querySelector('#refreshBtn .refresh-text');
                 if (cryptoRefresh) cryptoRefresh.textContent = t.cryptoRefresh;
                 const privacyLink = document.querySelector('.footer-link[data-i18n="footerPrivacy"]');
                 if (privacyLink) privacyLink.textContent = t.footerPrivacy;
@@ -827,6 +832,11 @@
                 if (timelineDescs[1]) timelineDescs[1].textContent = t.timelineOnyze;
                 if (timelineDescs[2]) timelineDescs[2].textContent = t.timelineNfq;
                 if (timelineDescs[3]) timelineDescs[3].textContent = t.timelineSopra;
+                // Compañía + fecha: "Presente"/"Mayo" no se traducían porque este texto
+                // estaba hardcodeado en el HTML sin pasar nunca por el sistema de i18n.
+                const timelineCompanies = document.querySelectorAll('#producto .timeline-company');
+                if (timelineCompanies[0]) timelineCompanies[0].textContent = t.timelineBitpandaCompany;
+                if (timelineCompanies[1]) timelineCompanies[1].textContent = t.timelineOnyzeCompany;
                 const achievements = document.querySelectorAll('#producto .timeline-achievements li');
                 const isSpanish = lang === 'es';
                 // Bitpanda (4 bullets)
@@ -892,8 +902,10 @@
                     }
                 });
 
-                // Skill names translation
-                const skillNames = document.querySelectorAll('#skills .skill-name');
+                // Skill chips translation
+                // (el selector apuntaba a '.skill-name', una clase que no existe en el
+                // HTML —los chips usan '.skill-chip'—, así que esto nunca se ejecutaba)
+                const skillNames = document.querySelectorAll('#skills .skill-chip');
                 skillNames.forEach(name => {
                     const text = name.textContent.trim();
                     // Map Spanish to translation keys
@@ -932,18 +944,9 @@
                     }
                 });
 
-                // Skill levels translation
-                const skillLevels = document.querySelectorAll('.skill-level');
-                skillLevels.forEach(level => {
-                    const text = level.textContent.trim();
-                    if (text === 'Experto' || text === 'Expert') {
-                        level.textContent = t.skillLevelExpert;
-                    } else if (text === 'Avanzado' || text === 'Advanced') {
-                        level.textContent = t.skillLevelAdvanced;
-                    } else if (text === 'Medio' || text === 'Medium') {
-                        level.textContent = t.skillLevelMedium;
-                    }
-                });
+                // Nota: se quitó un bloque que traducía '.skill-level' — esa clase no
+                // existe en el HTML actual (era de un diseño anterior con niveles de
+                // habilidad, sustituido por el sistema de chips), así que nunca hacía nada.
 
                 // Present/Presente translation
                 const presentBadges = document.querySelectorAll('.project-badge');
@@ -953,6 +956,13 @@
                         badge.textContent = text.replace('Presente', t.present);
                     } else if (text.includes('Present') && t.present === 'Presente') {
                         badge.textContent = text.replace('Present', t.present);
+                    }
+                    // "Mayo 2026" (Onyze) no se traducía a "May 2026" en inglés.
+                    const dateText = badge.textContent;
+                    if (/\bMayo\b/.test(dateText) && lang === 'en') {
+                        badge.textContent = dateText.replace(/\bMayo\b/, 'May');
+                    } else if (/\bMay\b/.test(dateText) && lang === 'es') {
+                        badge.textContent = dateText.replace(/\bMay\b/, 'Mayo');
                     }
                 });
 
@@ -1043,9 +1053,8 @@
                 const contactSend = document.querySelector('#contact-form button[type="submit"]');
                 if (contactSend) contactSend.textContent = t.contactSend;
 
-                // Modal
-                const modalTitle = document.querySelector('#modal-title');
-                if (modalTitle) modalTitle.textContent = t.modalTitle;
+                // Modal de docencia (el título #modal-title era del antiguo modal de
+                // Calendly, eliminado; ese id ya no existe en el HTML)
                 const modalClose = document.querySelector('.modal-close');
                 if (modalClose) modalClose.setAttribute('aria-label', t.modalClose);
 
@@ -1174,6 +1183,9 @@
 
                         const currentLang = localStorage.getItem('preferredLanguage') || 'es';
                         const t = translations[currentLang];
+                        // El backend usa esto para devolver los mensajes de error en el
+                        // idioma correcto (antes siempre venían en español).
+                        data.lang = currentLang;
 
                         // Validación cliente
                         if (!data.name || !data.email || !data.service || !data.message) {
@@ -1191,7 +1203,7 @@
                         const submitBtn = form.querySelector('button[type="submit"]');
                         const originalText = submitBtn.textContent;
                         submitBtn.disabled = true;
-                        submitBtn.textContent = 'Enviando...';
+                        submitBtn.textContent = t.contactSending;
 
                         try {
                             // Obtener CSRF token del formulario
@@ -1209,9 +1221,11 @@
 
                             // Manejar respuesta según el status code
                             if (response.status === 429) {
-                                // Rate limit excedido
+                                // Rate limit excedido. El backend ya responde en el idioma
+                                // correcto (se le manda 'lang' en el body); t.rateLimitError
+                                // solo es un respaldo si por lo que sea no llega 'error'.
                                 const result = await response.json().catch(() => ({}));
-                                const errorMsg = result.error || t.rateLimitError || 'Has enviado demasiados mensajes. Por favor, espera un momento antes de intentar de nuevo.';
+                                const errorMsg = result.error || t.rateLimitError;
                                 showErrorModal(errorMsg);
                                 return;
                             }
@@ -1219,17 +1233,17 @@
                             if (!response.ok) {
                                 // Otros errores HTTP
                                 const result = await response.json().catch(() => ({}));
-                                showErrorModal(result.error || `Error ${response.status}. Por favor, intenta de nuevo.`);
+                                showErrorModal(result.error || `Error ${response.status}`);
                                 return;
                             }
 
                             const result = await response.json();
 
                             if (result.success) {
-                                showSuccessModal(t.contactSuccess || 'Muchas gracias por tu mensaje. Contactaremos contigo pronto.');
+                                showSuccessModal(t.contactSuccess);
                                 form.reset();
                             } else {
-                                showErrorModal(result.error || 'Error al enviar el mensaje. Por favor, intenta de nuevo.');
+                                showErrorModal(result.error || t.connectionError);
                             }
                         } catch (error) {
                             console.error('Error:', error);
@@ -1553,7 +1567,7 @@
                 bitcoin: '#F7931A',
                 ethereum: '#627EEA',
                 solana: '#14F195',
-                avalanche: '#E84142',
+                'avalanche-2': '#E84142',
                 monero: '#FF6600',
                 binancecoin: '#F3BA2F',
                 ripple: '#23292F'
@@ -1563,7 +1577,7 @@
                 bitcoin: STATIC_IMAGES_URL + 'bitcoin.png',
                 ethereum: STATIC_IMAGES_URL + 'eth.png',
                 solana: STATIC_IMAGES_URL + 'solana.png',
-                avalanche: STATIC_IMAGES_URL + 'bitcoin.png', // Fallback si no existe
+                'avalanche-2': STATIC_IMAGES_URL + 'bitcoin.png', // Fallback si no existe
                 monero: STATIC_IMAGES_URL + 'monero.png',
                 binancecoin: STATIC_IMAGES_URL + 'bnb.png',
                 ripple: STATIC_IMAGES_URL + 'xrp.png'
@@ -1571,7 +1585,7 @@
 
             const CRYPTOS = [
                 { id: 'solana', symbol: 'SOL', name: 'Solana' },
-                { id: 'avalanche', symbol: 'AVAX', name: 'Avalanche' },
+                { id: 'avalanche-2', symbol: 'AVAX', name: 'Avalanche' },
                 { id: 'monero', symbol: 'XMR', name: 'Monero' },
                 { id: 'binancecoin', symbol: 'BNB', name: 'BNB' },
                 { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
@@ -1670,8 +1684,8 @@
                     grid.innerHTML = `
                     <div class="crypto-error" style="min-width: 100%;">
                         ${t.cryptoError}
-                        <button onclick="refreshCryptoPrices()" style="margin-top: var(--space-sm); padding: var(--space-xs) var(--space-md); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer;">
-                            ${t.cryptoRefresh}
+                        <button id="refreshBtn" onclick="refreshCryptoPrices()" style="margin-top: var(--space-sm); padding: var(--space-xs) var(--space-md); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer;">
+                            <span class="refresh-text">${t.cryptoRefresh}</span>
                         </button>
                     </div>
                 `;
