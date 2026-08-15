@@ -784,6 +784,12 @@
                             Datos en tiempo real desde DefiLlama.</p>
                     </div>
 
+                    <p class="market-intro" data-w3i="mktIntro">Sigo de cerca los activos que conectan las finanzas
+                        tradicionales con la infraestructura cripto — desde protocolos DeFi hasta las empresas cotizadas
+                        y los instrumentos financieros que están llevando Bitcoin a los balances corporativos. Recorres
+                        la sección de menor a mayor complejidad: <strong>cripto nativo → acciones cotizadas → simulador
+                            de instrumentos Strategy</strong>.</p>
+
                     <!-- Crypto Prices Ticker - First section -->
                     <div class="crypto-ticker-wrapper" style="margin: var(--space-xl) 0;">
                         <div class="crypto-prices-grid" id="cryptoPricesGrid">
@@ -850,9 +856,9 @@
                 <div class="container">
                     <div class="section-kicker">Market Intelligence</div>
                     <div class="section-header">
-                        <h2>Acciones Cripto</h2>
-                        <p>Empresas cotizadas con exposición directa a activos digitales — mismo formato que los
-                            protocolos DeFi de arriba.</p>
+                        <h2 data-w3i="stocksTitle">Acciones Cripto</h2>
+                        <p data-w3i="stocksDesc">Empresas cotizadas con exposición directa a activos digitales — mismo
+                            formato que los protocolos DeFi de arriba.</p>
                     </div>
 
                     <div class="protocols-grid" id="cryptoStocksGrid">
@@ -861,7 +867,7 @@
 
                     <div class="market-footer">
                         <span class="live-dot" aria-hidden="true"></span>
-                        Precios simulados · actualizado cada pocos segundos
+                        <span data-w3i="stocksFooter">Precios simulados · actualizado cada pocos segundos</span>
                     </div>
                 </div>
             </section>
@@ -869,14 +875,18 @@
             <!-- ===== MÓDULO 2: STRATEGY INSTRUMENT EXPLORER ===== -->
             <section id="strategy-explorer" class="section section-light" aria-label="Strategy Instrument Explorer">
                 <div class="container">
-                    <div class="section-kicker">Simulador</div>
+                    <div class="section-kicker" data-w3i="simKicker">Simulador</div>
                     <div class="section-header">
                         <h2>Strategy Instrument Explorer</h2>
-                        <p>Simula cómo se comportan los 5 instrumentos que Strategy tiene cotizados (MSTR + 4
-                            preferentes) según el precio de BTC y tu importe de inversión.</p>
+                        <p data-w3i="explorerDesc">Simula cómo se comportan los 5 instrumentos que Strategy tiene
+                            cotizados (MSTR + 4 preferentes) según el precio de BTC y tu importe de inversión.</p>
                     </div>
 
-                    <div class="risk-note" role="note">
+                    <p class="strategy-why" data-w3i="whyStrategy">Strategy es el caso más completo de «puente» entre las
+                        finanzas tradicionales y Bitcoin: no solo tiene la acción común (MSTR), sino cuatro instrumentos
+                        de renta fija distintos cotizados en Nasdaq. Por eso merece su propio simulador.</p>
+
+                    <div class="risk-note" role="note" data-w3i="riskNote">
                         ⚠ Ninguna de las preferentes está colateralizada por el Bitcoin en balance de Strategy — es
                         exposición vía balance corporativo, no un derecho directo sobre BTC.
                     </div>
@@ -885,9 +895,11 @@
                         <!-- Consola de controles -->
                         <div class="strategy-console-sticky">
                             <div class="strategy-console protocol-card">
-                                <div class="section-kicker" style="margin-bottom:16px;">Consola de simulación</div>
+                                <div class="section-kicker" style="margin-bottom:16px;" data-w3i="consoleKicker">Consola
+                                    de simulación</div>
 
-                                <label class="strategy-label" for="btcSlider">Precio de BTC objetivo</label>
+                                <label class="strategy-label" for="btcSlider" data-w3i="labelBtc">Precio de BTC
+                                    objetivo</label>
                                 <div class="strategy-price-row">
                                     <span class="strategy-price" id="btcPriceDisplay">$118,000</span>
                                     <span class="strategy-live" id="liveLabel"><span class="live-dot"
@@ -896,14 +908,16 @@
                                 <input type="range" id="btcSlider" min="30000" max="250000" step="1000" value="118000"
                                     aria-label="Precio de BTC objetivo">
 
-                                <label class="strategy-label" for="investAmount">Importe a invertir</label>
+                                <label class="strategy-label" for="investAmount" data-w3i="labelInvest">Importe a
+                                    invertir</label>
                                 <div class="strategy-input-wrap">
                                     <span>$</span>
                                     <input type="text" id="investAmount" value="10,000" inputmode="numeric"
                                         autocomplete="off" aria-label="Importe a invertir">
                                 </div>
 
-                                <label class="strategy-label">Horizonte para alcanzar ese precio</label>
+                                <label class="strategy-label" data-w3i="labelHorizon">Horizonte para alcanzar ese
+                                    precio</label>
                                 <div class="strategy-horizon-group" id="horizonGroup" role="group"
                                     aria-label="Horizonte temporal">
                                     <button type="button" class="strategy-horizon-btn" data-months="1"
@@ -918,19 +932,22 @@
 
                                 <div class="strategy-mnav-row">
                                     <div class="strategy-mnav-ring" id="mnavRing">
+                                        <div class="strategy-mnav-needle" id="mnavNeedle" aria-hidden="true"></div>
                                         <div class="strategy-mnav-ring-inner">
                                             <span id="mnavValue">1.70×</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="section-kicker" style="margin-bottom:6px;">mNAV implícito</div>
+                                        <div class="section-kicker" style="margin-bottom:6px;" data-w3i="mnavKicker">mNAV
+                                            implícito</div>
                                         <div class="strategy-mnav-label" id="mnavLabel">Accretive — emitir acciones suma
                                             BTC/acción</div>
                                     </div>
                                 </div>
-                                <p class="strategy-mnav-help">mNAV = capitalización de Strategy ÷ valor de mercado de los
-                                    BTC en su balance. Por encima de <strong>1.0×</strong>, emitir acciones para comprar
-                                    más BTC añade BTC por acción (accretive); por debajo, lo diluye.</p>
+                                <p class="strategy-mnav-help" data-w3i="mnavHelp">mNAV = capitalización de Strategy ÷
+                                    valor de mercado de los BTC en su balance. Por encima de <strong>1.0×</strong>,
+                                    emitir acciones para comprar más BTC añade BTC por acción (accretive); por debajo, lo
+                                    diluye.</p>
                             </div>
                         </div>
 
@@ -939,11 +956,12 @@
                             <div id="instrumentAccordion"><!-- rows injected by JS from INSTRUMENTS --></div>
 
                             <div class="strategy-summary protocol-card">
-                                <div class="section-kicker" style="margin-bottom:10px;">Resumen del escenario</div>
+                                <div class="section-kicker" style="margin-bottom:10px;" data-w3i="summaryKicker">Resumen
+                                    del escenario</div>
                                 <div id="summaryText"></div>
                             </div>
 
-                            <div class="strategy-disclaimer">
+                            <div class="strategy-disclaimer" data-w3i="disclaimer">
                                 Simulación educativa con fines ilustrativos. No constituye asesoramiento de inversión.
                                 Los cálculos son aproximaciones basadas en fórmulas públicas y no reflejan
                                 necesariamente el comportamiento real de mercado.

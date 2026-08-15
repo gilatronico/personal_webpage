@@ -4207,6 +4207,29 @@
 
 .stock-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
 
+/* Etiqueta de categoría: da significado al color del borde/badge (tipo de
+   empresa) y sirve de leyenda inline en cada tarjeta. */
+.stock-cat {
+  margin-left: auto; align-self: flex-start; white-space: nowrap;
+  font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 2px 7px; border-radius: 999px; border: 1px solid; opacity: 0.9;
+}
+
+/* Cifras con numeración tabular: alinean como datos financieros. */
+.stock-price, .strategy-price, .instrument-metric-value, .instrument-total-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Intro de toda la sección Market Intelligence + contexto del simulador. */
+.market-intro {
+  max-width: 780px; margin: 4px 0 0; font-size: 1rem; line-height: 1.7; color: var(--text-body);
+}
+.strategy-why {
+  max-width: 720px; margin: 0 0 24px; font-size: 0.9rem; line-height: 1.6; color: var(--text-body);
+  padding: 14px 16px; background: var(--bg-elevated-soft);
+  border-radius: var(--radius-md); border: 1px solid var(--border-color);
+}
+
 .risk-note {
   font-size: 0.85rem; color: #ef4444; max-width: 680px; margin-bottom: 32px;
   padding: 12px 16px; border: 1px solid var(--border-color); border-left: 3px solid #ef4444;
@@ -4251,17 +4274,32 @@
 .instrument-head:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 
 .strategy-mnav-row { display: flex; align-items: center; gap: 18px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+/* Gauge circular: el fondo muestra TODO el espectro (rojo <1.0× → ámbar → verde);
+   la aguja (.strategy-mnav-needle) marca dónde cae el escenario actual. Umbral
+   1.0× ≈ 83°, zona ámbar 0.85×–1.0× ≈ 62°–83°, sobre el rango 0.4×–3×. */
 .strategy-mnav-ring {
-  width: 88px; height: 88px; border-radius: 50%; flex-shrink: 0;
+  width: 88px; height: 88px; border-radius: 50%; flex-shrink: 0; position: relative;
   display: flex; align-items: center; justify-content: center;
+  background: conic-gradient(from 0deg, #ef4444 0 62deg, #F59E0B 62deg 83deg, #10b981 83deg 360deg);
+}
+.strategy-mnav-needle {
+  position: absolute; top: 0; left: 50%; width: 3px; height: 13px; z-index: 3;
+  background: var(--text-main); border-radius: 0 0 2px 2px;
+  transform-origin: 50% 44px; transform: translateX(-50%) rotate(var(--mnav-angle, 0deg));
 }
 .strategy-mnav-ring-inner {
-  width: 68px; height: 68px; border-radius: 50%; background: var(--white);
+  width: 66px; height: 66px; border-radius: 50%; background: var(--bg-main); z-index: 2;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 1.15rem; color: var(--text-main);
+  font-weight: 800; font-size: 1.15rem; color: var(--text-main); font-variant-numeric: tabular-nums;
 }
 .strategy-mnav-label { font-size: 0.8rem; color: var(--text-body); line-height: 1.4; }
-.strategy-mnav-help { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; margin-top: 14px; }
+.strategy-mnav-help {
+  font-size: 0.72rem; color: var(--text-body); line-height: 1.55; margin-top: 16px;
+  padding: 10px 12px; background: var(--bg-elevated-soft);
+  border: 1px solid var(--border-color); border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+@media (prefers-reduced-motion: reduce) { .strategy-mnav-needle { transition: none; } }
 
 .instrument-row { border-left: 4px solid; margin-bottom: 12px; overflow: hidden; }
 .instrument-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; }
