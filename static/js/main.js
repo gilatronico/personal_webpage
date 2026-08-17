@@ -2022,9 +2022,10 @@
                         config.names.some(name =>
                             p.name.toLowerCase().includes(name.toLowerCase())
                         ) && p.tvl > config.minTVL
-                        // Excluir Aave V2 y Balancer V2
+                        // Excluir Aave V2, Balancer V2 y Aave Horizon RWA (poco market cap)
                         && !p.name.toLowerCase().includes('aave v2')
                         && !p.name.toLowerCase().includes('balancer v2')
+                        && !p.name.toLowerCase().includes('aave horizon rwa')
                     )
                     .sort((a, b) => b.tvl - a.tvl)
                     .slice(0, 6);
@@ -2115,6 +2116,7 @@
             function setupMarketTabs() {
                 const buttons = document.querySelectorAll('.market-tab-btn');
                 const contents = document.querySelectorAll('.market-tab-content');
+                const defiAttribution = document.getElementById('marketFooterAttribution');
 
                 buttons.forEach(btn => {
                     btn.addEventListener('click', () => {
@@ -2130,6 +2132,10 @@
                         btn.setAttribute('aria-selected', 'true');
                         const tabContent = document.getElementById(`tab-${tab}`);
                         if (tabContent) tabContent.classList.add('active');
+
+                        // El aviso "Datos de DefiLlama" solo aplica a DeFi/Staking,
+                        // no a las acciones cripto (precios simulados).
+                        if (defiAttribution) defiAttribution.style.display = tab === 'stocks' ? 'none' : '';
                     });
                 });
             }

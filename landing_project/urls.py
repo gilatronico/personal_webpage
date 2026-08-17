@@ -69,6 +69,7 @@ urlpatterns = [
     path('', views.index_professional, name='index_professional'),
     path('privacidad', views.privacidad, name='privacidad'),
     path('api/contact/', views.submit_contact, name='submit_contact'),
+    path('api/stock-quotes/', views.stock_quotes, name='stock_quotes'),
     # SEO
     re_path(r'^robots\.txt$', views.robots_txt, name='robots_txt'),
     re_path(r'^sitemap\.xml$', views.sitemap_xml, name='sitemap_xml'),

@@ -791,7 +791,7 @@
                             de instrumentos Strategy</strong>.</p>
 
                     <!-- Crypto Prices Ticker - First section -->
-                    <div class="crypto-ticker-wrapper" style="margin: var(--space-xl) 0;">
+                    <div class="crypto-ticker-wrapper" style="margin: var(--space-sm) 0;">
                         <div class="crypto-prices-grid" id="cryptoPricesGrid">
                             <div class="crypto-loading">
                                 <div class="spinner"></div>
@@ -804,7 +804,7 @@
                     </div>
 
                     <div class="crypto-footer"
-                        style="text-align: center; margin-bottom: var(--space-xl); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--border-light);">
+                        style="text-align: center; margin-bottom: var(--space-md); padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border-light);">
                         <p class="crypto-timestamp">
                             <span id="crypto-timestamp-text">Datos en tiempo real proporcionados por CoinGecko · Última
                                 actualización:</span> <span id="cryptoTimestamp">--:--</span>
@@ -818,6 +818,9 @@
                         </button>
                         <button class="market-tab-btn" data-tab="staking" aria-selected="false">
                             <span class="tab-label">Liquid Staking</span>
+                        </button>
+                        <button class="market-tab-btn" data-tab="stocks" aria-selected="false">
+                            <span class="tab-label" data-w3i="stocksTitle">Acciones Cripto</span>
                         </button>
                     </div>
 
@@ -841,33 +844,23 @@
                         </div>
                     </div>
 
+                    <!-- TAB 3: ACCIONES CRIPTO (TradFi) -->
+                    <div class="market-tab-content" id="tab-stocks">
+                        <div class="protocols-grid" id="cryptoStocksGrid">
+                            <!-- cards injected by web3-simulator.js from STOCKS -->
+                        </div>
+                        <p class="market-timestamp" style="text-align:center; margin-top: var(--space-md);" id="stocksFooter">
+                            <span class="live-dot" id="stocksLiveDot" aria-hidden="true"></span>
+                            <span id="stocksFooterText">Cargando precios…</span> <span id="stocksTimestamp"></span>
+                        </p>
+                    </div>
+
                     <!-- FOOTER -->
-                    <div class="market-footer">
+                    <div class="market-footer" id="marketFooterAttribution">
                         <p class="market-timestamp">
                             Datos actualizados en tiempo real •
                             <a href="https://defillama.com" target="_blank" rel="noopener">Datos de DefiLlama</a>
                         </p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===== MÓDULO 1: ACCIONES CRIPTO ===== -->
-            <section id="crypto-stocks" class="section section-light" aria-label="Acciones Cripto">
-                <div class="container">
-                    <div class="section-kicker">Market Intelligence</div>
-                    <div class="section-header">
-                        <h2 data-w3i="stocksTitle">Acciones Cripto</h2>
-                        <p data-w3i="stocksDesc">Empresas cotizadas con exposición directa a activos digitales — mismo
-                            formato que los protocolos DeFi de arriba.</p>
-                    </div>
-
-                    <div class="protocols-grid" id="cryptoStocksGrid">
-                        <!-- cards injected by web3-simulator.js from CRYPTO_STOCKS -->
-                    </div>
-
-                    <div class="market-footer">
-                        <span class="live-dot" aria-hidden="true"></span>
-                        <span data-w3i="stocksFooter">Precios simulados · actualizado cada pocos segundos</span>
                     </div>
                 </div>
             </section>

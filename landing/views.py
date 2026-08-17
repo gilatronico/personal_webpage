@@ -7,9 +7,16 @@ from django.conf import settings
 from django.core.cache import cache
 import json
 import logging
+import urllib.request
+import urllib.error
 from .models import ContactSubmission
 
 logger = logging.getLogger(__name__)
+
+# Tickers del bloque "Acciones Cripto" del simulador Web3. Metaplanet (MTPLF)
+# se excluyó a propósito: cotiza sobre todo en Tokio (3350.T) y su ticker OTC
+# en EE. UU. es demasiado ilíquido para tener un precio fiable en Yahoo Finance.
+STOCK_TICKERS = ['MSTR', 'COIN', 'CRCL', 'SECZ', 'HOOD', 'MARA']
 
 # Mensajes de error del formulario de contacto en ambos idiomas. El frontend
 # manda 'lang' en el body; antes estos textos estaban hardcodeados solo en
@@ -139,6 +146,44 @@ def sitemap_xml(request):
         '</urlset>\n'
     )
     return HttpResponse(xml, content_type='application/xml')
+
+
+@require_http_methods(["GET"])
+def stock_quotes(request):
+    """
+    Precios reales de las acciones del bloque "Acciones Cripto" (módulo Web3),
+    vía el endpoint no oficial de Yahoo Finance (chart API), que no requiere
+    API key ni cuenta. No tiene SLA ni garantía de disponibilidad -por eso
+    cada ticker se resuelve por separado y uno que falle no tumba el resto-,
+    así que se cachea 90s para no depender de que esté siempre arriba y para
+    no golpearlo en cada carga de página.
+    """
+    cached = cache.get('stock_quotes')
+    if cached is not None:
+        return JsonResponse(cached)
+
+    quotes = {}
+    for ticker in STOCK_TICKERS:
+        try:
+            url = f'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}'
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                data = json.loads(resp.read())
+            meta = data['chart']['result'][0]['meta']
+            price = meta['regularMarketPrice']
+            prev_close = meta.get('chartPreviousClose') or meta.get('previousClose')
+            change_pct = ((price - prev_close) / prev_close) * 100 if prev_close else 0
+            quotes[ticker] = {
+                'price': round(price, 2),
+                'changePercent': round(change_pct, 2),
+            }
+        except (urllib.error.URLError, KeyError, IndexError, TypeError, ValueError, json.JSONDecodeError) as e:
+            logger.warning(f"stock_quotes: no se pudo obtener {ticker}: {e}")
+
+    payload = {'quotes': quotes, 'asOf': timezone.now().isoformat()}
+    cache.set('stock_quotes', payload, 90)
+    return JsonResponse(payload)
+
 
 @require_http_methods(["POST"])
 # El frontend ya envía X-CSRFToken correctamente (ver fetch en el template),

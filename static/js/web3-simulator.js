@@ -20,13 +20,12 @@
   };
 
   const STOCKS = [
-    { ticker: 'MSTR', company: 'Strategy', initials: 'MS', price: 402.15, delta: 3.2, positive: true, cat: 'treasury' },
-    { ticker: 'COIN', company: 'Coinbase', initials: 'CB', price: 289.40, delta: -1.1, positive: false, cat: 'exchange' },
-    { ticker: 'CRCL', company: 'Circle', initials: 'CR', price: 118.75, delta: 5.4, positive: true, cat: 'stablecoin' },
-    { ticker: 'SECZ', company: 'Securitize', initials: 'SC', price: 14.20, delta: 2.8, positive: true, cat: 'tokenization' },
-    { ticker: 'HOOD', company: 'Robinhood', initials: 'HD', price: 92.30, delta: 0.6, positive: true, cat: 'broker' },
-    { ticker: 'MARA', company: 'Marathon Digital', initials: 'MD', price: 22.85, delta: -2.3, positive: false, cat: 'mining' },
-    { ticker: 'MTPLF', company: 'Metaplanet', initials: 'MP', price: 6.45, delta: 8.1, positive: true, cat: 'treasury' },
+    { ticker: 'MSTR', company: 'Strategy', initials: 'MS', logo: 'strategy.webp', price: 402.15, delta: 3.2, positive: true, cat: 'treasury' },
+    { ticker: 'COIN', company: 'Coinbase', initials: 'CB', logo: 'coinbase.webp', price: 289.40, delta: -1.1, positive: false, cat: 'exchange' },
+    { ticker: 'CRCL', company: 'Circle', initials: 'CR', logo: 'circle.png', price: 118.75, delta: 5.4, positive: true, cat: 'stablecoin' },
+    { ticker: 'SECZ', company: 'Securitize', initials: 'SC', logo: 'securitize.avif', price: 14.20, delta: 2.8, positive: true, cat: 'tokenization' },
+    { ticker: 'HOOD', company: 'Robinhood', initials: 'HD', logo: 'robinhood.jpeg', price: 92.30, delta: 0.6, positive: true, cat: 'broker' },
+    { ticker: 'MARA', company: 'Marathon Digital', initials: 'MD', logo: 'mara.png', price: 22.85, delta: -2.3, positive: false, cat: 'mining' },
   ];
 
   // Solo lo estructural; el texto (name/yield/seniority/desc) vive en I18N.
@@ -44,8 +43,6 @@
     es: {
       mktIntro: 'Sigo de cerca los activos que conectan las finanzas tradicionales con la infraestructura cripto — desde protocolos DeFi hasta las empresas cotizadas y los instrumentos financieros que están llevando Bitcoin a los balances corporativos. Recorres la sección de menor a mayor complejidad: <strong>cripto nativo → acciones cotizadas → simulador de instrumentos Strategy</strong>.',
       stocksTitle: 'Acciones Cripto',
-      stocksDesc: 'Empresas cotizadas con exposición directa a activos digitales — mismo formato que los protocolos DeFi de arriba.',
-      stocksFooter: 'Precios simulados · actualizado cada pocos segundos',
       simKicker: 'Simulador',
       explorerDesc: 'Simula cómo se comportan los 5 instrumentos que Strategy tiene cotizados (MSTR + 4 preferentes) según el precio de BTC y tu importe de inversión.',
       whyStrategy: 'Strategy es el caso más completo de «puente» entre las finanzas tradicionales y Bitcoin: no solo tiene la acción común (MSTR), sino cuatro instrumentos de renta fija distintos cotizados en Nasdaq. Por eso merece su propio simulador.',
@@ -66,8 +63,9 @@
         SECZ: 'Tokenización de activos reales (BlackRock BUIDL, Apollo, KKR) · NYSE desde jul. 2026.',
         HOOD: 'Broker minorista pionero en tokenización de acciones en la UE.',
         MARA: 'Uno de los mayores mineros de BTC cotizados de EE. UU.',
-        MTPLF: 'La "MicroStrategy japonesa": treasury company de BTC · ticker OTC.',
       },
+      stocksLive: 'Datos de mercado vía Yahoo Finance · última actualización:',
+      stocksOffline: 'No se pudieron cargar precios en vivo — mostrando última referencia conocida.',
       instr: {
         MSTR: { name: 'Común', yield: 'Sin dividendo', seniority: 'La más junior', desc: 'Acción común de Strategy. Mayor exposición direccional a BTC, sin yield. Es la última posición en caso de liquidación.' },
         STRK: { name: 'Strike', yield: '8% cumulativo', seniority: 'Seniority media', desc: 'Preferente convertible a MSTR común en ratio 10:1. Su valor es el máximo entre el valor como preferente con cupón y el valor de conversión.' },
@@ -91,8 +89,6 @@
     en: {
       mktIntro: 'I track the assets bridging traditional finance and crypto infrastructure — from DeFi protocols to the listed companies and financial instruments bringing Bitcoin onto corporate balance sheets. You move through the section from lower to higher complexity: <strong>native crypto → listed stocks → Strategy instrument simulator</strong>.',
       stocksTitle: 'Crypto Stocks',
-      stocksDesc: 'Publicly traded companies with direct exposure to digital assets — same format as the DeFi protocols above.',
-      stocksFooter: 'Simulated prices · updated every few seconds',
       simKicker: 'Simulator',
       explorerDesc: "Simulate how Strategy's 5 listed instruments (MSTR + 4 preferreds) behave based on the BTC price and your investment amount.",
       whyStrategy: 'Strategy is the most complete "bridge" case between traditional finance and Bitcoin: beyond its common stock (MSTR), it has four distinct fixed-income instruments listed on Nasdaq. That is why it gets its own simulator.',
@@ -113,8 +109,9 @@
         SECZ: 'Real-world asset tokenization (BlackRock BUIDL, Apollo, KKR) · NYSE since Jul. 2026.',
         HOOD: 'Retail broker, pioneer of tokenized stocks in the EU.',
         MARA: 'One of the largest US-listed BTC miners.',
-        MTPLF: 'The "Japanese MicroStrategy": a BTC treasury company · OTC ticker.',
       },
+      stocksLive: 'Market data via Yahoo Finance · last updated:',
+      stocksOffline: 'Live prices unavailable right now — showing the last known reference.',
       instr: {
         MSTR: { name: 'Common', yield: 'No dividend', seniority: 'Most junior', desc: "Strategy's common stock. Highest directional exposure to BTC, no yield. Last in line in a liquidation." },
         STRK: { name: 'Strike', yield: '8% cumulative', seniority: 'Mid seniority', desc: 'Preferred convertible into MSTR common at a 10:1 ratio. Its value is the greater of its value as a coupon-paying preferred and its conversion value.' },
@@ -182,6 +179,9 @@
     investAmount: 10000,
     horizonMonths: 12,
     expandedTicker: 'STRK',
+    stockQuotes: {},
+    stocksLive: false,
+    stocksAsOf: null,
   };
   const T = () => I18N[state.lang] || I18N.es;
 
@@ -191,11 +191,18 @@
     const t = T();
     grid.innerHTML = STOCKS.map((s) => {
       const color = CAT_COLORS[s.cat];
-      const sign = s.positive ? '' : '-';
+      const live = state.stockQuotes[s.ticker];
+      const price = live ? live.price : s.price;
+      const delta = live ? live.changePercent : s.delta;
+      const positive = delta >= 0;
+      const sign = positive ? '' : '-';
       return `
         <div class="protocol-card stock-card" style="border-top-color:${color}">
           <div class="stock-card-head">
-            <div class="stock-badge" style="background:${color}">${s.initials}</div>
+            <div class="stock-badge">
+              <img src="${STATIC_IMAGES_URL}${s.logo}" alt="${s.company}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <span class="stock-badge-fallback" style="display:none;color:${color}">${s.initials}</span>
+            </div>
             <div>
               <div class="stock-ticker">${s.ticker}</div>
               <div class="stock-company">${s.company}</div>
@@ -203,13 +210,49 @@
             <span class="stock-cat" style="color:${color};border-color:${color}">${t.cats[s.cat]}</span>
           </div>
           <div class="stock-price-row">
-            <div class="stock-price">$${s.price}</div>
-            <div class="stock-change ${s.positive ? 'positive' : 'negative'}">${s.positive ? '▲' : '▼'} ${sign}${Math.abs(s.delta)}%</div>
+            <div class="stock-price">$${price}</div>
+            <div class="stock-change ${positive ? 'positive' : 'negative'}">${positive ? '▲' : '▼'} ${sign}${Math.abs(delta)}%</div>
           </div>
-          ${sparkline(s.ticker, s.positive)}
+          ${sparkline(s.ticker, positive)}
           <div class="stock-note">${t.notes[s.ticker]}</div>
         </div>`;
     }).join('');
+    renderStocksFooter();
+  }
+
+  function renderStocksFooter() {
+    const t = T();
+    const label = document.getElementById('stocksFooterText');
+    const ts = document.getElementById('stocksTimestamp');
+    const dot = document.getElementById('stocksLiveDot');
+    if (!label || !ts) return;
+    if (state.stocksLive && state.stocksAsOf) {
+      label.textContent = t.stocksLive;
+      ts.textContent = state.stocksAsOf.toLocaleTimeString(state.lang === 'en' ? 'en-US' : 'es-ES', { hour: '2-digit', minute: '2-digit' });
+      if (dot) dot.style.display = '';
+    } else {
+      label.textContent = t.stocksOffline;
+      ts.textContent = '';
+      if (dot) dot.style.display = 'none';
+    }
+  }
+
+  async function fetchStockQuotes() {
+    try {
+      const res = await fetch('/api/stock-quotes/');
+      if (!res.ok) throw new Error('bad response');
+      const data = await res.json();
+      if (data.quotes && Object.keys(data.quotes).length > 0) {
+        state.stockQuotes = data.quotes;
+        state.stocksLive = true;
+        state.stocksAsOf = new Date(data.asOf);
+      } else {
+        state.stocksLive = false;
+      }
+    } catch (e) {
+      state.stocksLive = false;
+    }
+    renderStocks();
   }
 
   function renderInstruments() {
@@ -396,6 +439,9 @@
     }, 2600);
 
     applyLang(getLang());
+
+    fetchStockQuotes();
+    setInterval(fetchStockQuotes, 120000);
   }
 
   if (document.readyState === 'loading') {
