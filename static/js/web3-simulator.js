@@ -41,7 +41,7 @@
 
   const I18N = {
     es: {
-      mktIntro: 'Sigo de cerca los activos que conectan las finanzas tradicionales con la infraestructura cripto — desde protocolos DeFi hasta las empresas cotizadas y los instrumentos financieros que están llevando Bitcoin a los balances corporativos. Recorres la sección de menor a mayor complejidad: <strong>cripto nativo → acciones cotizadas → simulador de instrumentos Strategy</strong>.',
+      mktIntro: 'Sigo de cerca los activos que conectan las finanzas tradicionales con la infraestructura cripto: cotizaciones en tiempo real, protocolos DeFi y liquid staking.',
       stocksTitle: 'Acciones Cripto',
       simKicker: 'Simulador',
       explorerDesc: 'Simula cómo se comportan los 5 instrumentos que Strategy tiene cotizados (MSTR + 4 preferentes) según el precio de BTC y tu importe de inversión.',
@@ -87,7 +87,7 @@
       stressNo: '.',
     },
     en: {
-      mktIntro: 'I track the assets bridging traditional finance and crypto infrastructure — from DeFi protocols to the listed companies and financial instruments bringing Bitcoin onto corporate balance sheets. You move through the section from lower to higher complexity: <strong>native crypto → listed stocks → Strategy instrument simulator</strong>.',
+      mktIntro: 'I track the assets bridging traditional finance and crypto infrastructure: live crypto prices, DeFi protocols and liquid staking.',
       stocksTitle: 'Crypto Stocks',
       simKicker: 'Simulator',
       explorerDesc: "Simulate how Strategy's 5 listed instruments (MSTR + 4 preferreds) behave based on the BTC price and your investment amount.",
@@ -138,6 +138,10 @@
   function fmtUSD(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
   function fmtUSD2(n) { return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   function fmtThousands(n) { return (n || 0).toLocaleString('en-US'); }
+  function fmtDelta(deltaAbs, deltaPct) {
+    const sign = deltaAbs >= 0 ? '+' : '-';
+    return `${sign}${fmtUSD(Math.abs(deltaAbs))} (${sign}${Math.abs(deltaPct).toFixed(1)}%)`;
+  }
   function computeMNAV(btcPrice) { return clamp(1.7 * Math.pow(btcPrice / REF_BTC, 0.6), 0.4, 3); }
 
   const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -184,6 +188,10 @@
     stocksAsOf: null,
   };
   const T = () => I18N[state.lang] || I18N.es;
+  // Las pestañas Acciones Cripto y Strategy Explorer se pueden ocultar desde el servidor
+  // (content.SECTIONS): en ese caso su DOM no existe y se omite su lógica.
+  const HAS_STRATEGY = !!document.getElementById('btcSlider');
+  const HAS_STOCKS = !!document.getElementById('cryptoStocksGrid');
 
   function renderStocks() {
     const grid = document.getElementById('cryptoStocksGrid');
@@ -256,6 +264,8 @@
   }
 
   function renderInstruments() {
+    // Strategy Explorer oculto (content.SECTIONS): sin DOM, no hay nada que pintar
+    if (!document.getElementById('instrumentAccordion')) return;
     const t = T();
     const btcPrice = state.btcPrice;
     const mnav = computeMNAV(btcPrice);
@@ -303,6 +313,8 @@
       const total = totalByTicker[inst.ticker];
       const isMstr = inst.ticker === 'MSTR';
       const couponFmt = isMstr ? t.couponNone : fmtUSD(coupon);
+      const deltaAbs = total - invest;
+      const deltaPct = invest ? (deltaAbs / invest) * 100 : 0;
       const convertNote = inst.ticker === 'STRK'
         ? (shouldConvert
             ? t.convertYes(fmtUSD(btcPrice), fmtUSD2(strkConv), fmtUSD2(strkPar))
@@ -315,7 +327,7 @@
               <div class="instrument-badge">${inst.code}</div>
               <div>
                 <div style="font-weight:700;color:var(--text-main)">${inst.ticker} <span style="font-weight:400;font-size:0.85rem;color:var(--text-muted)">— ${info.name}</span></div>
-                <div style="font-size:0.8rem;color:var(--text-muted);margin-top:2px">${info.yield} · ${info.seniority}</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-top:2px">${info.yield} · <span class="seniority-badge" style="background:${accentColor}1f;color:${accentColor}">${info.seniority}</span></div>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:16px">
@@ -341,7 +353,10 @@
               </div>
               <div class="instrument-total">
                 <span class="instrument-total-label">${t.totalLabel} <span class="instrument-metric-hint">${t.totalHint}</span></span>
-                <span class="instrument-total-value">${fmtUSD(total)}</span>
+                <span>
+                  <span class="instrument-total-value">${fmtUSD(total)}</span>
+                  <span class="instrument-total-delta ${deltaAbs >= 0 ? 'positive' : 'negative'}">${fmtDelta(deltaAbs, deltaPct)}</span>
+                </span>
               </div>
               ${convertNote ? `<div class="instrument-convert-note">${convertNote}</div>` : ''}
             </div>
@@ -372,11 +387,13 @@
 
   function renderAll() {
     const t = T();
-    document.getElementById('btcPriceDisplay').textContent = fmtUSD(state.btcPrice);
-    document.getElementById('btcSlider').value = state.btcPrice;
-    document.getElementById('liveLabel').innerHTML = state.manualOverride
-      ? t.manual
-      : '<span class="live-dot" aria-hidden="true"></span>' + t.live;
+    if (HAS_STRATEGY) {
+      document.getElementById('btcPriceDisplay').textContent = fmtUSD(state.btcPrice);
+      document.getElementById('btcSlider').value = state.btcPrice;
+      document.getElementById('liveLabel').innerHTML = state.manualOverride
+        ? t.manual
+        : '<span class="live-dot" aria-hidden="true"></span>' + t.live;
+    }
     renderStocks();
     renderInstruments();
   }
@@ -389,10 +406,8 @@
     });
   }
 
-  function getLang() {
-    try { return localStorage.getItem('preferredLanguage') === 'en' ? 'en' : 'es'; }
-    catch (e) { return (document.documentElement.lang === 'en') ? 'en' : 'es'; }
-  }
+  // El idioma lo marca la URL (/web3 o /en/web3), reflejada en <html lang>
+  function getLang() { return document.documentElement.lang === 'en' ? 'en' : 'es'; }
 
   function applyLang(lang) {
     state.lang = (lang === 'en') ? 'en' : 'es';
@@ -400,11 +415,23 @@
     renderAll();
   }
 
-  function init() {
+  // Pulso visual sobre las cifras que acaban de recalcularse tras una
+  // interacción manual (slider, importe, horizonte) — no en el auto-tick,
+  // que ya se mueve solo cada 2.6s y no necesita más ruido visual encima.
+  function flashValues() {
+    document.querySelectorAll('.instrument-total-value, #mnavValue, #btcPriceDisplay').forEach((el) => {
+      el.classList.remove('value-flash');
+      void el.offsetWidth;
+      el.classList.add('value-flash');
+    });
+  }
+
+  function initStrategy() {
     document.getElementById('btcSlider').addEventListener('input', (e) => {
       state.btcPrice = parseInt(e.target.value, 10);
       state.manualOverride = true;
       renderAll();
+      flashValues();
     });
 
     const investEl = document.getElementById('investAmount');
@@ -414,6 +441,7 @@
       state.investAmount = digits ? parseInt(digits, 10) : 0;
       e.target.value = digits ? fmtThousands(state.investAmount) : '';
       renderInstruments();
+      flashValues();
     });
 
     document.querySelectorAll('.strategy-horizon-btn').forEach((btn) => {
@@ -424,12 +452,8 @@
         btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true');
         state.horizonMonths = parseInt(btn.dataset.months, 10);
         renderInstruments();
+        flashValues();
       });
-    });
-
-    // Enganche al selector de idioma del sitio: re-traduce al pulsar cualquier bandera.
-    document.querySelectorAll('.lang-btn').forEach((b) => {
-      b.addEventListener('click', () => applyLang(b.getAttribute('data-lang')));
     });
 
     setInterval(() => {
@@ -437,11 +461,22 @@
       state.btcPrice = clamp(Math.round(state.btcPrice + (Math.random() - 0.5) * 400), 30000, 250000);
       renderAll();
     }, 2600);
+  }
+
+  function init() {
+    if (HAS_STRATEGY) initStrategy();
+
+    // Enganche al selector de idioma del sitio: re-traduce al pulsar cualquier bandera.
+    document.querySelectorAll('.lang-btn').forEach((b) => {
+      b.addEventListener('click', () => applyLang(b.getAttribute('data-lang')));
+    });
 
     applyLang(getLang());
 
-    fetchStockQuotes();
-    setInterval(fetchStockQuotes, 120000);
+    if (HAS_STOCKS) {
+      fetchStockQuotes();
+      setInterval(fetchStockQuotes, 120000);
+    }
   }
 
   if (document.readyState === 'loading') {

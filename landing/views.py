@@ -1,5 +1,7 @@
+import os
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -10,6 +12,8 @@ import logging
 import urllib.request
 import urllib.error
 from .models import ContactSubmission
+from . import content, articles
+from .i18n import translate_html
 
 logger = logging.getLogger(__name__)
 
@@ -89,11 +93,247 @@ except ImportError:
 SITE_URL = 'https://alexgilabert.xyz'
 
 
+HOME_META = {
+    'es': {
+        'title': 'Alex Gilabert · Product Manager de custodia de activos digitales',
+        'og_title': 'Alex Gilabert · Senior Product Manager en Bitpanda',
+        'description': 'Senior Product Manager en Bitpanda Technology Solutions. Producto de custodia, '
+                       'tokenización y brokeraje para banca, fintechs y empresas Web3. Docente en CEDEU. Madrid.',
+        'og_locale': 'es_ES', 'og_locale_alt': 'en_US',
+    },
+    'en': {
+        'title': 'Alex Gilabert · Digital Asset Custody Product Manager',
+        'og_title': 'Alex Gilabert · Senior Product Manager at Bitpanda',
+        'description': 'Senior Product Manager at Bitpanda Technology Solutions. Custody, tokenization and '
+                       'brokerage products for banks, fintechs and Web3 companies. Lecturer at CEDEU. Madrid.',
+        'og_locale': 'en_US', 'og_locale_alt': 'es_ES',
+    },
+}
+
+
+def _person_schema(lang):
+    data = {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        'name': 'Alex Gilabert Ramírez',
+        'alternateName': 'Alex Gilabert',
+        'url': f'{SITE_URL}/',
+        'image': f'{SITE_URL}/static/images/alex-gilabert-og.jpg',
+        'jobTitle': 'Senior Product Manager',
+        'description': HOME_META[lang]['description'],
+        'worksFor': {'@type': 'Organization', 'name': 'Bitpanda Technology Solutions', 'url': 'https://www.bitpanda.com/'},
+        'address': {'@type': 'PostalAddress', 'addressLocality': 'Madrid', 'addressCountry': 'ES'},
+        'knowsAbout': ['Digital asset custody', 'Tokenization', 'MiCA', 'Travel Rule', 'DeFi', 'Product Management'],
+        'knowsLanguage': ['es', 'en'],
+        'sameAs': [
+            'https://www.linkedin.com/in/alejandrogilabertramirez/',
+            'https://x.com/0xpeculative',
+            'https://github.com/gilatronico',
+        ],
+    }
+    # Evita que un '</script>' en el JSON cierre la etiqueta
+    return json.dumps(data, ensure_ascii=False).replace('<', '\\u003c')
+
+
+def _visible_cases(lang):
+    if not content.section_enabled('cases'):
+        return []
+    return [c for c in content.localize(content.CASES, lang) if settings.DEBUG or not c['has_todo']]
+
+
+LEDGER_LABELS = {
+    'es': {'block': 'Bloque', 'genesis': 'génesis', 'sidechain': 'sidechain', 'staking': 'staking',
+           'events': 'Eventos', 'milestone': 'hito', 'milestones': 'hitos'},
+    'en': {'block': 'Block', 'genesis': 'genesis', 'sidechain': 'sidechain', 'staking': 'staking',
+           'events': 'Events', 'milestone': 'milestone', 'milestones': 'milestones'},
+}
+
+
+def _sections():
+    """Flags de content.SECTIONS para las plantillas: {{ sections.lab_stocks }}…"""
+    return {k: content.section_enabled(k) for k in content.SECTIONS}
+
+
+def _ledger(lang):
+    """
+    Trayectoria localizada. En producción (DEBUG=False) los textos con [TODO] se quitan;
+    si un campo tiene *_fallback se usa ese en su lugar.
+    """
+    show_todo = settings.DEBUG
+    labels = LEDGER_LABELS[lang]
+
+    def field(item, key):
+        value = content.pick(item.get(key), lang)
+        if value and not show_todo and content.has_todo(value):
+            return content.pick(item.get(key + '_fallback'), lang) or ''
+        return value
+
+    def items(values):
+        out = [content.pick(v, lang) for v in values]
+        return out if show_todo else [v for v in out if not content.has_todo(v)]
+
+    blocks = []
+    for i, item in enumerate(content.LEDGER):
+        kind = item['kind']
+        no = item['no']
+        events = [{'date': content.pick(e['date'], lang), 'text': content.pick(e['text'], lang), 'detail': content.pick(e.get('detail'), lang) or ''}
+                  for e in item.get('events', [])]
+        if not show_todo:
+            events = [e for e in events if not content.has_todo(e['date'], e['text'], e['detail'])]
+        blocks.append({
+            'i': i,
+            'key': item['key'],
+            'kind': kind,
+            'kind_label': labels.get(kind, ''),
+            # Etiqueta del bloque: "Bloque #0000 · génesis", "Sidechain SC-01", "Staking STK-01"…
+            'label': f"{labels['block']} {no}" if kind in ('genesis', 'main') else f"{labels[kind].capitalize()} {no}",
+            'title': (f"{labels['block']} {no} · {labels['genesis']}" if kind == 'genesis'
+                      else (f"{labels['block']} {no} · {item['hash']}" if kind == 'main'
+                            else f"{labels[kind].capitalize()} {no} · {item['hash']}")),
+            'hash': item['hash'],
+            'role': field(item, 'role'),
+            'org_short': field(item, 'org_short'),
+            'years': field(item, 'years'),
+            'org': field(item, 'org'),
+            'logo': item.get('logo'),
+            'logo_w': item.get('logo_w'),
+            'logo_h': item.get('logo_h', 20),
+            'period': field(item, 'period'),
+            'evolution': field(item, 'evolution'),
+            'step': field(item, 'step'),
+            'subtitle': field(item, 'subtitle'),
+            'desc': field(item, 'desc'),
+            'list_title': field(item, 'list_title'),
+            'bullets': items(item.get('bullets', [])),
+            'chips': items(item.get('chips', [])),
+            'events': events,
+            # "Eventos · 2 hitos" (en mayúsculas por CSS); vacío si el bloque no tiene hitos
+            'events_label': (f"{labels['events']} · {len(events)} "
+                             f"{labels['milestone'] if len(events) == 1 else labels['milestones']}") if events else '',
+        })
+    # El último bloque de la cadena principal cierra la línea (el staking va aparte)
+    main_idx = [b['i'] for b in blocks if b['kind'] in ('genesis', 'main')]
+    for b in blocks:
+        b['chain_end'] = b['i'] == max(main_idx)
+    return blocks
+
+
+def _nav_ctx(lang, page):
+    """Contexto del header/footer compartidos (partials/nav.html)."""
+    prefix = '/en/' if lang == 'en' else '/'
+    on_home = page == 'home'
+    return {
+        'page': page,
+        'nav_base': '' if on_home else prefix,
+        'lab_url': '#lab' if on_home else f'{prefix}web3',
+        'lang_es_url': '/' if on_home else '/web3',
+        'lang_en_url': '/en/' if on_home else '/en/web3',
+    }
+
+
+def _home(request, lang):
+    """
+    Home (ES en / y EN en /en/). Todo lo que tenga [TODO] en landing/content.py solo
+    se muestra en local; en producción esos bloques se ocultan.
+    """
+    cases = _visible_cases(lang)
+    article_list, dates_quiet = articles.localized_list(lang)
+    ctx = {
+        'lang': lang,
+        'meta': HOME_META[lang],
+        'site_url': SITE_URL,
+        'canonical': f'{SITE_URL}/en/' if lang == 'en' else f'{SITE_URL}/',
+        'person_schema_json': _person_schema(lang),
+        'stats': content.localize(content.STATS, lang),
+        'sections': _sections(),
+        'teaching': content.localize(content.TEACHING, lang),
+        'ledger': _ledger(lang),
+        'ledger_current': max(i for i, b in enumerate(content.LEDGER) if b['kind'] in ('genesis', 'main')),
+        'cases': cases,
+        'articles': article_list,
+        'dates_quiet': dates_quiet,
+        'now': {
+            'updated': content.pick(content.NOW['updated'], lang),
+            'items': content.localize(content.NOW['items'], lang),
+        },
+        'contact_email': os.environ.get('CONTACT_EMAIL', content.CONTACT_EMAIL_DEFAULT),
+        'hero_cutout': content.HERO_PHOTO_CUTOUT,
+        **_nav_ctx(lang, 'home'),
+    }
+    html = render_to_string('landing/home.html', ctx, request)
+    if lang == 'en':
+        html = translate_html(html)
+    return HttpResponse(html)
+
+
 def index_professional(request):
     """
-    Vista para la landing page profesional
+    Home en español. La versión anterior sigue en landing/index_professional.html.
     """
-    return render(request, 'landing/index_professional.html')
+    return _home(request, 'es')
+
+
+def home_en(request):
+    return _home(request, 'en')
+
+
+def article_detail(request, slug):
+    """
+    Artículo alojado en la web. Los borradores (draft: true) solo se ven en local.
+    """
+    article = articles.get_article(slug)
+    if not article or (article['draft'] and not settings.DEBUG):
+        raise Http404('Artículo no encontrado')
+    return render(request, 'landing/article.html', {
+        'a': article,
+        'body': articles.render_body(article),
+        'site_url': SITE_URL,
+        'canonical': f'{SITE_URL}/articulos/{slug}/',
+        'contact_email': os.environ.get('CONTACT_EMAIL', content.CONTACT_EMAIL_DEFAULT),
+    })
+
+
+WEB3_META = {
+    'es': {
+        'title': 'Web3 Lab · Cripto, DeFi y liquid staking | Alex Gilabert',
+        'description': 'Cotizaciones cripto en tiempo real, protocolos DeFi y liquid staking.',
+        'og_locale': 'es_ES', 'og_locale_alt': 'en_US',
+    },
+    'en': {
+        'title': 'Web3 Lab · Crypto, DeFi and liquid staking | Alex Gilabert',
+        'description': 'Live crypto prices, DeFi protocols and liquid staking.',
+        'og_locale': 'en_US', 'og_locale_alt': 'es_ES',
+    },
+}
+
+
+def _web3(request, lang):
+    """
+    Web3 Lab: cotizaciones cripto, DeFi, acciones cripto y Strategy Instrument Explorer.
+    El header y los textos de página se traducen en servidor; los módulos de datos
+    (main.js, web3-simulator.js) siguen traduciéndose en cliente según <html lang>.
+    """
+    ctx = {
+        'lang': lang,
+        'meta': WEB3_META[lang],
+        'site_url': SITE_URL,
+        'canonical': f'{SITE_URL}/en/web3' if lang == 'en' else f'{SITE_URL}/web3',
+        'cases': _visible_cases(lang),
+        'sections': _sections(),
+        **_nav_ctx(lang, 'web3'),
+    }
+    html = render_to_string('landing/web3.html', ctx, request)
+    if lang == 'en':
+        html = translate_html(html)
+    return HttpResponse(html)
+
+
+def web3_lab(request):
+    return _web3(request, 'es')
+
+
+def web3_lab_en(request):
+    return _web3(request, 'en')
 
 
 def privacidad(request):
@@ -123,25 +363,42 @@ def robots_txt(request):
 
 def sitemap_xml(request):
     """
-    Sitemap mínimo con las URLs indexables del sitio.
+    Sitemap con las URLs indexables. La home declara sus versiones ES/EN con hreflang.
     """
     today = timezone.now().strftime('%Y-%m-%d')
+    alt = (
+        f'    <xhtml:link rel="alternate" hreflang="es" href="{SITE_URL}/"/>\n'
+        f'    <xhtml:link rel="alternate" hreflang="en" href="{SITE_URL}/en/"/>\n'
+        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}/"/>\n'
+    )
+    alt_web3 = (
+        f'    <xhtml:link rel="alternate" hreflang="es" href="{SITE_URL}/web3"/>\n'
+        f'    <xhtml:link rel="alternate" hreflang="en" href="{SITE_URL}/en/web3"/>\n'
+        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE_URL}/web3"/>\n'
+    )
     urls = [
-        (f'{SITE_URL}/', '1.0', 'monthly'),
-        (f'{SITE_URL}/privacidad', '0.3', 'yearly'),
+        (f'{SITE_URL}/', '1.0', 'monthly', alt),
+        (f'{SITE_URL}/en/', '0.9', 'monthly', alt),
+        (f'{SITE_URL}/web3', '0.7', 'weekly', alt_web3),
+        (f'{SITE_URL}/en/web3', '0.6', 'weekly', alt_web3),
     ]
+    urls += [(f'{SITE_URL}/articulos/{a["slug"]}/', '0.6', 'yearly', '')
+             for a in articles.all_articles() if not a['draft']]
+    urls.append((f'{SITE_URL}/privacidad', '0.3', 'yearly', ''))
     entries = '\n'.join(
         f'  <url>\n'
         f'    <loc>{loc}</loc>\n'
+        f'{links}'
         f'    <lastmod>{today}</lastmod>\n'
         f'    <changefreq>{freq}</changefreq>\n'
         f'    <priority>{prio}</priority>\n'
         f'  </url>'
-        for loc, prio, freq in urls
+        for loc, prio, freq, links in urls
     )
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
         f'{entries}\n'
         '</urlset>\n'
     )

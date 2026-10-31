@@ -67,6 +67,10 @@ def serve_static_file(request, path):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_professional, name='index_professional'),
+    path('en/', views.home_en, name='home_en'),
+    path('articulos/<slug:slug>/', views.article_detail, name='article_detail'),
+    path('web3', views.web3_lab, name='web3_lab'),
+    path('en/web3', views.web3_lab_en, name='web3_lab_en'),
     path('privacidad', views.privacidad, name='privacidad'),
     path('api/contact/', views.submit_contact, name='submit_contact'),
     path('api/stock-quotes/', views.stock_quotes, name='stock_quotes'),

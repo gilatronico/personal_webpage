@@ -1,7 +1,9 @@
             // Dark/Light Mode Toggle
             (function () {
                 const themeToggle = document.querySelector('.theme-toggle');
-                const currentTheme = localStorage.getItem('theme') || 'light';
+                // Si no hay preferencia guardada se respeta el tema ya fijado en <head>
+                // (prefers-color-scheme), en vez de forzar el claro.
+                const currentTheme = localStorage.getItem('theme') || document.documentElement.getAttribute('data-theme') || 'light';
 
                 document.documentElement.setAttribute('data-theme', currentTheme);
                 updateThemeIcon(currentTheme);
@@ -35,9 +37,10 @@
 
                 // Show experiencia by default
                 function showSection(sectionId) {
-                    // Hide all sections
-                    Object.values(sections).forEach(section => {
-                        if (section) {
+                    // Oculta las demás secciones (no la de destino: ocultarla y volver a
+                    // mostrarla la repinta entera y retrasa el LCP en /web3)
+                    Object.entries(sections).forEach(([id, section]) => {
+                        if (section && id !== sectionId) {
                             section.classList.remove('active');
                             section.style.setProperty('display', 'none', 'important');
                             section.style.setProperty('visibility', 'hidden', 'important');
@@ -70,7 +73,7 @@
                                     // Buscar el grid en la sección visible
                                     const marketIntelligence = document.getElementById('market-intelligence');
                                     const cryptoGrid = marketIntelligence ? marketIntelligence.querySelector('#cryptoPricesGrid') : document.getElementById('cryptoPricesGrid');
-                                    if (cryptoGrid && (cryptoGrid.innerHTML.includes('loading') || cryptoGrid.innerHTML.includes('Cargando') || cryptoGrid.innerHTML.trim() === '' || cryptoGrid.querySelector('.crypto-loading'))) {
+                                    if (cryptoGrid && (cryptoGrid.innerHTML.includes('loading') || cryptoGrid.innerHTML.includes('Cargando') || cryptoGrid.innerHTML.trim() === '' || cryptoGrid.querySelector('.crypto-loading') || cryptoGrid.querySelector('.is-skeleton'))) {
                                         // Esperar un poco más para asegurar que el DOM esté listo
                                         setTimeout(() => {
                                             fetchCryptoPrices();
@@ -129,7 +132,8 @@
                     if (hash && sections[hash]) {
                         showSection(hash);
                     } else {
-                        showSection('experiencia');
+                        // En /web3 solo existe la sección web3: mostrar la primera disponible
+                        showSection(sections.experiencia ? 'experiencia' : Object.keys(sections).find(k => sections[k]));
                     }
                 });
 
@@ -139,7 +143,8 @@
                     if (hash && sections[hash]) {
                         showSection(hash);
                     } else {
-                        showSection('experiencia');
+                        // En /web3 solo existe la sección web3: mostrar la primera disponible
+                        showSection(sections.experiencia ? 'experiencia' : Object.keys(sections).find(k => sections[k]));
                     }
                 });
             })();
@@ -705,7 +710,7 @@
                 if (blogLink) blogLink.textContent = t.navArticles || 'Blog';
                 const contactLinkNav = document.querySelector('.nav-contact-link');
                 if (contactLinkNav) contactLinkNav.textContent = t.navContact;
-                const scheduleBtn = document.querySelector('.nav-cta');
+                const scheduleBtn = document.querySelector('.nav-menu .nav-cta'); // solo el nav antiguo
                 if (scheduleBtn) scheduleBtn.textContent = t.navSchedule;
 
                 // Hero
@@ -713,8 +718,10 @@
                 if (heroSubtitles[0]) heroSubtitles[0].textContent = t.heroSubtitle1;
                 if (heroSubtitles[1]) heroSubtitles[1].textContent = t.heroSubtitle2;
                 if (heroSubtitles[2]) heroSubtitles[2].textContent = t.heroSubtitle3;
-                document.querySelector('.btn-primary[href="#producto"]').textContent = t.heroCta1;
-                document.querySelector('.btn-secondary[onclick="openCalendlyModal()"]').textContent = t.heroCta2;
+                const heroCta1El = document.querySelector('.btn-primary[href="#producto"]');
+                if (heroCta1El) heroCta1El.textContent = t.heroCta1;
+                const heroCta2El = document.querySelector('.btn-secondary[onclick="openCalendlyModal()"]');
+                if (heroCta2El) heroCta2El.textContent = t.heroCta2;
                 const heroDownloadCvEl = document.querySelector('[data-i18n="heroDownloadCv"]');
                 if (heroDownloadCvEl) heroDownloadCvEl.textContent = t.heroDownloadCv;
                 const downloadCvContactEl = document.querySelector('[data-i18n="downloadCvContact"]');
@@ -1571,7 +1578,10 @@
                 monero: '#FF6600',
                 binancecoin: '#F3BA2F',
                 ripple: '#23292F',
-                hyperliquid: '#97FCE4'
+                hyperliquid: '#97FCE4',
+                tether: '#26A17B',
+                'usd-coin': '#2775CA',
+                chainlink: '#375BD2'
             };
 
             const CRYPTO_IMAGES = {
@@ -1582,18 +1592,23 @@
                 monero: STATIC_IMAGES_URL + 'monero.png',
                 binancecoin: STATIC_IMAGES_URL + 'bnb.png',
                 ripple: STATIC_IMAGES_URL + 'xrp.png',
-                hyperliquid: STATIC_IMAGES_URL + 'hyperliquid.jpeg'
+                hyperliquid: STATIC_IMAGES_URL + 'hyperliquid.jpeg',
+                tether: STATIC_IMAGES_URL + 'tether.png',
+                'usd-coin': STATIC_IMAGES_URL + 'usdc.png',
+                chainlink: STATIC_IMAGES_URL + 'chainlink.png'
             };
 
+            // Activos de referencia para custodia institucional: los tres L1 principales,
+            // las dos stablecoins dominantes y tres redes con uso en tokenización/pagos.
             const CRYPTOS = [
-                { id: 'solana', symbol: 'SOL', name: 'Solana' },
-                { id: 'avalanche-2', symbol: 'AVAX', name: 'Avalanche' },
-                { id: 'monero', symbol: 'XMR', name: 'Monero' },
-                { id: 'binancecoin', symbol: 'BNB', name: 'BNB' },
                 { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
                 { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
-                { id: 'ripple', symbol: 'XRP', name: 'Ripple' },
-                { id: 'hyperliquid', symbol: 'HYPE', name: 'Hyperliquid' }
+                { id: 'solana', symbol: 'SOL', name: 'Solana' },
+                { id: 'usd-coin', symbol: 'USDC', name: 'USD Coin' },
+                { id: 'tether', symbol: 'USDT', name: 'Tether' },
+                { id: 'ripple', symbol: 'XRP', name: 'XRP' },
+                { id: 'chainlink', symbol: 'LINK', name: 'Chainlink' },
+                { id: 'avalanche-2', symbol: 'AVAX', name: 'Avalanche' }
             ];
 
             async function fetchCryptoPrices() {
@@ -1785,8 +1800,8 @@
                 grid.innerHTML = '';
                 const isMobile = window.innerWidth <= 768;
 
-                // Create cards twice for seamless loop (only on desktop)
-                const iterations = isMobile ? 1 : 2;
+                // Una sola pasada: el diseño nuevo es una cuadrícula, no un carrusel en bucle
+                const iterations = 1;
 
                 for (let i = 0; i < iterations; i++) {
                     CRYPTOS.forEach(crypto => {
@@ -1814,15 +1829,6 @@
                         card.setAttribute('role', 'button');
                         card.setAttribute('tabindex', '0');
 
-                        const borderColor = CRYPTO_COLORS[crypto.id] || CRYPTO_COLORS.bitcoin; // Fallback a bitcoin si no existe
-                        card.style.borderTopColor = borderColor;
-                        // Apply gradient background using the border color
-                        const rgb = hexToRgb(borderColor);
-                        if (rgb) {
-                            card.style.setProperty('--card-accent-r', rgb.r);
-                            card.style.setProperty('--card-accent-g', rgb.g);
-                            card.style.setProperty('--card-accent-b', rgb.b);
-                        }
 
                         // Make card clickable
                         card.addEventListener('click', () => {
@@ -1836,11 +1842,14 @@
                             }
                         });
 
-                        const imagePath = CRYPTO_IMAGES[crypto.id] || STATIC_IMAGES_URL + 'bitcoin.png';
-                        const imageHTML = `<img src="${imagePath}" alt="Logotipo ${crypto.name}" class="crypto-icon">`;
+                        // Sin logo propio: monograma neutro
+                        const imagePath = CRYPTO_IMAGES[crypto.id];
+                        const imageHTML = imagePath
+                            ? `<img src="${imagePath}" alt="" class="crypto-icon">`
+                            : `<span class="crypto-icon crypto-mono" aria-hidden="true">${crypto.symbol.slice(0, 1)}</span>`;
 
                         // Format price - include decimals for XRP
-                        const priceFormat = crypto.id === 'ripple'
+                        const priceFormat = (crypto.id === 'ripple' || price < 10)
                             ? { maximumFractionDigits: 2, minimumFractionDigits: 2 }
                             : { maximumFractionDigits: price > 1 ? 0 : 2, minimumFractionDigits: 0 };
 
@@ -2134,8 +2143,8 @@
                         if (tabContent) tabContent.classList.add('active');
 
                         // El aviso "Datos de DefiLlama" solo aplica a DeFi/Staking,
-                        // no a las acciones cripto (precios simulados).
-                        if (defiAttribution) defiAttribution.style.display = tab === 'stocks' ? 'none' : '';
+                        // no a las acciones cripto ni al simulador Strategy.
+                        if (defiAttribution) defiAttribution.style.display = (tab === 'defi' || tab === 'staking') ? '' : 'none';
                     });
                 });
             }

@@ -3514,7 +3514,7 @@
 
         .protocol-card:hover {
             transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-lg), 0 8px 24px rgba(59, 63, 175, 0.10);
             border-top-color: var(--color-accent);
         }
 
@@ -4220,9 +4220,15 @@
   padding: 2px 7px; border-radius: 999px; border: 1px solid; opacity: 0.9;
 }
 
-/* Cifras con numeración tabular: alinean como datos financieros. */
-.stock-price, .strategy-price, .instrument-metric-value, .instrument-total-value {
+/* Cifras con numeración tabular: alinean como datos financieros. No hay una
+   fuente monoespaciada en el stack (solo Inter/Exo 2), así que se activa
+   sobre la fuente heredada en vez de introducir una familia tipográfica
+   nueva — font-feature-settings 'tnum' es el equivalente de bajo nivel de
+   font-variant-numeric, con mejor soporte en motores antiguos. */
+.stock-price, .strategy-price, .instrument-metric-value, .instrument-total-value,
+.metric-value, .crypto-price, .instrument-total-delta, #mnavValue {
   font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
 }
 
 /* Intro de toda la sección Market Intelligence + contexto del simulador. */
@@ -4335,6 +4341,23 @@
 .instrument-total-label { font-size: 0.8rem; color: var(--text-body); }
 .instrument-total-value { font-weight: 800; font-size: 1.15rem; color: var(--color-primary); }
 [data-theme="dark"] .instrument-total-value { color: var(--text-main); }
+/* Delta vs. el importe invertido, junto al valor total: cuánto se ha ganado o
+   perdido en términos absolutos y relativos, no solo la cifra final. */
+.instrument-total-delta { font-size: 0.78rem; font-weight: 700; margin-left: 8px; white-space: nowrap; }
+.instrument-total-delta.positive { color: #10b981; }
+.instrument-total-delta.negative { color: #ef4444; }
+[data-theme="dark"] .instrument-total-delta.positive { color: #34d399; }
+[data-theme="dark"] .instrument-total-delta.negative { color: #f87171; }
+
+/* Badge de seniority con fondo tenue del color de la barra lateral: refuerza
+   (no sustituye) la señal de color que ya da el borde izquierdo de la fila. */
+.seniority-badge { padding: 1px 7px; border-radius: 999px; font-weight: 600; }
+
+/* Pulso sutil sobre las cifras que cambian al mover el slider/horizonte, para
+   que el recálculo se note sin ser una animación intrusiva. */
+@keyframes valuePulse { 0% { color: var(--color-accent); } 100% { color: inherit; } }
+.value-flash { animation: valuePulse 550ms ease; }
+@media (prefers-reduced-motion: reduce) { .value-flash { animation: none; } }
 .instrument-convert-note {
   margin-top: 12px; font-size: 0.8rem; padding: 10px 12px; border-radius: var(--radius-sm);
   border-left: 3px solid var(--color-accent-warm, #F59E0B); background: var(--bg-elevated-soft);

@@ -822,6 +822,9 @@
                         <button class="market-tab-btn" data-tab="stocks" aria-selected="false">
                             <span class="tab-label" data-w3i="stocksTitle">Acciones Cripto</span>
                         </button>
+                        <button class="market-tab-btn" data-tab="strategy" aria-selected="false">
+                            <span class="tab-label">Strategy Explorer</span>
+                        </button>
                     </div>
 
                     <!-- TAB 1: DeFi -->
@@ -855,25 +858,10 @@
                         </p>
                     </div>
 
-                    <!-- FOOTER -->
-                    <div class="market-footer" id="marketFooterAttribution">
-                        <p class="market-timestamp">
-                            Datos actualizados en tiempo real •
-                            <a href="https://defillama.com" target="_blank" rel="noopener">Datos de DefiLlama</a>
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===== MÓDULO 2: STRATEGY INSTRUMENT EXPLORER ===== -->
-            <section id="strategy-explorer" class="section section-light" aria-label="Strategy Instrument Explorer">
-                <div class="container">
-                    <div class="section-kicker" data-w3i="simKicker">Simulador</div>
-                    <div class="section-header">
-                        <h2>Strategy Instrument Explorer</h2>
-                        <p data-w3i="explorerDesc">Simula cómo se comportan los 5 instrumentos que Strategy tiene
-                            cotizados (MSTR + 4 preferentes) según el precio de BTC y tu importe de inversión.</p>
-                    </div>
+                    <!-- TAB 4: STRATEGY INSTRUMENT EXPLORER -->
+                    <div class="market-tab-content" id="tab-strategy">
+                    <p data-w3i="explorerDesc" style="max-width:780px;">Simula cómo se comportan los 5 instrumentos que Strategy tiene
+                        cotizados (MSTR + 4 preferentes) según el precio de BTC y tu importe de inversión.</p>
 
                     <p class="strategy-why" data-w3i="whyStrategy">Strategy es el caso más completo de «puente» entre las
                         finanzas tradicionales y Bitcoin: no solo tiene la acción común (MSTR), sino cuatro instrumentos
@@ -946,13 +934,13 @@
 
                         <!-- Accordion de instrumentos -->
                         <div>
-                            <div id="instrumentAccordion"><!-- rows injected by JS from INSTRUMENTS --></div>
-
                             <div class="strategy-summary protocol-card">
                                 <div class="section-kicker" style="margin-bottom:10px;" data-w3i="summaryKicker">Resumen
                                     del escenario</div>
                                 <div id="summaryText"></div>
                             </div>
+
+                            <div id="instrumentAccordion"><!-- rows injected by JS from INSTRUMENTS --></div>
 
                             <div class="strategy-disclaimer" data-w3i="disclaimer">
                                 Simulación educativa con fines ilustrativos. No constituye asesoramiento de inversión.
@@ -960,6 +948,15 @@
                                 necesariamente el comportamiento real de mercado.
                             </div>
                         </div>
+                    </div>
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="market-footer" id="marketFooterAttribution">
+                        <p class="market-timestamp">
+                            Datos actualizados en tiempo real •
+                            <a href="https://defillama.com" target="_blank" rel="noopener">Datos de DefiLlama</a>
+                        </p>
                     </div>
                 </div>
             </section>

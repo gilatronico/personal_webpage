@@ -1,0 +1,255 @@
+{% load static %}<!DOCTYPE html>
+<html lang="{{ lang }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ meta.title }}</title>
+    <meta name="description" content="{{ meta.description }}">
+    <meta name="author" content="Alex Gilabert">
+    <link rel="canonical" href="{{ canonical }}">
+    <link rel="alternate" hreflang="es" href="{{ site_url }}/web3">
+    <link rel="alternate" hreflang="en" href="{{ site_url }}/en/web3">
+    <link rel="alternate" hreflang="x-default" href="{{ site_url }}/web3">
+    <meta name="theme-color" content="#F3F5F8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#070A12" media="(prefers-color-scheme: dark)">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical }}">
+    <meta property="og:title" content="{{ meta.title }}">
+    <meta property="og:description" content="{{ meta.description }}">
+    <meta property="og:image" content="{{ site_url }}{% static 'images/og-alex-gilabert.png' %}">
+    <meta property="og:locale" content="{{ meta.og_locale }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon_world.png' %}?v=2">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap">
+    </noscript>
+
+    <script>
+        (function () {
+            var t = null;
+            try { t = localStorage.getItem('theme'); } catch (e) { }
+            if (t !== 'light' && t !== 'dark') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', t);
+            document.documentElement.classList.add('js');
+            // main.js traduce los módulos de mercado según esta preferencia: la fija la URL
+            try { localStorage.setItem('preferredLanguage', '{{ lang }}'); } catch (e) { }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=14">
+    <link rel="stylesheet" href="{% static 'css/web3.css' %}?v=6">
+</head>
+
+<body class="page-web3">
+    <a href="#main" class="skip" data-i18n="skip">Saltar al contenido</a>
+    <div class="grain" aria-hidden="true"></div>
+    {% include 'landing/partials/nav.html' %}
+
+    <main id="main">
+        <div id="web3" class="main-section active">
+            <section id="market-intelligence" class="w3">
+                <div class="w3-bg" aria-hidden="true"></div>
+                <div class="wrap">
+                    <header class="w3-head">
+                        <p class="mono kicker"><i class="live" aria-hidden="true"></i>Market Intelligence</p>
+                        <h1 class="disp" data-i18n="w3Title">Web3 <em class="serif">Lab</em></h1>
+                        <p class="lede" data-i18n="w3Lede">Sigo de cerca los activos que conectan las finanzas
+                            tradicionales con la infraestructura cripto: cotizaciones en tiempo real, protocolos DeFi
+                            y liquid staking.</p>
+                    </header>
+
+                    <!-- Cotizaciones (CoinGecko) -->
+                    <div class="crypto-ticker-wrapper">
+                        <div class="crypto-prices-grid" id="cryptoPricesGrid" aria-live="polite">
+                            <p class="sr-only">Cargando cotizaciones…</p>
+                            {% for _ in "12345678" %}<div class="crypto-card is-skeleton" aria-hidden="true"></div>{% endfor %}
+                        </div>
+                    </div>
+                    <div class="crypto-footer">
+                        <p class="crypto-timestamp mono">
+                            <span id="crypto-timestamp-text">Datos en tiempo real proporcionados por CoinGecko · Última
+                                actualización:</span> <span id="cryptoTimestamp">--:--</span>
+                        </p>
+                    </div>
+
+                    <!-- TABS NAVIGATION -->
+                    <h2 class="sr-only" data-i18n="w3Markets">Mercados</h2>
+                    <div class="market-tabs" role="tablist" aria-label="Mercados" data-i18n-aria="w3MarketsAria">
+                        <button class="market-tab-btn active" role="tab" id="tabbtn-defi" aria-controls="tab-defi" data-tab="defi" aria-selected="true">
+                            <span class="tab-label">DeFi Protocols</span>
+                        </button>
+                        <button class="market-tab-btn" role="tab" id="tabbtn-staking" aria-controls="tab-staking" data-tab="staking" aria-selected="false">
+                            <span class="tab-label">Liquid Staking</span>
+                        </button>
+                        {% if sections.lab_stocks %}
+                        <button class="market-tab-btn" role="tab" id="tabbtn-stocks" aria-controls="tab-stocks" data-tab="stocks" aria-selected="false">
+                            <span class="tab-label" data-w3i="stocksTitle">Acciones Cripto</span>
+                        </button>
+                        {% endif %}
+                        {% if sections.lab_strategy %}
+                        <button class="market-tab-btn" role="tab" id="tabbtn-strategy" aria-controls="tab-strategy" data-tab="strategy" aria-selected="false">
+                            <span class="tab-label">Strategy Explorer</span>
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    <!-- TAB 1: DeFi -->
+                    <div class="market-tab-content active" id="tab-defi" role="tabpanel" aria-labelledby="tabbtn-defi">
+                        <div class="protocols-grid" id="defi-grid">
+                            <div class="protocol-card loading">
+                                <div class="spinner"></div>
+                                <p class="loading-text">Cargando protocolos...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: STAKING -->
+                    <div class="market-tab-content" id="tab-staking" role="tabpanel" aria-labelledby="tabbtn-staking">
+                        <div class="protocols-grid" id="staking-grid">
+                            <div class="protocol-card loading">
+                                <div class="spinner"></div>
+                                <p class="loading-text">Cargando protocolos de staking...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if sections.lab_stocks %}
+                    <!-- TAB 3: ACCIONES CRIPTO (TradFi) -->
+                    <div class="market-tab-content" id="tab-stocks" role="tabpanel" aria-labelledby="tabbtn-stocks">
+                        <div class="protocols-grid" id="cryptoStocksGrid">
+                            <!-- cards injected by web3-simulator.js from STOCKS -->
+                        </div>
+                        <p class="market-timestamp" id="stocksFooter">
+                            <span class="live-dot" id="stocksLiveDot" aria-hidden="true"></span>
+                            <span id="stocksFooterText">Cargando precios…</span> <span id="stocksTimestamp"></span>
+                        </p>
+                    </div>
+
+                    {% endif %}
+
+                    {% if sections.lab_strategy %}
+                    <!-- TAB 4: STRATEGY INSTRUMENT EXPLORER -->
+                    <div class="market-tab-content" id="tab-strategy" role="tabpanel" aria-labelledby="tabbtn-strategy">
+                    <p data-w3i="explorerDesc" class="explorer-desc">Simula cómo se comportan los 5 instrumentos que Strategy tiene
+                        cotizados (MSTR + 4 preferentes) según el precio de BTC y tu importe de inversión.</p>
+
+                    <p class="strategy-why" data-w3i="whyStrategy">Strategy es el caso más completo de «puente» entre las
+                        finanzas tradicionales y Bitcoin: no solo tiene la acción común (MSTR), sino cuatro instrumentos
+                        de renta fija distintos cotizados en Nasdaq. Por eso merece su propio simulador.</p>
+
+                    <div class="risk-note" role="note" data-w3i="riskNote">
+                        Ninguna de las preferentes está colateralizada por el Bitcoin en balance de Strategy — es
+                        exposición vía balance corporativo, no un derecho directo sobre BTC.
+                    </div>
+
+                    <div class="strategy-layout">
+                        <!-- Consola de controles -->
+                        <div class="strategy-console-sticky">
+                            <div class="strategy-console protocol-card">
+                                <div class="section-kicker" data-w3i="consoleKicker">Consola
+                                    de simulación</div>
+
+                                <label class="strategy-label" for="btcSlider" data-w3i="labelBtc">Precio de BTC
+                                    objetivo</label>
+                                <div class="strategy-price-row">
+                                    <span class="strategy-price" id="btcPriceDisplay">$118,000</span>
+                                    <span class="strategy-live" id="liveLabel"><span class="live-dot"
+                                            aria-hidden="true"></span>simulando en vivo</span>
+                                </div>
+                                <input type="range" id="btcSlider" min="30000" max="250000" step="1000" value="118000"
+                                    aria-label="Precio de BTC objetivo">
+
+                                <label class="strategy-label" for="investAmount" data-w3i="labelInvest">Importe a
+                                    invertir</label>
+                                <div class="strategy-input-wrap">
+                                    <span>$</span>
+                                    <input type="text" id="investAmount" value="10,000" inputmode="numeric"
+                                        autocomplete="off" aria-label="Importe a invertir">
+                                </div>
+
+                                <label class="strategy-label" data-w3i="labelHorizon">Horizonte para alcanzar ese
+                                    precio</label>
+                                <div class="strategy-horizon-group" id="horizonGroup" role="group"
+                                    aria-label="Horizonte temporal">
+                                    <button type="button" class="strategy-horizon-btn" data-months="1"
+                                        aria-pressed="false">1m</button>
+                                    <button type="button" class="strategy-horizon-btn" data-months="6"
+                                        aria-pressed="false">6m</button>
+                                    <button type="button" class="strategy-horizon-btn active" data-months="12"
+                                        aria-pressed="true">12m</button>
+                                    <button type="button" class="strategy-horizon-btn" data-months="24"
+                                        aria-pressed="false">24m</button>
+                                </div>
+
+                                <div class="strategy-mnav-row">
+                                    <div class="strategy-mnav-ring" id="mnavRing">
+                                        <div class="strategy-mnav-needle" id="mnavNeedle" aria-hidden="true"></div>
+                                        <div class="strategy-mnav-ring-inner">
+                                            <span id="mnavValue">1.70×</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="section-kicker" data-w3i="mnavKicker">mNAV
+                                            implícito</div>
+                                        <div class="strategy-mnav-label" id="mnavLabel">Accretive — emitir acciones suma
+                                            BTC/acción</div>
+                                    </div>
+                                </div>
+                                <p class="strategy-mnav-help" data-w3i="mnavHelp">mNAV = capitalización de Strategy ÷
+                                    valor de mercado de los BTC en su balance. Por encima de <strong>1.0×</strong>,
+                                    emitir acciones para comprar más BTC añade BTC por acción (accretive); por debajo, lo
+                                    diluye.</p>
+                            </div>
+                        </div>
+
+                        <!-- Accordion de instrumentos -->
+                        <div>
+                            <div class="strategy-summary protocol-card">
+                                <div class="section-kicker" data-w3i="summaryKicker">Resumen
+                                    del escenario</div>
+                                <div id="summaryText"></div>
+                            </div>
+
+                            <div id="instrumentAccordion"><!-- rows injected by JS from INSTRUMENTS --></div>
+
+                            <div class="strategy-disclaimer" data-w3i="disclaimer">
+                                Simulación educativa con fines ilustrativos. No constituye asesoramiento de inversión.
+                                Los cálculos son aproximaciones basadas en fórmulas públicas y no reflejan
+                                necesariamente el comportamiento real de mercado.
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="market-footer" id="marketFooterAttribution">
+                        <p class="market-timestamp">
+                            Datos actualizados en tiempo real •
+                            <a href="https://defillama.com" target="_blank" rel="noopener">Datos de DefiLlama</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    {% include 'landing/partials/footer.html' %}
+
+    <script>
+        // Ruta base para imágenes estáticas (usada por static/js/main.js)
+        const STATIC_IMAGES_URL = '{% static "images/" %}';
+    </script>
+    <script src="{% static 'js/main.js' %}?v=5" defer></script>
+    <script src="{% static 'js/web3-simulator.js' %}?v=4" defer></script>
+    <script src="{% static 'js/site.js' %}?v=5" defer></script>
+</body>
+
+</html>
