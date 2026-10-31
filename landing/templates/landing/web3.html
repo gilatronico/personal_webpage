@@ -17,9 +17,13 @@
     <meta property="og:url" content="{{ canonical }}">
     <meta property="og:title" content="{{ meta.title }}">
     <meta property="og:description" content="{{ meta.description }}">
-    <meta property="og:image" content="{{ site_url }}{% static 'images/og-alex-gilabert.png' %}">
+    <meta property="og:image" content="{{ site_url }}{% if lang == 'en' %}{% static 'images/og-web3-en.png' %}{% else %}{% static 'images/og-web3-es.png' %}{% endif %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ meta.title }}">
     <meta property="og:locale" content="{{ meta.og_locale }}">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ site_url }}{% if lang == 'en' %}{% static 'images/og-web3-en.png' %}{% else %}{% static 'images/og-web3-es.png' %}{% endif %}">
     <link rel="icon" type="image/png" href="{% static 'images/favicon_world.png' %}?v=2">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,198 +48,180 @@
         })();
     </script>
 
-    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=14">
-    <link rel="stylesheet" href="{% static 'css/web3.css' %}?v=6">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=19">
+    <link rel="stylesheet" href="{% static 'css/web3.css' %}?v=12">
 </head>
 
 <body class="page-web3">
     <a href="#main" class="skip" data-i18n="skip">Saltar al contenido</a>
     <div class="grain" aria-hidden="true"></div>
     {% include 'landing/partials/nav.html' %}
+    {% include 'landing/partials/chains_sprite.html' %}
 
     <main id="main">
         <div id="web3" class="main-section active">
-            <section id="market-intelligence" class="w3">
+            <section class="w3" aria-labelledby="w3Title">
                 <div class="w3-bg" aria-hidden="true"></div>
                 <div class="wrap">
+
+                    <!-- 1. Cabecera -->
                     <header class="w3-head">
-                        <p class="mono kicker"><i class="live" aria-hidden="true"></i>Market Intelligence</p>
-                        <h1 class="disp" data-i18n="w3Title">Web3 <em class="serif">Lab</em></h1>
-                        <p class="lede" data-i18n="w3Lede">Sigo de cerca los activos que conectan las finanzas
-                            tradicionales con la infraestructura cripto: cotizaciones en tiempo real, protocolos DeFi
-                            y liquid staking.</p>
+                        <p class="mono kicker"><i class="live" aria-hidden="true"></i>{{ ui.kicker }}</p>
+                        <h1 class="disp" id="w3Title">{{ ui.title|safe }}</h1>
+                        <p class="mono w3-updated" id="w3Updated" aria-live="polite">{{ ui.updatedWaiting }}</p>
                     </header>
 
-                    <!-- Cotizaciones (CoinGecko) -->
-                    <div class="crypto-ticker-wrapper">
-                        <div class="crypto-prices-grid" id="cryptoPricesGrid" aria-live="polite">
-                            <p class="sr-only">Cargando cotizaciones…</p>
-                            {% for _ in "12345678" %}<div class="crypto-card is-skeleton" aria-hidden="true"></div>{% endfor %}
-                        </div>
-                    </div>
-                    <div class="crypto-footer">
-                        <p class="crypto-timestamp mono">
-                            <span id="crypto-timestamp-text">Datos en tiempo real proporcionados por CoinGecko · Última
-                                actualización:</span> <span id="cryptoTimestamp">--:--</span>
-                        </p>
+                    <!-- 2. Resumen en vivo -->
+                    <div class="hk" id="hk">
+                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.stable }}</p><p class="hk-v disp" data-hk="stable"><i class="sk sk-line"></i></p><p class="hk-s mono">DefiLlama</p></div>
+                        <div class="hk-i card"><p class="kpi-l mono" data-hk-l="funds">{{ ui.hk.funds }}</p><p class="hk-v disp" data-hk="funds">{{ lab.funds_count }}</p><p class="hk-s mono" data-hk-s="funds">&nbsp;</p></div>
+                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.banks }}</p><p class="hk-v disp" data-hk="banks">{{ tl.banks_active|length }}</p><p class="hk-s mono" data-hk-s="banks">{{ tl.banks_active|join:", " }}</p></div>
+                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.yield }}</p><p class="hk-v disp" data-hk="yield"><i class="sk sk-line"></i></p><p class="hk-s mono" data-hk-s="yield">&nbsp;</p></div>
                     </div>
 
-                    <!-- TABS NAVIGATION -->
-                    <h2 class="sr-only" data-i18n="w3Markets">Mercados</h2>
-                    <div class="market-tabs" role="tablist" aria-label="Mercados" data-i18n-aria="w3MarketsAria">
-                        <button class="market-tab-btn active" role="tab" id="tabbtn-defi" aria-controls="tab-defi" data-tab="defi" aria-selected="true">
-                            <span class="tab-label">DeFi Protocols</span>
-                        </button>
-                        <button class="market-tab-btn" role="tab" id="tabbtn-staking" aria-controls="tab-staking" data-tab="staking" aria-selected="false">
-                            <span class="tab-label">Liquid Staking</span>
-                        </button>
-                        {% if sections.lab_stocks %}
-                        <button class="market-tab-btn" role="tab" id="tabbtn-stocks" aria-controls="tab-stocks" data-tab="stocks" aria-selected="false">
-                            <span class="tab-label" data-w3i="stocksTitle">Acciones Cripto</span>
-                        </button>
+                    <!-- 3. Tira de precios (CoinGecko) -->
+                    <div class="tickerbar" id="ticker" role="region" aria-label="{{ ui.tickerAria }}" tabindex="0">
+                        {% for _ in "1234567" %}<div class="tk is-skeleton" aria-hidden="true"><i class="sk sk-dot"></i><i class="sk sk-line"></i></div>{% endfor %}
+                    </div>
+                    <p class="mono src-line">{{ ui.pricesSource }}</p>
+
+                    <div class="w3-bar">
+                        <nav class="w3-jump" aria-label="{{ ui.sections }}">
+                            <a href="#stablecoins">{{ ui.nav.stablecoins }}</a>
+                            <a href="#comparador">{{ ui.nav.compare }}</a>
+                            <a href="#fondos">{{ ui.nav.funds }}</a>
+                            <a href="#cronologia">{{ ui.nav.timeline }}</a>
+                            <a href="#tesoreria">{{ ui.nav.treasury }}</a>
+                            <a href="#custodia">{{ ui.nav.custody }}</a>
+                        </nav>
+                        <a class="btn btn-primary btn-sm w3-cta" href="#custodia">{{ ui.jumpCta }}</a>
+                    </div>
+
+                    <!-- Stablecoins (DefiLlama) -->
+                    <section class="w3-sec" id="stablecoins" aria-labelledby="stableTitle">
+                        <div class="w3-sec-head">
+                            <h2 class="h2" id="stableTitle">{{ ui.stable.title }}{% include 'landing/partials/anchor.html' with id='stablecoins' %}</h2>
+                            <p class="mono src-line">{{ ui.stable.source }}</p>
+                        </div>
+                        <div class="card euro-hl" id="euroHl" data-block>
+                            <p class="euro-phrase disp" data-eur-phrase><i class="sk sk-line"></i></p>
+                            <div class="euro-split" aria-hidden="true"><i data-eur-bar></i></div>
+                            <p class="euro-meta mono"><span data-eur-legend>&nbsp;</span><span data-eur-total></span></p>
+                        </div>
+                        <div class="stable-grid">
+                            <figure class="card chart-card" id="stableChart" data-block>
+                                <figcaption><span class="mono">{{ ui.stable.chart }}</span><span class="chg-row mono" data-chg></span></figcaption>
+                                <div class="chart-body"><i class="sk sk-block"></i></div>
+                            </figure>
+                            <div class="card table-card" id="stableTop" data-block>
+                                <p class="mono card-cap">{{ ui.stable.top }}</p>
+                                <div class="ttable" role="table" aria-label="{{ ui.stable.top }}">
+                                    <div class="trow thead mono" role="row"><span role="columnheader">{{ ui.stable.colName }}</span><span role="columnheader">{{ ui.stable.colCur }}</span><span role="columnheader" class="num">{{ ui.stable.colCap }}</span><span role="columnheader" class="num">{{ ui.stable.col30 }}</span></div>
+                                    <div class="tbody" data-rows><i class="sk sk-block"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card table-card eur-card" id="stableEur" data-block>
+                            <div class="eur-head"><p class="mono card-cap">{{ ui.stable.euro }}</p><p class="mono eur-sum" data-eur-sum></p></div>
+                            <div class="eur-list" data-rows><i class="sk sk-block"></i></div>
+                        </div>
+                    </section>
+
+                    <!-- 4. Comparador -->
+                    <section class="w3-sec" id="comparador" aria-labelledby="cmpTitle">
+                        <div class="w3-sec-head"><h2 class="h2" id="cmpTitle">{{ ui.compare.title }}{% include 'landing/partials/anchor.html' with id='comparador' %}</h2></div>
+                        <div class="cmp3" role="list">
+                            {% for c in lab.compare_cols %}
+                            <article class="cmp-card tone-{{ c.tone }}" role="listitem">
+                                <header class="cmp-top">
+                                    <span class="cmp-ico" aria-hidden="true">
+                                        {% if c.key == 'stable' %}<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.8-2.8 2s1 1.7 2.8 2.1 2.8.9 2.8 2.1-1.2 2-2.8 2c-1.3 0-2.4-.6-2.9-1.5M12 6.4v1.4m0 8.4v1.4"/></svg>
+                                        {% elif c.key == 'mmf' %}<svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3.5-4 3 2.5L20 7"/><path d="M16.5 7H20v3.5"/></svg>
+                                        {% else %}<svg viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5"/><path d="M5 10v7M9.7 10v7M14.3 10v7M19 10v7"/><path d="M3 20h18"/></svg>{% endif %}
+                                    </span>
+                                    <span class="cmp-num mono">{{ c.number }}</span>
+                                </header>
+                                <h3 class="cmp-title disp">{{ c.title }}</h3>
+                                <p class="cmp-what">{{ c.what }}</p>
+                                <dl class="cmp-dl">
+                                    <div><dt class="mono">{{ lab.compare_labels.issuer }}</dt><dd>{{ c.issuer }}</dd></div>
+                                    <div><dt class="mono">{{ lab.compare_labels.yield }}</dt><dd><span class="cmp-pill y-{{ c.yield_state }}">{{ c.yield_v }}</span></dd></div>
+                                    <div><dt class="mono">{{ lab.compare_labels.who }}</dt><dd>{{ c.who }}</dd></div>
+                                </dl>
+                                <footer class="cmp-ex">
+                                    <span class="mono cmp-ex-l">{{ lab.compare_labels.example }}</span>
+                                    <span class="cmp-chips">{% for e in c.examples %}<span class="cmp-chip mono">{{ e }}</span>{% endfor %}</span>
+                                </footer>
+                            </article>
+                            {% endfor %}
+                        </div>
+                        {% if lab.article %}
+                        <p class="cmp-link"><a class="link-arrow" href="{{ lab.article.url }}"{% if lab.article.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ ui.compare.article }}</a></p>
                         {% endif %}
-                        {% if sections.lab_strategy %}
-                        <button class="market-tab-btn" role="tab" id="tabbtn-strategy" aria-controls="tab-strategy" data-tab="strategy" aria-selected="false">
-                            <span class="tab-label">Strategy Explorer</span>
-                        </button>
-                        {% endif %}
-                    </div>
+                    </section>
 
-                    <!-- TAB 1: DeFi -->
-                    <div class="market-tab-content active" id="tab-defi" role="tabpanel" aria-labelledby="tabbtn-defi">
-                        <div class="protocols-grid" id="defi-grid">
-                            <div class="protocol-card loading">
-                                <div class="spinner"></div>
-                                <p class="loading-text">Cargando protocolos...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- TAB 2: STAKING -->
-                    <div class="market-tab-content" id="tab-staking" role="tabpanel" aria-labelledby="tabbtn-staking">
-                        <div class="protocols-grid" id="staking-grid">
-                            <div class="protocol-card loading">
-                                <div class="spinner"></div>
-                                <p class="loading-text">Cargando protocolos de staking...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% if sections.lab_stocks %}
-                    <!-- TAB 3: ACCIONES CRIPTO (TradFi) -->
-                    <div class="market-tab-content" id="tab-stocks" role="tabpanel" aria-labelledby="tabbtn-stocks">
-                        <div class="protocols-grid" id="cryptoStocksGrid">
-                            <!-- cards injected by web3-simulator.js from STOCKS -->
-                        </div>
-                        <p class="market-timestamp" id="stocksFooter">
-                            <span class="live-dot" id="stocksLiveDot" aria-hidden="true"></span>
-                            <span id="stocksFooterText">Cargando precios…</span> <span id="stocksTimestamp"></span>
-                        </p>
-                    </div>
-
-                    {% endif %}
-
-                    {% if sections.lab_strategy %}
-                    <!-- TAB 4: STRATEGY INSTRUMENT EXPLORER -->
-                    <div class="market-tab-content" id="tab-strategy" role="tabpanel" aria-labelledby="tabbtn-strategy">
-                    <p data-w3i="explorerDesc" class="explorer-desc">Simula cómo se comportan los 5 instrumentos que Strategy tiene
-                        cotizados (MSTR + 4 preferentes) según el precio de BTC y tu importe de inversión.</p>
-
-                    <p class="strategy-why" data-w3i="whyStrategy">Strategy es el caso más completo de «puente» entre las
-                        finanzas tradicionales y Bitcoin: no solo tiene la acción común (MSTR), sino cuatro instrumentos
-                        de renta fija distintos cotizados en Nasdaq. Por eso merece su propio simulador.</p>
-
-                    <div class="risk-note" role="note" data-w3i="riskNote">
-                        Ninguna de las preferentes está colateralizada por el Bitcoin en balance de Strategy — es
-                        exposición vía balance corporativo, no un derecho directo sobre BTC.
-                    </div>
-
-                    <div class="strategy-layout">
-                        <!-- Consola de controles -->
-                        <div class="strategy-console-sticky">
-                            <div class="strategy-console protocol-card">
-                                <div class="section-kicker" data-w3i="consoleKicker">Consola
-                                    de simulación</div>
-
-                                <label class="strategy-label" for="btcSlider" data-w3i="labelBtc">Precio de BTC
-                                    objetivo</label>
-                                <div class="strategy-price-row">
-                                    <span class="strategy-price" id="btcPriceDisplay">$118,000</span>
-                                    <span class="strategy-live" id="liveLabel"><span class="live-dot"
-                                            aria-hidden="true"></span>simulando en vivo</span>
+                    <!-- 5. Fondos monetarios tokenizados -->
+                    <section class="w3-sec" id="fondos" aria-labelledby="fundsTitle">
+                        <div class="w3-sec-head"><h2 class="h2" id="fundsTitle">{{ ui.funds.title }}{% include 'landing/partials/anchor.html' with id='fondos' %}</h2></div>
+                        <div class="cards3" id="fundGrid">
+                            {% for f in lab.funds %}
+                            <article class="card item fund" data-fund="{{ f.id }}" data-since="{{ f.since }}" style="--fc: {{ f.accent }}">
+                                <header class="item-top">
+                                    <span class="mgr-tile">{% if f.logo %}<span class="mgr-logo" role="img" aria-label="{{ f.manager }}" style="--logo:url('{% static 'images/lab/' %}{{ f.logo }}');--w:{{ f.logo_w }}px;--h:{{ f.logo_h }}px"></span>{% else %}<span class="mgr-text disp">{{ f.manager }}</span>{% endif %}</span>
+                                    <span class="mono ticker-chip">{{ f.ticker }}</span>
+                                </header>
+                                <h3 class="disp item-name">{{ f.name }}</h3>
+                                <p class="mono item-sub">{{ f.manager }}</p>
+                                <dl class="meta mono">
+                                    <div><dt>{{ ui.funds.currency }}</dt><dd>{{ f.currency }}</dd></div>
+                                    <div data-networks{% if not f.chains_shown %} hidden{% endif %}><dt>{{ ui.funds.networks }}</dt><dd><ul class="chains" role="list">{% for c in f.chains_shown %}<li title="{{ c.name }}"><svg viewBox="0 0 24 24" role="img" aria-label="{{ c.name }}"><use href="#ch-{{ c.slug }}"/></svg></li>{% endfor %}{% if f.chains_more %}<li class="chain-more" tabindex="0" data-tip="{{ f.chains_more_title }}" aria-label="{{ f.chains_more_title }}">+{{ f.chains_more|length }}</li>{% endif %}</ul></dd></div>
+                                    <div data-aum hidden><dt>{{ ui.funds.aum }}</dt><dd></dd></div>
+                                </dl>
+                                <div class="item-why-wrap">
+                                    <p class="item-why is-clamp" data-clamp>{{ f.why }}</p>
+                                    <button type="button" class="more-btn mono" data-more="{{ ui.funds.seeMore }}" data-less="{{ ui.funds.seeLess }}" aria-expanded="false" hidden>{{ ui.funds.seeMore }}</button>
                                 </div>
-                                <input type="range" id="btcSlider" min="30000" max="250000" step="1000" value="118000"
-                                    aria-label="Precio de BTC objetivo">
-
-                                <label class="strategy-label" for="investAmount" data-w3i="labelInvest">Importe a
-                                    invertir</label>
-                                <div class="strategy-input-wrap">
-                                    <span>$</span>
-                                    <input type="text" id="investAmount" value="10,000" inputmode="numeric"
-                                        autocomplete="off" aria-label="Importe a invertir">
-                                </div>
-
-                                <label class="strategy-label" data-w3i="labelHorizon">Horizonte para alcanzar ese
-                                    precio</label>
-                                <div class="strategy-horizon-group" id="horizonGroup" role="group"
-                                    aria-label="Horizonte temporal">
-                                    <button type="button" class="strategy-horizon-btn" data-months="1"
-                                        aria-pressed="false">1m</button>
-                                    <button type="button" class="strategy-horizon-btn" data-months="6"
-                                        aria-pressed="false">6m</button>
-                                    <button type="button" class="strategy-horizon-btn active" data-months="12"
-                                        aria-pressed="true">12m</button>
-                                    <button type="button" class="strategy-horizon-btn" data-months="24"
-                                        aria-pressed="false">24m</button>
-                                </div>
-
-                                <div class="strategy-mnav-row">
-                                    <div class="strategy-mnav-ring" id="mnavRing">
-                                        <div class="strategy-mnav-needle" id="mnavNeedle" aria-hidden="true"></div>
-                                        <div class="strategy-mnav-ring-inner">
-                                            <span id="mnavValue">1.70×</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="section-kicker" data-w3i="mnavKicker">mNAV
-                                            implícito</div>
-                                        <div class="strategy-mnav-label" id="mnavLabel">Accretive — emitir acciones suma
-                                            BTC/acción</div>
-                                    </div>
-                                </div>
-                                <p class="strategy-mnav-help" data-w3i="mnavHelp">mNAV = capitalización de Strategy ÷
-                                    valor de mercado de los BTC en su balance. Por encima de <strong>1.0×</strong>,
-                                    emitir acciones para comprar más BTC añade BTC por acción (accretive); por debajo, lo
-                                    diluye.</p>
-                            </div>
+                                <p class="item-src">{% for s in f.sources %}<a href="{{ s }}" target="_blank" rel="noopener noreferrer">{{ ui.source }}</a>{% endfor %}</p>
+                            </article>
+                            {% endfor %}
                         </div>
+                    </section>
 
-                        <!-- Accordion de instrumentos -->
-                        <div>
-                            <div class="strategy-summary protocol-card">
-                                <div class="section-kicker" data-w3i="summaryKicker">Resumen
-                                    del escenario</div>
-                                <div id="summaryText"></div>
-                            </div>
-
-                            <div id="instrumentAccordion"><!-- rows injected by JS from INSTRUMENTS --></div>
-
-                            <div class="strategy-disclaimer" data-w3i="disclaimer">
-                                Simulación educativa con fines ilustrativos. No constituye asesoramiento de inversión.
-                                Los cálculos son aproximaciones basadas en fórmulas públicas y no reflejan
-                                necesariamente el comportamiento real de mercado.
-                            </div>
+                    <!-- 6. Cronología de la tokenización -->
+                    <section class="w3-sec" id="cronologia" aria-labelledby="tlTitle">
+                        <div class="w3-sec-head">
+                            <h2 class="h2" id="tlTitle">{{ tl.ui.title }}{% include 'landing/partials/anchor.html' with id='cronologia' %}</h2>
+                            <p class="mono src-line tz-hint-d">{{ tl.ui.hint }}</p>
+                            <p class="mono src-line tz-hint-m">{{ tl.ui.hintMobile }}</p>
                         </div>
-                    </div>
-                    </div>
-                    {% endif %}
+                        <div class="tz" id="tz">
+                            <noscript>
+                                <p class="note">{{ tl.ui.noscript }}</p>
+                                <ol class="tz-ns">
+                                    {% for e in tl.events %}<li><b>{{ e.date }}</b> · {{ e.title }}{% for s in e.sources %} · <a href="{{ s }}" target="_blank" rel="noopener noreferrer">{{ ui.sourceWord }} {{ forloop.counter }} ↗</a>{% endfor %}</li>{% endfor %}
+                                </ol>
+                            </noscript>
+                        </div>
+                    </section>
 
-                    <div class="market-footer" id="marketFooterAttribution">
-                        <p class="market-timestamp">
-                            Datos actualizados en tiempo real •
-                            <a href="https://defillama.com" target="_blank" rel="noopener">Datos de DefiLlama</a>
-                        </p>
-                    </div>
+                    <!-- 7. Tesorería onchain -->
+                    <section class="w3-sec" id="tesoreria" aria-labelledby="trTitle">
+                        <div class="w3-sec-head">
+                            <h2 class="h2" id="trTitle">{{ ui.treasury.title }}{% include 'landing/partials/anchor.html' with id='tesoreria' %}</h2>
+                            <p class="mono src-line">{{ ui.treasury.sources }}</p>
+                        </div>
+                        <div class="card yl-card" id="yieldBars" data-block><i class="sk sk-block"></i></div>
+                        <p class="note">{{ ui.treasury.note }}</p>
+                    </section>
+
+                    <!-- 8. Herramienta de custodia -->
+                    <section class="w3-sec" id="custodia" aria-labelledby="quizTitle">
+                        <div class="w3-sec-head"><h2 class="h2" id="quizTitle">{{ quiz.ui.title }}{% include 'landing/partials/anchor.html' with id='custodia' %}</h2></div>
+                        <div class="qz" id="quiz" data-contact="{{ nav_base }}#contacto" data-jspdf="{% static 'js/vendor/jspdf.umd.min.js' %}?v=1">
+                            <noscript><p class="note">{{ ui.unavailable }}</p></noscript>
+                        </div>
+                    </section>
+
                 </div>
             </section>
         </div>
@@ -243,12 +229,13 @@
 
     {% include 'landing/partials/footer.html' %}
 
+    {{ lab_json|json_script:"lab-data" }}
     <script>
-        // Ruta base para imágenes estáticas (usada por static/js/main.js)
-        const STATIC_IMAGES_URL = '{% static "images/" %}';
+        // Ruta base para imágenes estáticas (la usa static/js/web3-lab.js)
+        window.W3_IMG = '{% static "images/lab/" %}';
     </script>
-    <script src="{% static 'js/main.js' %}?v=5" defer></script>
-    <script src="{% static 'js/web3-simulator.js' %}?v=4" defer></script>
+    <script src="{% static 'js/web3-lab.js' %}?v=5" defer></script>
+    <script src="{% static 'js/tokenization-timeline.js' %}?v=2" defer></script>
     <script src="{% static 'js/site.js' %}?v=5" defer></script>
 </body>
 

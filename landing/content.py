@@ -186,8 +186,8 @@ LEDGER = [
     {
         'key': 'bitpanda', 'kind': 'main', 'no': '#0003', 'hash': '0x9c41…e2a7',
         'role': 'Senior Product Manager', 'org_short': 'Bitpanda', 'years': {'es': '2026', 'en': '2026'},
-        'org': {'es': 'Bitpanda Technology Solutions', 'en': 'Bitpanda Technology Solutions'},
-        'logo': 'images/companies/bitpanda.png', 'logo_w': 66,
+        'org': {'es': 'Bitpanda Enterprise', 'en': 'Bitpanda Enterprise'},
+        'logo': 'images/companies/bitpanda-enterprise.png', 'logo_w': 93, 'logo_h': 24,
         'period': {'es': 'jun 2026 a actual', 'en': 'Jun 2026 to present'},
         'step': {'es': 'Etapa 4 de 4, producto', 'en': 'Stage 4 of 4, product'},
         'desc': {'es': 'Senior PM en el brazo SaaS B2B de Bitpanda. Defino y priorizo producto para la plataforma de Custody-as-a-Service dirigida a instituciones que quieren integrar activos digitales sin construir infraestructura propia.',
@@ -205,8 +205,8 @@ LEDGER = [
                'Nuevas blockchains y productos de staking para clientes institucionales',
                'New blockchains and staking products for institutional clients'),
             ev('2026', 'Solución non-custodial para Deutsche Bank', 'Non-custodial solution for Deutsche Bank',
-               'Integración de la tecnología de Bitpanda Technology Solutions en el servicio de custodia cripto institucional del banco',
-               "Integration of Bitpanda Technology Solutions' technology into the bank's institutional crypto custody service"),
+               'Integración de la tecnología de Bitpanda Enterprise en el servicio de custodia cripto institucional del banco',
+               "Integration of Bitpanda Enterprise' technology into the bank's institutional crypto custody service"),
         ],
     },
     {

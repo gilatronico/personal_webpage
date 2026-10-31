@@ -1,0 +1,1658 @@
+{
+ "_comment": "Línea temporal global de la tokenización (/web3). Cada hito tiene fecha y fuentes verificadas; los textos van en {es,en}. precision: day|month|year. status: completed|active|pilot|planned. spain: hito español para el filtro España. involved: clave de etiqueta personal (\"Participé\").",
+ "last_reviewed": "2026-10-31",
+ "range": {
+  "start": "2014-01-01",
+  "end": "2027-12-31"
+ },
+ "ui": {
+  "title": {
+   "es": "La tokenización, en una línea del tiempo",
+   "en": "Tokenization, on a timeline"
+  },
+  "hint": {
+   "es": "Rueda o pellizco para el zoom · arrastra para moverte · pulsa un hito para ver el detalle",
+   "en": "Wheel or pinch to zoom · drag to pan · select a milestone for details"
+  },
+  "hintMobile": {
+   "es": "Pulsa un hito para ver el detalle",
+   "en": "Select a milestone for details"
+  },
+  "aria": {
+   "es": "Línea temporal de hitos de la tokenización",
+   "en": "Timeline of tokenization milestones"
+  },
+  "modeLine": {
+   "es": "Una línea",
+   "en": "One line"
+  },
+  "modeLanes": {
+   "es": "Por carriles",
+   "en": "By lanes"
+  },
+  "modeAria": {
+   "es": "Vista",
+   "en": "View"
+  },
+  "range1": {
+   "es": "1 año",
+   "en": "1 year"
+  },
+  "range3": {
+   "es": "3 años",
+   "en": "3 years"
+  },
+  "rangeAll": {
+   "es": "Todo",
+   "en": "All"
+  },
+  "rangeAria": {
+   "es": "Rango de tiempo",
+   "en": "Time range"
+  },
+  "zoomIn": {
+   "es": "Acercar",
+   "en": "Zoom in"
+  },
+  "zoomOut": {
+   "es": "Alejar",
+   "en": "Zoom out"
+  },
+  "panPrev": {
+   "es": "Antes",
+   "en": "Earlier"
+  },
+  "panNext": {
+   "es": "Después",
+   "en": "Later"
+  },
+  "filters": {
+   "es": "Filtros por categoría",
+   "en": "Category filters"
+  },
+  "spain": {
+   "es": "España",
+   "en": "Spain"
+  },
+  "today": {
+   "es": "hoy",
+   "en": "today"
+  },
+  "minimap": {
+   "es": "Minimapa: arrastra el rectángulo para cambiar el tramo visible",
+   "en": "Minimap: drag the rectangle to change the visible range"
+  },
+  "count": {
+   "es": "{n} de {t} hitos",
+   "en": "{n} of {t} milestones"
+  },
+  "empty": {
+   "es": "Ningún hito con estos filtros.",
+   "en": "No milestones match these filters."
+  },
+  "cluster": {
+   "es": "{n} hitos agrupados",
+   "en": "{n} milestones grouped"
+  },
+  "clusterList": {
+   "es": "Hitos en la misma fecha",
+   "en": "Milestones on the same date"
+  },
+  "close": {
+   "es": "Cerrar",
+   "en": "Close"
+  },
+  "entities": {
+   "es": "Entidades",
+   "en": "Entities"
+  },
+  "category": {
+   "es": "Categoría",
+   "en": "Category"
+  },
+  "status": {
+   "es": "Estado",
+   "en": "Status"
+  },
+  "date": {
+   "es": "Fecha",
+   "en": "Date"
+  },
+  "country": {
+   "es": "País",
+   "en": "Country"
+  },
+  "sources": {
+   "es": "Fuentes",
+   "en": "Sources"
+  },
+  "source": {
+   "es": "Fuente",
+   "en": "Source"
+  },
+  "involved": {
+   "es": "Participé",
+   "en": "I was involved"
+  },
+  "prev": {
+   "es": "Hito anterior",
+   "en": "Previous milestone"
+  },
+  "next": {
+   "es": "Hito siguiente",
+   "en": "Next milestone"
+  },
+  "keys": {
+   "es": "Teclado: ← → para cambiar de hito, + − para el zoom",
+   "en": "Keyboard: ← → to change milestone, + − to zoom"
+  },
+  "noscript": {
+   "es": "Esta línea temporal necesita JavaScript. Estos son los hitos en orden cronológico:",
+   "en": "This timeline needs JavaScript. Here are the milestones in chronological order:"
+  },
+  "statuses": {
+   "completed": {
+    "es": "Completado",
+    "en": "Completed"
+   },
+   "active": {
+    "es": "Activo",
+    "en": "Live"
+   },
+   "pilot": {
+    "es": "Piloto",
+    "en": "Pilot"
+   },
+   "planned": {
+    "es": "Previsto",
+    "en": "Planned"
+   }
+  },
+  "quarter": {
+   "es": "T{q}",
+   "en": "Q{q}"
+  }
+ },
+ "involved": {
+  "erir": {
+   "es": "Como Head of Product en Onyze, diseñé la plataforma de capital markets para la ERIR.",
+   "en": "As Head of Product at Onyze, I designed the capital markets platform for the ERIR."
+  },
+  "afa": {
+   "es": "Como Head of Product en Onyze, participé en la obtención de la autorización de la AFA para custodia y exchange.",
+   "en": "As Head of Product at Onyze, I took part in obtaining the AFA authorisation for custody and exchange."
+  },
+  "creand": {
+   "es": "Como Head of Product en Onyze, definí la arquitectura de APIs y el módulo cripto integrado en la banca online de Creand.",
+   "en": "As Head of Product at Onyze, I defined the API architecture and the crypto module integrated into Creand's online banking."
+  }
+ },
+ "categories": [
+  {
+   "id": "stablecoins",
+   "color": "#5B6CFF",
+   "icon": "dollar",
+   "name": {
+    "es": "Stablecoins",
+    "en": "Stablecoins"
+   }
+  },
+  {
+   "id": "funds",
+   "color": "#1FA89A",
+   "icon": "fund",
+   "name": {
+    "es": "Fondos tokenizados",
+    "en": "Tokenized funds"
+   }
+  },
+  {
+   "id": "deposits",
+   "color": "#D9548A",
+   "icon": "bank",
+   "name": {
+    "es": "Depósitos tokenizados",
+    "en": "Tokenized deposits"
+   }
+  },
+  {
+   "id": "debt",
+   "color": "#2E9BD6",
+   "icon": "file",
+   "name": {
+    "es": "Deuda y bonos tokenizados",
+    "en": "Tokenized debt and bonds"
+   }
+  },
+  {
+   "id": "equities",
+   "color": "#E5673A",
+   "icon": "candles",
+   "name": {
+    "es": "Acciones tokenizadas",
+    "en": "Tokenized equities"
+   }
+  },
+  {
+   "id": "infra",
+   "color": "#8792A6",
+   "icon": "layers",
+   "name": {
+    "es": "Infraestructura y marco legal",
+    "en": "Infrastructure and legal framework"
+   }
+  }
+ ],
+ "events": [
+  {
+   "id": "usdt-2014",
+   "date": "2014-10-01",
+   "precision": "month",
+   "category": "stablecoins",
+   "entities": [
+    "Tether"
+   ],
+   "title": {
+    "es": "Se emiten los primeros USDT (Tether)",
+    "en": "First USDT tokens are issued (Tether)"
+   },
+   "description": {
+    "es": "Tether, nacida como Realcoin, emite sus primeros tokens USDT sobre la capa Omni de Bitcoin, referenciados al dólar. Hoy sigue siendo la mayor stablecoin.",
+    "en": "Tether, which started as Realcoin, issues its first USDT tokens on Bitcoin's Omni layer, pegged to the US dollar. It is still the largest stablecoin today."
+   },
+   "status": "active",
+   "country": "VG",
+   "sources": [
+    "https://protos.com/tether-ten-years-100000000000-usdt-and-still-no-audit"
+   ],
+   "featured": true
+  },
+  {
+   "id": "bondi-2018",
+   "date": "2018-08-23",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "Banco Mundial",
+    "Commonwealth Bank of Australia"
+   ],
+   "title": {
+    "es": "El Banco Mundial emite bond-i, el primer bono sobre blockchain",
+    "en": "The World Bank issues bond-i, the first bond on blockchain"
+   },
+   "description": {
+    "es": "Bono a dos años de 110 M de dólares australianos, creado, asignado y gestionado con DLT en una plataforma del Commonwealth Bank of Australia. Venció en agosto de 2020.",
+    "en": "Two-year A$110 million bond created, allocated and managed with DLT on a Commonwealth Bank of Australia platform. It matured in August 2020."
+   },
+   "status": "completed",
+   "country": "AU",
+   "sources": [
+    "https://fortune.com/crypto/2018/08/24/world-bank-blockchain-bond",
+    "https://www.commbank.com.au/content/shared/newsroom/2018/08/cba-helps-world-bank-raise-a-110-million-with-launch-of--bond-i-"
+   ]
+  },
+  {
+   "id": "usdc-2018",
+   "date": "2018-09-26",
+   "precision": "day",
+   "category": "stablecoins",
+   "entities": [
+    "Circle",
+    "Coinbase"
+   ],
+   "title": {
+    "es": "Circle lanza USD Coin (USDC)",
+    "en": "Circle launches USD Coin (USDC)"
+   },
+   "description": {
+    "es": "Circle presenta USDC, una stablecoin en dólares gobernada por el consorcio CENTRE. Coinbase se une como miembro fundador y abre su negociación en octubre de 2018.",
+    "en": "Circle unveils USDC, a dollar stablecoin governed by the CENTRE consortium. Coinbase joins as a founding member and opens trading in October 2018."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://cointelegraph.com/news/breaking-circle-internet-financial-launches-stablecoin-usd-coin",
+    "https://www.theblock.co/news/markets/2018-10-23-coinbase-launches-usdc-stablecoin-2180"
+   ]
+  },
+  {
+   "id": "mtpelerin-2018",
+   "date": "2018-10-30",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "Mt Pelerin"
+   ],
+   "title": {
+    "es": "Mt Pelerin vende acciones tokenizadas al público en Ethereum",
+    "en": "Mt Pelerin sells tokenized shares to the public on Ethereum"
+   },
+   "description": {
+    "es": "Oferta pública de hasta el 5 % del capital, representado en tokens ERC-20 con la metodología CMTA. Se considera la primera empresa suiza en tokenizar sus acciones.",
+    "en": "Public sale of up to 5% of the share capital, represented as tokens on Ethereum using the CMTA methodology. It is believed to be the first Swiss company to tokenize its shares."
+   },
+   "status": "completed",
+   "country": "CH",
+   "sources": [
+    "https://www.lenzstaehelin.com/en/news-events/deals-cases/mt-pelerins-public-offering-of-tokenized-shares-starts"
+   ]
+  },
+  {
+   "id": "sgofh-2019",
+   "date": "2019-04-18",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "Société Générale SFH",
+    "SG-FORGE"
+   ],
+   "title": {
+    "es": "Société Générale emite el primer covered bond como security token en Ethereum",
+    "en": "Société Générale issues the first covered bond as a security token on Ethereum"
+   },
+   "description": {
+    "es": "Société Générale SFH emite 100 M€ de obligaciones de financiación de la vivienda registradas directamente en Ethereum y suscritas por la propia entidad. El proyecto lo diseñó SG-FORGE.",
+    "en": "Société Générale SFH issues €100 million of covered bonds registered directly on Ethereum and subscribed by the bank itself. The project was designed by SG-FORGE."
+   },
+   "status": "completed",
+   "country": "FR",
+   "sources": [
+    "https://www.societegenerale.com/en/news/newsroom/societe-generale-issued-first-covered-bond-security-token-public-blockchain",
+    "https://www.finextra.com/newsarticle/33723/sogen-issues-covered-bond-as-security-token-on-ethereum"
+   ]
+  },
+  {
+   "id": "securitize-ta-2019",
+   "date": "2019-08-21",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "Securitize",
+    "SEC"
+   ],
+   "title": {
+    "es": "Securitize se registra como agente de transferencia ante la SEC",
+    "en": "Securitize registers as a transfer agent with the SEC"
+   },
+   "description": {
+    "es": "La SEC registra a Securitize como agente de transferencia, lo que le permite llevar el libro oficial de titulares de valores digitales con smart contracts y sin comisión por transferencia.",
+    "en": "The SEC registers Securitize as a transfer agent, allowing it to keep the official ownership record of digital securities through smart contracts with no per-transfer fee."
+   },
+   "status": "completed",
+   "country": "US",
+   "sources": [
+    "https://fintech.global/2019/08/22/securitize-officially-registered-as-a-transfer-agent-with-the-sec/",
+    "https://finance.yahoo.com/news/sec-approves-blockchain-tech-startup-140048994.html"
+   ]
+  },
+  {
+   "id": "santander-2019",
+   "date": "2019-09-12",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "Santander"
+   ],
+   "title": {
+    "es": "Santander emite un bono de 20 M$ extremo a extremo en Ethereum",
+    "en": "Santander issues a $20 million end-to-end bond on Ethereum"
+   },
+   "description": {
+    "es": "El Santander Senior dBond Nº1 se emite, liquida y amortiza sobre Ethereum, con Santander Securities Services como agente de tokenización y custodio de las claves. Lo compró una unidad del propio grupo.",
+    "en": "The Santander Senior dBond No. 1 is issued, settled and redeemed on Ethereum, with Santander Securities Services as tokenization agent and key custodian. A unit of the group itself bought it."
+   },
+   "status": "completed",
+   "country": "ES",
+   "sources": [
+    "https://www.santander.com/en/press-room/press-releases/santander-launches-the-first-end-to-end-blockchain-bond",
+    "https://www.finextra.com/newsarticle/34381/santander-issues-end-to-end-blockchain-bond"
+   ],
+   "spain": true
+  },
+  {
+   "id": "jpmcoin-2020",
+   "date": "2020-10-27",
+   "precision": "month",
+   "category": "deposits",
+   "entities": [
+    "JPMorgan"
+   ],
+   "title": {
+    "es": "JPM Coin entra en producción con su primer cliente",
+    "en": "JPM Coin goes live with its first client"
+   },
+   "description": {
+    "es": "JPMorgan, que presentó JPM Coin en febrero de 2019, la usa para pagos transfronterizos 24/7 de un gran cliente tecnológico. La operación coincide con la creación de la unidad Onyx.",
+    "en": "JPMorgan, which unveiled JPM Coin in February 2019, uses it for round-the-clock cross-border payments for a large tech client. It coincides with the creation of the Onyx unit."
+   },
+   "status": "completed",
+   "country": "US",
+   "sources": [
+    "https://malaysia.news.yahoo.com/jpmorgan-jpm-coin-live-execs-121120861.html"
+   ]
+  },
+  {
+   "id": "eib-2021",
+   "date": "2021-04-28",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "Banco Europeo de Inversiones",
+    "Goldman Sachs",
+    "Santander",
+    "Société Générale"
+   ],
+   "title": {
+    "es": "El BEI emite su primer bono digital en Ethereum",
+    "en": "The EIB issues its first digital bond on Ethereum"
+   },
+   "description": {
+    "es": "Bono de 100 M€ a dos años, el primero multi-dealer en blockchain pública. Goldman Sachs, Santander y Société Générale lo colocan y SG-FORGE actúa como agente de registro y liquidación.",
+    "en": "€100 million two-year bond, the first multi-dealer issue on a public blockchain. Goldman Sachs, Santander and Société Générale place it and SG-FORGE acts as registrar and settlement agent."
+   },
+   "status": "completed",
+   "country": "LU",
+   "sources": [
+    "https://www.theblock.co/news/ecosystems/2021-04-28-european-investment-bank-bond-public-blockchain-103151",
+    "https://www.sgforge.com/european-investment-bank-eib-issues-its-first-ever-digital-bond-on-a-public-blockchain/"
+   ]
+  },
+  {
+   "id": "ewpg-2021",
+   "date": "2021-06-10",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "Alemania"
+   ],
+   "title": {
+    "es": "Entra en vigor la ley alemana de valores electrónicos (eWpG)",
+    "en": "Germany's Electronic Securities Act (eWpG) enters into force"
+   },
+   "description": {
+    "es": "Permite emitir valores electrónicos en registros blockchain (Kryptowertpapiere) sin título físico. El registrador necesita licencia de BaFin. Inicialmente cubre bonos al portador y participaciones de fondos.",
+    "en": "It allows electronic securities to be issued on blockchain registers (Kryptowertpapiere) without a physical certificate. The registrar needs a BaFin licence. Initially it covers bearer bonds and fund units."
+   },
+   "status": "active",
+   "country": "DE",
+   "sources": [
+    "https://www.cashlink.de/en/electronic-securities-act-ewpg/",
+    "https://www.securities-services.societegenerale.com/en/insights/views/news/german-law-the-introduction-electronic-securities/"
+   ]
+  },
+  {
+   "id": "swissdlt-2021",
+   "date": "2021-08-01",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "Suiza"
+   ],
+   "title": {
+    "es": "Suiza completa la entrada en vigor de su ley DLT",
+    "en": "Switzerland completes the entry into force of its DLT Act"
+   },
+   "description": {
+    "es": "Tras las reformas civiles de febrero de 2021 que crean los valores basados en registro (ledger-based securities), agosto añade la licencia de plataformas de negociación DLT.",
+    "en": "After the civil-law changes of February 2021 that create ledger-based securities, August adds the licence for DLT trading facilities."
+   },
+   "status": "active",
+   "country": "CH",
+   "sources": [
+    "https://www.pwc.ch/en/insights/regulation/partial-entry-swiss-dlt-act.html",
+    "https://www.loyensloeff.com/fr/insights/news--events/news/entry-into-force-of-swiss-dlt-bill/"
+   ]
+  },
+  {
+   "id": "sdx-2021",
+   "date": "2021-11-18",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "SIX",
+    "Credit Suisse",
+    "UBS"
+   ],
+   "title": {
+    "es": "SIX Digital Exchange arranca con un bono digital de 150 M CHF",
+    "en": "SIX Digital Exchange goes live with a CHF 150 million digital bond"
+   },
+   "description": {
+    "es": "SIX Group coloca el primer bono digital en francos suizos en una infraestructura DLT regulada, con licencia FINMA de bolsa y depositario central. La parte digital, de 100 M CHF, cotiza en SDX.",
+    "en": "SIX Group places the first digital Swiss franc bond on regulated DLT infrastructure with a FINMA exchange and CSD licence. The CHF 100 million digital part trades on SDX."
+   },
+   "status": "completed",
+   "country": "CH",
+   "sources": [
+    "https://www.coindesk.com/business/2021/11/18/switzerlands-six-digital-exchange-launches-with-blockchain-bond/"
+   ]
+  },
+  {
+   "id": "eurc-2022",
+   "date": "2022-06-30",
+   "precision": "day",
+   "category": "stablecoins",
+   "entities": [
+    "Circle"
+   ],
+   "title": {
+    "es": "Circle lanza Euro Coin (EURC)",
+    "en": "Circle launches Euro Coin (EURC)"
+   },
+   "description": {
+    "es": "Circle anuncia el 16 de junio y lanza el 30 de junio una stablecoin en euros con reservas 1:1, emitida al inicio en Ethereum.",
+    "en": "Circle announces on 16 June and launches on 30 June a euro stablecoin with 1:1 reserves, initially issued on Ethereum."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.circle.com/pressroom/circle-announces-a-fully-reserved-euro-backed-stablecoin-euro-coin-euroc"
+   ]
+  },
+  {
+   "id": "bbva-bme-2022",
+   "date": "2022-07-26",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "BME (Iberclear)",
+    "BBVA",
+    "BID"
+   ],
+   "title": {
+    "es": "BME, BBVA y el BID emiten el primer bono regulado en España registrado con blockchain",
+    "en": "BME, BBVA and the IDB issue Spain's first regulated blockchain-registered bond"
+   },
+   "description": {
+    "es": "Bono de 10 M$ del BID, admitido en el mercado regulado AIAF y registrado en Iberclear con tecnología blockchain de ioBuilders. BBVA actúa como colocador y custodio.",
+    "en": "$10 million IDB bond, admitted to the regulated AIAF market and registered at Iberclear with ioBuilders blockchain technology. BBVA acts as bookrunner and custodian."
+   },
+   "status": "completed",
+   "country": "ES",
+   "sources": [
+    "https://www.bolsasymercados.es/en/media/press-releases/2022/bme-bbva-and-idb-issue-the-first-regulated-bond-in-spain-registered-with-blockchain.html",
+    "https://www.iadb.org/en/news/bme-bbva-and-idb-issue-spains-first-blockchain-based-regulated-bonds"
+   ],
+   "spain": true
+  },
+  {
+   "id": "kkr-2022",
+   "date": "2022-09-13",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "Securitize",
+    "KKR"
+   ],
+   "title": {
+    "es": "Securitize tokeniza exposición a un fondo de KKR en Avalanche",
+    "en": "Securitize tokenizes exposure to a KKR fund on Avalanche"
+   },
+   "description": {
+    "es": "Primera vez que una estrategia alternativa de KKR se ofrece en formato digital en EE. UU.: un feeder fund del KKR Health Care Strategic Growth Fund II, emitido sobre Avalanche.",
+    "en": "First time a KKR alternative strategy is offered in digital form in the US: a feeder fund of the KKR Health Care Strategic Growth Fund II, issued on Avalanche."
+   },
+   "status": "completed",
+   "country": "US",
+   "sources": [
+    "https://techcrunch.com/2022/09/13/kkr-dives-into-avalanche-blockchain-to-tokenize-and-democratize-financial-services",
+    "https://www.ledgerinsights.com/kkr-fund-tokenized-avalanche-public-blockchain/"
+   ]
+  },
+  {
+   "id": "siemens-2023",
+   "date": "2023-02-14",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "Siemens",
+    "DekaBank",
+    "DZ Bank",
+    "Union Investment"
+   ],
+   "title": {
+    "es": "Siemens emite un bono digital de 60 M€ en Polygon",
+    "en": "Siemens issues a €60 million digital bond on Polygon"
+   },
+   "description": {
+    "es": "Primera emisión digital de Siemens, a un año y bajo la ley alemana de valores electrónicos (eWpG). Hauck Aufhäuser Lampe actúa como registrador y DekaBank, DZ Bank y Union Investment invierten.",
+    "en": "Siemens' first digital bond, one year, under Germany's Electronic Securities Act (eWpG). Hauck Aufhäuser Lampe is registrar and DekaBank, DZ Bank and Union Investment invest."
+   },
+   "status": "completed",
+   "country": "DE",
+   "sources": [
+    "https://www.ledgerinsights.com/siemens-digital-bond-blockchain/",
+    "https://thepaypers.com/crypto-web3-and-cbdc/news/siemens-issues-its-first-digital-bond-on-polygon"
+   ]
+  },
+  {
+   "id": "hk-green-2023",
+   "date": "2023-02-16",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "Gobierno de Hong Kong",
+    "HKMA"
+   ],
+   "title": {
+    "es": "Hong Kong emite el primer bono verde tokenizado de un gobierno",
+    "en": "Hong Kong issues the first tokenised green bond by a government"
+   },
+   "description": {
+    "es": "Oferta inaugural de 800 M HKD (unos 102 M$) a un año, compensada y liquidada en el CMU, con una plataforma blockchain de Goldman Sachs para registrar los intereses beneficiarios.",
+    "en": "Inaugural HK$800 million (about $102 million) one-year offering, cleared and settled through the CMU, with a Goldman Sachs blockchain platform recording beneficial interests."
+   },
+   "status": "completed",
+   "country": "HK",
+   "sources": [
+    "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2023/02/20230216-3/"
+   ]
+  },
+  {
+   "id": "ley6-2023",
+   "date": "2023-03-17",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "España",
+    "CNMV"
+   ],
+   "title": {
+    "es": "Ley 6/2023 de los Mercados de Valores: nace la figura de la ERIR",
+    "en": "Spain's Law 6/2023 on Securities Markets creates the ERIR"
+   },
+   "description": {
+    "es": "La nueva ley reconoce los valores negociables representados mediante tecnología de registro distribuido y crea la Entidad Responsable de la Inscripción y del Registro (ERIR). Se publica en el BOE el 18 de marzo y entra en vigor el 7 de abril de 2023.",
+    "en": "The new law recognises negotiable securities represented on distributed ledger technology and creates the Entity Responsible for Registration (ERIR). Published in the BOE on 18 March, in force on 7 April 2023."
+   },
+   "status": "active",
+   "country": "ES",
+   "sources": [
+    "https://www.boe.es/buscar/act.php?id=BOE-A-2023-7053",
+    "https://cms.law/es/esp/publication/nueva-ley-de-los-mercados-de-valores-y-de-los-servicios-de-inversion"
+   ],
+   "spain": true,
+   "featured": true
+  },
+  {
+   "id": "dltpilot-2023",
+   "date": "2023-03-23",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "UE",
+    "ESMA"
+   ],
+   "title": {
+    "es": "Se aplica el régimen piloto DLT de la UE",
+    "en": "The EU DLT Pilot Regime applies"
+   },
+   "description": {
+    "es": "El Reglamento (UE) 2022/858 permite operar sistemas multilaterales de negociación y sistemas de liquidación basados en DLT con exenciones temporales, desde el 23 de marzo de 2023.",
+    "en": "Regulation (EU) 2022/858 lets DLT-based multilateral trading facilities and settlement systems operate with temporary exemptions from 23 March 2023."
+   },
+   "status": "active",
+   "country": "EU",
+   "sources": [
+    "https://www.twobirds.com/en/insights/2023/global/eu-launches-regulation-eu-2022-858-on-a-pilot-regime-for-market-infrastructures",
+    "https://elvingerhoss.lu/publications/entry-force-dlt-pilot-regime"
+   ]
+  },
+  {
+   "id": "eurcv-2023",
+   "date": "2023-04-20",
+   "precision": "day",
+   "category": "stablecoins",
+   "entities": [
+    "SG-FORGE",
+    "Société Générale"
+   ],
+   "title": {
+    "es": "SG-FORGE lanza EUR CoinVertible (EURCV)",
+    "en": "SG-FORGE launches EUR CoinVertible (EURCV)"
+   },
+   "description": {
+    "es": "La filial de activos digitales de Société Générale lanza una stablecoin en euros sobre Ethereum para clientes institucionales precalificados. En julio de 2024 pasa a ser un token de dinero electrónico bajo MiCA.",
+    "en": "Société Générale's digital asset arm launches a euro stablecoin on Ethereum for pre-qualified institutional clients. In July 2024 it is reclassified as an e-money token under MiCA."
+   },
+   "status": "active",
+   "country": "FR",
+   "sources": [
+    "https://www.kitco.com/news/article/2023-04-20/socgen-unveils-eur-coinvertible-euro-pegged-stablecoin-ethereum-network",
+    "https://sgforge.com/wp-content/uploads/2024/07/CP-SG-Forge-EURCV-MICA-1er-juillet-2024.pdf"
+   ]
+  },
+  {
+   "id": "franklin-2023",
+   "date": "2023-04-24",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "Franklin Templeton",
+    "Stellar"
+   ],
+   "title": {
+    "es": "El fondo FOBXX/BENJI de Franklin Templeton llega a Stellar",
+    "en": "Franklin Templeton's FOBXX/BENJI fund goes live on Stellar"
+   },
+   "description": {
+    "es": "El Franklin OnChain U.S. Government Money Fund es el primer fondo registrado en EE. UU. que usa una blockchain pública para procesar operaciones y registrar la titularidad. Cada participación es un token BENJI.",
+    "en": "The Franklin OnChain U.S. Government Money Fund is the first US-registered fund to use a public blockchain to process transactions and record ownership. Each share is a BENJI token."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.kitco.com/news/article/2023-04-24/stellar-becomes-first-public-blockchain-host-us-registered-fund",
+    "https://ambcrypto.com/franklin-templetons-onchain-u-s-government-money-fund-goes-live-on-stellar/"
+   ],
+   "featured": true
+  },
+  {
+   "id": "hl-2023",
+   "date": "2023-05-04",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "Hamilton Lane",
+    "Securitize"
+   ],
+   "title": {
+    "es": "Hamilton Lane abre en Polygon un feeder de su fondo de crédito senior",
+    "en": "Hamilton Lane opens a senior credit feeder fund on Polygon"
+   },
+   "description": {
+    "es": "Securitize ofrece a inversores cualificados exposición tokenizada al Senior Credit Opportunities Fund (SCOPE) de Hamilton Lane. Es su segundo fondo tokenizado, tras el de enero de 2023.",
+    "en": "Securitize gives qualified investors tokenized exposure to Hamilton Lane's Senior Credit Opportunities Fund (SCOPE). It is its second tokenized fund, after the one in January 2023."
+   },
+   "status": "completed",
+   "country": "US",
+   "sources": [
+    "https://www.theblock.co/post/229366/securitize-hamilton-lane-tokenized-fund-ploygon",
+    "https://www.hamiltonlane.com/en-us/news/scope-available-via-securitize"
+   ]
+  },
+  {
+   "id": "citi-2023",
+   "date": "2023-09-18",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "Citi"
+   ],
+   "title": {
+    "es": "Citi presenta Citi Token Services",
+    "en": "Citi unveils Citi Token Services"
+   },
+   "description": {
+    "es": "Citi Treasury and Trade Solutions crea y pilota un servicio que convierte depósitos de clientes en tokens para liquidez transfronteriza y financiación comercial, con un piloto con Maersk.",
+    "en": "Citi Treasury and Trade Solutions creates and pilots a service that turns client deposits into tokens for cross-border liquidity and trade finance, with a pilot with Maersk."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.citigroup.com/global/news/press-release/2023/citi-develops-new-digital-asset-capabilities-for-institutional-clients",
+    "https://www.paymentsdive.com/news/citi-token-services-launch-commercial-blockchain-technology-cross-border-instant-payments/694108"
+   ]
+  },
+  {
+   "id": "bde-2024",
+   "date": "2024-01-03",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "Banco de España",
+    "Cecabank",
+    "Abanca",
+    "Adhara"
+   ],
+   "title": {
+    "es": "El Banco de España elige socios para su piloto de CBDC mayorista",
+    "en": "Banco de España picks partners for its wholesale CBDC pilot"
+   },
+   "description": {
+    "es": "Entre 24 candidaturas selecciona a Cecabank, Abanca y Adhara Blockchain para simular pagos interbancarios con un token mayorista y liquidar un bono tokenizado simulado.",
+    "en": "From 24 applications it selects Cecabank, Abanca and Adhara Blockchain to simulate interbank payments with a wholesale token and settle a simulated tokenized bond."
+   },
+   "status": "completed",
+   "country": "ES",
+   "sources": [
+    "https://cointelegraph.com/news/bank-of-spain-selects-partners-for-cbdc-testing",
+    "https://www.fintechfutures.com/partnerships/banco-de-espa-a-announces-partners-for-wholesale-cbdc-trials"
+   ],
+   "spain": true
+  },
+  {
+   "id": "buidl-2024",
+   "date": "2024-03-20",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "BlackRock",
+    "Securitize"
+   ],
+   "title": {
+    "es": "BlackRock lanza BUIDL en Ethereum con Securitize",
+    "en": "BlackRock launches BUIDL on Ethereum with Securitize"
+   },
+   "description": {
+    "es": "Primer fondo tokenizado de BlackRock en una blockchain pública. Invierte en efectivo, letras del Tesoro de EE. UU. y repos; Securitize actúa como agente de transferencia y plataforma de tokenización.",
+    "en": "BlackRock's first tokenized fund on a public blockchain. It invests in cash, US Treasury bills and repos; Securitize acts as transfer agent and tokenization platform."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.nasdaq.com/press-release/blackrock-launches-its-first-tokenized-fund-buidl-on-the-ethereum-network-2024-03-20"
+   ],
+   "featured": true
+  },
+  {
+   "id": "agora-2024",
+   "date": "2024-04-03",
+   "precision": "month",
+   "category": "infra",
+   "entities": [
+    "BIS",
+    "bancos centrales"
+   ],
+   "title": {
+    "es": "El BIS y bancos centrales lanzan el Proyecto Agorá",
+    "en": "The BIS and central banks launch Project Agorá"
+   },
+   "description": {
+    "es": "Explora una plataforma compartida donde reservas de bancos centrales y depósitos comerciales tokenizados permitan pagos transfronterizos mayoristas con liquidación atómica. En 2026 pasa a pruebas con valor real.",
+    "en": "It explores a shared platform where tokenized central bank reserves and commercial bank deposits enable wholesale cross-border payments with atomic settlement. In 2026 it moves to real-value testing."
+   },
+   "status": "pilot",
+   "country": null,
+   "sources": [
+    "https://fintech.global/2024/04/04/central-banks-and-the-fintech-sector-unite-to-change-global-payments-space/",
+    "https://www.bis.org/about/bisih/topics/fmis/agora.htm"
+   ]
+  },
+  {
+   "id": "mica-stable-2024",
+   "date": "2024-06-30",
+   "precision": "day",
+   "category": "stablecoins",
+   "entities": [
+    "UE",
+    "Circle"
+   ],
+   "title": {
+    "es": "MiCA empieza a aplicarse a las stablecoins",
+    "en": "MiCA starts applying to stablecoins"
+   },
+   "description": {
+    "es": "Los títulos III y IV de MiCA (tokens referenciados a activos y de dinero electrónico) son aplicables desde el 30 de junio de 2024. Circle anuncia el 1 de julio que USDC y EURC cumplen MiCA con su licencia francesa de entidad de dinero electrónico.",
+    "en": "Titles III and IV of MiCA (asset-referenced and e-money tokens) apply from 30 June 2024. On 1 July Circle announces that USDC and EURC comply with MiCA under its French e-money institution licence."
+   },
+   "status": "active",
+   "country": "EU",
+   "sources": [
+    "https://goodwinlaw.com/en/insights/publications/2024/07/alerts-finance-ftec-are-you-ready-for-mica-implementation",
+    "https://www.circle.com/es/pressroom/circle-is-first-global-stablecoin-issuer-to-comply-with-mica-eus-landmark-crypto-law"
+   ]
+  },
+  {
+   "id": "spiko-2024",
+   "date": "2024-07-01",
+   "precision": "year",
+   "category": "funds",
+   "entities": [
+    "Spiko"
+   ],
+   "title": {
+    "es": "Spiko lanza fondos monetarios UCITS tokenizados",
+    "en": "Spiko launches tokenized UCITS money market funds"
+   },
+   "description": {
+    "es": "La fintech francesa, regulada por la AMF, ofrece participaciones tokenizadas de fondos monetarios UCITS invertidos en letras del Tesoro de EE. UU. y de la eurozona (USTBL y EUTBL), con aprobación en junio de 2024 para operar en Ethereum y Polygon. Las fuentes difieren en el mes exacto del lanzamiento.",
+    "en": "The French fintech, regulated by the AMF, offers tokenized shares of UCITS money market funds invested in US and euro-area Treasury bills (USTBL and EUTBL), approved in June 2024 to run on Ethereum and Polygon. Sources differ on the exact launch month."
+   },
+   "status": "active",
+   "country": "FR",
+   "sources": [
+    "https://www.ledgerinsights.com/caceis-clients-can-buy-natively-digital-money-market-funds/",
+    "https://www.spiko.io/"
+   ],
+   "date_label": {
+    "es": "2024",
+    "en": "2024"
+   }
+  },
+  {
+   "id": "dss-2024",
+   "date": "2024-09-30",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "Bank of England",
+    "FCA"
+   ],
+   "title": {
+    "es": "El Reino Unido abre su Digital Securities Sandbox",
+    "en": "The UK opens its Digital Securities Sandbox"
+   },
+   "description": {
+    "es": "El Banco de Inglaterra y la FCA abren un sandbox para emitir, negociar y liquidar valores en registros distribuidos programables, con el marco legal del Tesoro vigente desde enero de 2024.",
+    "en": "The Bank of England and the FCA open a sandbox to issue, trade and settle securities on programmable distributed ledgers, with the Treasury legal framework in force since January 2024."
+   },
+   "status": "pilot",
+   "country": "GB",
+   "sources": [
+    "https://cointelegraph.com/news/bank-of-england-fca-launch-digital-securities-sandbox"
+   ]
+  },
+  {
+   "id": "erir-2024",
+   "date": "2024-11-30",
+   "precision": "month",
+   "category": "infra",
+   "entities": [
+    "Ursus-3 Capital",
+    "Onyze",
+    "Token City",
+    "CNMV"
+   ],
+   "title": {
+    "es": "La CNMV reconoce a Ursus-3 Capital como primera ERIR de España",
+    "en": "The CNMV recognises Ursus-3 Capital as Spain's first ERIR"
+   },
+   "description": {
+    "es": "Ursus-3 Capital puede registrar y supervisar emisiones tokenizadas de valores negociables. Trabaja con Onyze, que aporta la plataforma de custodia y capital markets, y con Token City, que aporta la tecnología de emisión.",
+    "en": "Ursus-3 Capital can register and oversee tokenized issues of negotiable securities. It works with Onyze, which provides the custody and capital markets platform, and Token City, which provides issuance technology."
+   },
+   "status": "completed",
+   "country": "ES",
+   "sources": [
+    "https://news.bitcoin.com/spanish-securities-watchdog-approves-first-tokenization-license/",
+    "https://ffnews.com/newsarticle/fintech/spain-now-has-its-first-erir-validated-by-the-cnmv/"
+   ],
+   "spain": true,
+   "involved": "erir",
+   "featured": true
+  },
+  {
+   "id": "mica-casp-2024",
+   "date": "2024-12-30",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "UE",
+    "ESMA"
+   ],
+   "title": {
+    "es": "MiCA es plenamente aplicable a los proveedores de servicios cripto",
+    "en": "MiCA fully applies to crypto-asset service providers"
+   },
+   "description": {
+    "es": "Entró en vigor el 29 de junio de 2023; desde el 30 de diciembre de 2024 se aplica el resto del reglamento, incluida la autorización de los CASP. Cada Estado miembro fijó su régimen transitorio.",
+    "en": "It entered into force on 29 June 2023; from 30 December 2024 the rest of the regulation applies, including CASP authorisation. Each member state set its own transitional regime."
+   },
+   "status": "active",
+   "country": "EU",
+   "sources": [
+    "https://www.klgates.com/thought-leadership/The-Regulation-on-Markets-in-Crypto-Assets-Becomes-Fully-Applicable-in-All-Member-States-of-the-European-Union-1-24-2025",
+    "https://www.securities-services.societegenerale.com/en/insights/views/news/mica-entered-into-force-on-30-december-2024/"
+   ]
+  },
+  {
+   "id": "acred-2025",
+   "date": "2025-01-30",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "Apollo",
+    "Securitize"
+   ],
+   "title": {
+    "es": "Apollo y Securitize tokenizan el Apollo Diversified Credit Fund",
+    "en": "Apollo and Securitize tokenize the Apollo Diversified Credit Fund"
+   },
+   "description": {
+    "es": "Acceso tokenizado (ACRED) a un fondo de crédito de Apollo en Aptos, Avalanche, Ethereum, Ink, Polygon y Solana. Securitize es agente de transferencia digital y administrador del fondo.",
+    "en": "Tokenized access (ACRED) to an Apollo credit fund on Aptos, Avalanche, Ethereum, Ink, Polygon and Solana. Securitize is the digital transfer agent and fund administrator."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.nasdaq.com/press-release/apollo-and-securitize-announce-partnership-and-launch-tokenized-access-credit-fund",
+    "https://www.theblock.co/amp/post/337992/apollo-and-blackrock-backed-securitize-launching-access-to-tokenized-credit-fund-on-various-chains-like-solana-ethereum"
+   ]
+  },
+  {
+   "id": "dianelum-2025",
+   "date": "2025-02-12",
+   "precision": "day",
+   "category": "debt",
+   "entities": [
+    "Dianelum",
+    "Ursus-3 Capital",
+    "Onyze",
+    "Token City"
+   ],
+   "title": {
+    "es": "Dianelum: primera emisión de deuda tokenizada bajo la nueva Ley del Mercado de Valores",
+    "en": "Dianelum: first tokenized debt issue under Spain's new Securities Market Act"
+   },
+   "description": {
+    "es": "Emisión de 5 M€ de la fabricante de diamantes sostenibles, aprobada por la CNMV, con tokens de 5.000 € y abierta hasta el 30 de junio de 2025. Ursus-3 Capital, Onyze y Token City participan en la operación.",
+    "en": "€5 million issue by the sustainable diamond maker, approved by the CNMV, with €5,000 tokens and open until 30 June 2025. Ursus-3 Capital, Onyze and Token City take part in the deal."
+   },
+   "status": "completed",
+   "country": "ES",
+   "sources": [
+    "https://www.finect.com/usuario/avillanuevae/articulos/dianelum-lanza-la-primera-emision-tokenizada-de-espana-regulada-por-cnmv",
+    "https://www.token-city.com/resources/historic-in-spain-first-100-regulated-tokenized-issuance"
+   ],
+   "spain": true,
+   "involved": "erir",
+   "featured": true
+  },
+  {
+   "id": "hsbc-2025-05",
+   "date": "2025-05-22",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "HSBC",
+    "Ant International"
+   ],
+   "title": {
+    "es": "HSBC lanza su Tokenised Deposit Service en Hong Kong",
+    "en": "HSBC launches its Tokenised Deposit Service in Hong Kong"
+   },
+   "description": {
+    "es": "Pagos corporativos 24/7 en HKD y USD entre monederos en HSBC Hong Kong. Ant International es el primer cliente y el servicio es la primera iniciativa del incubador DLT de la HKMA.",
+    "en": "24/7 corporate payments in HKD and USD between wallets at HSBC Hong Kong. Ant International is the first client and the service is the first live pilot of the HKMA's DLT incubator."
+   },
+   "status": "active",
+   "country": "HK",
+   "sources": [
+    "https://www.about.hsbc.com.hk/news-and-media/hsbc-launches-tokenised-deposit-service-for-corporate-cash-management-in-hong-kong"
+   ],
+   "featured": true
+  },
+  {
+   "id": "onyze-afa-2025",
+   "date": "2025-06-26",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "Onyze",
+    "AFA"
+   ],
+   "title": {
+    "es": "Onyze obtiene la autorización de la AFA para custodia y exchange en Andorra",
+    "en": "Onyze gets AFA authorisation for custody and exchange in Andorra"
+   },
+   "description": {
+    "es": "La Autoritat Financera Andorrana autoriza a Onyze a custodiar activos digitales de terceros y operar un exchange de cripto, stablecoins y activos tokenizados. Abre su primera filial internacional.",
+    "en": "The Andorran financial authority authorises Onyze to hold third-party digital assets and run an exchange for crypto, stablecoins and tokenized assets. It opens its first international subsidiary."
+   },
+   "status": "completed",
+   "country": "AD",
+   "sources": [
+    "https://thepaypers.com/crypto-web3-and-cbdc/news/onyze-receives-regulatory-approval-to-operate-in-andorra",
+    "https://www.finect.com/usuario/eduardogarcia/articulos/la-espanola-onyze-obtiene-autorizacion-para-operar-con-criptoactivos-en-andorra"
+   ],
+   "spain": true,
+   "involved": "afa"
+  },
+  {
+   "id": "robinhood-2025",
+   "date": "2025-06-30",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "Robinhood"
+   ],
+   "title": {
+    "es": "Robinhood lanza stock tokens para clientes de la UE",
+    "en": "Robinhood launches stock tokens for EU customers"
+   },
+   "description": {
+    "es": "Tokens de acciones y ETF de EE. UU. sin comisiones, emitidos sobre Arbitrum, con soporte de dividendos y acceso 24/5. Anuncia además su propia capa 2.",
+    "en": "Commission-free tokens of US stocks and ETFs, issued on Arbitrum, with dividend support and 24/5 access. It also announces its own layer 2."
+   },
+   "status": "active",
+   "country": null,
+   "sources": [
+    "https://robinhood.com/newsroom/robinhood-launches-stock-tokens-reveals-layer-2-blockchain-and-expands-crypto-suite-in-eu-and-us-with-perpetual-futures-and-staking",
+    "https://www.theblock.co/post/360347/robinhood-expands-into-tokenized-equities-and-crypto-perp-futures-plans-layer-2-blockchain-with-arbitrum"
+   ]
+  },
+  {
+   "id": "xstocks-2025",
+   "date": "2025-06-30",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "Backed Finance",
+    "Kraken",
+    "Bybit"
+   ],
+   "title": {
+    "es": "xStocks de Backed salen en Kraken, Bybit y Solana",
+    "en": "Backed's xStocks go live on Kraken, Bybit and Solana"
+   },
+   "description": {
+    "es": "Más de 60 acciones y ETF tokenizados, respaldados por acciones reales y canjeables 1:1, con negociación en Kraken y Bybit e integración en DeFi de Solana (Kamino, Raydium, Jupiter).",
+    "en": "More than 60 tokenized stocks and ETFs, backed by real shares and redeemable 1:1, trading on Kraken and Bybit and integrated into Solana DeFi (Kamino, Raydium, Jupiter)."
+   },
+   "status": "active",
+   "country": null,
+   "sources": [
+    "https://cointelegraph.com/news/tokenized-stock-trading-live-on-kraken-bybit-and-solana-s-defi-ecosystem",
+    "https://backed.fi/news-updates/backed-announces-xstocks-coming-soon-to-kraken-and-solana"
+   ]
+  },
+  {
+   "id": "creand-2025",
+   "date": "2025-07-11",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "Creand Crèdit Andorrà",
+    "Onyze"
+   ],
+   "title": {
+    "es": "Creand Crèdit Andorrà lanza CryptoWallet con tecnología de Onyze",
+    "en": "Creand Crèdit Andorrà launches CryptoWallet on Onyze technology"
+   },
+   "description": {
+    "es": "Compraventa y custodia de bitcoin, ether y Tether dentro de la banca online y la app del banco, integradas en su core banking con la tecnología de custodia de Onyze.",
+    "en": "Buying, selling and custody of bitcoin, ether and Tether inside the bank's online banking and app, integrated into its core banking with Onyze's custody technology."
+   },
+   "status": "active",
+   "country": "AD",
+   "sources": [
+    "https://creandgroup.com/en/?p=21543",
+    "https://thepaypers.com/crypto-web3-and-cbdc/news/areand-credit-andorra-rolls-out-cryptoasset-service-with-onyze"
+   ],
+   "spain": true,
+   "involved": "creand"
+  },
+  {
+   "id": "beself-2025",
+   "date": "2025-07-16",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "Beself Brands",
+    "Ursus-3 Capital",
+    "Token City"
+   ],
+   "title": {
+    "es": "Beself Brands inscribe su emisión de acciones tokenizadas en una ERIR",
+    "en": "Beself Brands registers its tokenized share issue with an ERIR"
+   },
+   "description": {
+    "es": "La emisión (BeToken) queda inscrita en la ERIR Ursus-3 Capital, supervisada por la CNMV, lo que permite la venta pública de las acciones tokenizadas desde el 23 de julio de 2025.",
+    "en": "The issue (BeToken) is registered with the ERIR Ursus-3 Capital, supervised by the CNMV, enabling the public sale of the tokenized shares from 23 July 2025."
+   },
+   "status": "completed",
+   "country": "ES",
+   "sources": [
+    "https://www.merca2.es/2025/07/16/luz-verde-para-beself-brands-la-tokenizacion-empresarial-en-espana-ya-es-una-realidad-2214818/",
+    "https://www.token-city.com/success-stories/breaking-new-ground-in-e-commerce-beself-brands-regulated-share-tokenization"
+   ],
+   "spain": true,
+   "involved": "erir",
+   "featured": true
+  },
+  {
+   "id": "genius-2025",
+   "date": "2025-07-18",
+   "precision": "day",
+   "category": "stablecoins",
+   "entities": [
+    "EE. UU."
+   ],
+   "title": {
+    "es": "EE. UU. aprueba la ley GENIUS de stablecoins",
+    "en": "The US enacts the GENIUS Act for stablecoins"
+   },
+   "description": {
+    "es": "Trump firma el primer marco federal de EE. UU. para stablecoins: respaldo en dólares o activos líquidos, auditorías para los grandes emisores y obligaciones de la Bank Secrecy Act. Las agencias tienen seis meses para desarrollar la normativa.",
+    "en": "Trump signs the first US federal stablecoin framework: backing in dollars or similarly liquid assets, audits for large issuers and Bank Secrecy Act duties. Agencies have six months to draft the rules."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.theblock.co/post/363425/trump-signs-stablecoin-genius-act-cementing-first-major-crypto-framework-in-us-law"
+   ]
+  },
+  {
+   "id": "ondo-2025",
+   "date": "2025-09-03",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "Ondo Finance"
+   ],
+   "title": {
+    "es": "Ondo Global Markets lanza más de 100 acciones y ETF tokenizados",
+    "en": "Ondo Global Markets launches 100+ tokenized stocks and ETFs"
+   },
+   "description": {
+    "es": "Acciones y ETF de EE. UU. tokenizados sobre Ethereum, con mint y reembolso 24 horas, 5 días a la semana, para inversores elegibles de Asia-Pacífico, Europa, África y Latinoamérica.",
+    "en": "Tokenized US stocks and ETFs on Ethereum, with minting and redemption 24 hours a day, five days a week, for eligible investors in Asia-Pacific, Europe, Africa and Latin America."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.theblock.co/post/369284/ondo-tokenized-stocks-etfs-ethereum-bnb-chain-solana"
+   ]
+  },
+  {
+   "id": "fdit-2025",
+   "date": "2025-09-08",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "Fidelity"
+   ],
+   "title": {
+    "es": "Fidelity lanza la clase onchain de su fondo del Tesoro en Ethereum",
+    "en": "Fidelity launches the onchain class of its Treasury fund on Ethereum"
+   },
+   "description": {
+    "es": "El Fidelity Treasury Digital Fund (token FDIT) nace con más de 200 M$ en activos y BNY como custodio. Sigue a BUIDL como segundo gran gestor tradicional con un fondo monetario tokenizado.",
+    "en": "The Fidelity Treasury Digital Fund (FDIT token) debuts with over $200M in assets and BNY as custodian. It follows BUIDL as another large traditional manager with a tokenized money market fund."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.blockhead.co/2025/09/08/fidelity-quietly-launches-200m-ethereum-based-treasury-fund"
+   ]
+  },
+  {
+   "id": "hsbc-2025-09",
+   "date": "2025-09-22",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "HSBC",
+    "Ant International"
+   ],
+   "title": {
+    "es": "HSBC hace su primera operación transfronteriza con depósitos tokenizados",
+    "en": "HSBC completes its first cross-border tokenised deposit transaction"
+   },
+   "description": {
+    "es": "Transferencia en USD entre Hong Kong y Singapur para Ant International. El servicio también llega al Reino Unido y Luxemburgo con pagos domésticos en libras, euros y dólares.",
+    "en": "USD transfer between Hong Kong and Singapore for Ant International. The service also reaches the UK and Luxembourg with domestic payments in sterling, euros and dollars."
+   },
+   "status": "completed",
+   "country": "HK",
+   "sources": [
+    "https://www.pymnts.com/news/cross-border-commerce/cross-border-payments/2025/hsbc-debuts-cross-border-tokenized-deposit-offering"
+   ]
+  },
+  {
+   "id": "citi-euro-2025",
+   "date": "2025-11-10",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "Citi"
+   ],
+   "title": {
+    "es": "Citi Token Services for Cash llega al euro y a Irlanda",
+    "en": "Citi Token Services for Cash adds euros and Ireland"
+   },
+   "description": {
+    "es": "Citi amplía su depósito tokenizado a euros y a clientes en Irlanda, quinto mercado tras EE. UU., Reino Unido, Singapur y Hong Kong. Opera sobre una blockchain permisionada.",
+    "en": "Citi extends its tokenized deposit to euros and to clients in Ireland, its fifth market after the US, UK, Singapore and Hong Kong. It runs on a permissioned blockchain."
+   },
+   "status": "active",
+   "country": "IE",
+   "sources": [
+    "https://www.ledgerinsights.com/citi-expands-tokenized-deposits-to-euro-adds-fifth-location/"
+   ]
+  },
+  {
+   "id": "jpmd-2025",
+   "date": "2025-11-12",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "JPMorgan",
+    "Kinexys",
+    "Base"
+   ],
+   "title": {
+    "es": "JPMD (JPM Coin) en Base, disponible para clientes institucionales",
+    "en": "JPMD (JPM Coin) on Base opens to institutional clients"
+   },
+   "description": {
+    "es": "Tras un piloto iniciado en junio, Kinexys pone a disposición de clientes institucionales un depósito tokenizado en dólares sobre Base, con liquidación casi instantánea 24/7.",
+    "en": "After a pilot that started in June, Kinexys makes a dollar tokenized deposit on Base available to institutional clients, with near-instant 24/7 settlement."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.theblock.co/post/378493/jpmorgan-deposit-token-jpm-coin",
+    "https://www.jpmorgan.com/payments/newsroom/kinexys-usd-digital-deposit-tokens"
+   ],
+   "featured": true
+  },
+  {
+   "id": "dtc-2025",
+   "date": "2025-12-11",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "DTCC",
+    "DTC",
+    "SEC"
+   ],
+   "title": {
+    "es": "La SEC da luz verde al piloto de tokenización del DTC",
+    "en": "The SEC clears DTC's tokenization pilot"
+   },
+   "description": {
+    "es": "Carta de no acción para que participantes del DTC tokenicen derechos sobre bonos del Tesoro, acciones del Russell 1000 y ETF en wallets registradas. El servicio se prevé para finales de 2026; el relevo dura tres años.",
+    "en": "A no-action letter lets DTC participants tokenize entitlements in Treasuries, Russell 1000 stocks and ETFs in registered wallets. The service is expected in late 2026; the relief lasts three years."
+   },
+   "status": "pilot",
+   "country": "US",
+   "sources": [
+    "https://thedefiant.io/news/regulation/dtcc-gets-sec-clearance-to-pilot-tokenized-u-s-securities",
+    "https://www.morganlewis.com/pubs/2026/01/new-sec-guidance-provides-regulatory-pathway-for-dtc-securities-tokenization-services"
+   ]
+  },
+  {
+   "id": "ondo-eu-2026",
+   "date": "2026-02-03",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "Ondo Finance",
+    "Blockchain.com"
+   ],
+   "title": {
+    "es": "Ondo y Blockchain.com ofrecen acciones tokenizadas de EE. UU. en 30 países del EEE",
+    "en": "Ondo and Blockchain.com offer tokenized US stocks across 30 EEA countries"
+   },
+   "description": {
+    "es": "Más de 200 acciones y ETF tokenizados disponibles en la wallet DeFi de Blockchain.com para usuarios europeos elegibles.",
+    "en": "More than 200 tokenized US stocks and ETFs available in the Blockchain.com DeFi wallet for eligible European users."
+   },
+   "status": "active",
+   "country": "EU",
+   "sources": [
+    "https://www.gettex.de/en/news-overview/newsdetail/eqs-news-blockchaincom-amp-ondo-finance-launch-onchain-tokenized-us-stocks-across-europe"
+   ]
+  },
+  {
+   "id": "wtgxx-2026",
+   "date": "2026-02-24",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "WisdomTree"
+   ],
+   "title": {
+    "es": "WisdomTree negocia su fondo digital 24/7 con liquidación en USDC",
+    "en": "WisdomTree trades its digital fund 24/7 with USDC settlement"
+   },
+   "description": {
+    "es": "Las participaciones del WisdomTree Treasury Money Market Digital Fund (WTGXX) pasan a negociarse 24/7 con liquidación instantánea en USDC. Acceso inicial para instituciones vía WisdomTree Connect.",
+    "en": "Shares of the WisdomTree Treasury Money Market Digital Fund (WTGXX) trade 24/7 with instant USDC settlement. Initial access is for institutions through WisdomTree Connect."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement"
+   ]
+  },
+  {
+   "id": "nasdaq-2026",
+   "date": "2026-03-18",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "Nasdaq",
+    "SEC",
+    "DTC"
+   ],
+   "title": {
+    "es": "La SEC aprueba el piloto de valores tokenizados de Nasdaq",
+    "en": "The SEC approves Nasdaq's tokenized securities pilot"
+   },
+   "description": {
+    "es": "Acciones del Russell 1000 y ETF de índices principales podrán liquidarse en forma tokenizada con el mismo CUSIP y los mismos derechos. El inicio depende de que la infraestructura del DTC esté lista.",
+    "en": "Russell 1000 stocks and major index ETFs can settle in tokenized form with the same CUSIP and the same rights. Launch depends on the DTC's infrastructure being ready."
+   },
+   "status": "pilot",
+   "country": "US",
+   "sources": [
+    "https://decrypt.co/361654/nasdaq-wins-sec-approval-tokenized-securities-pilot-program",
+    "https://www.financemagnates.com/cryptocurrency/sec-approves-nasdaq-pilot-allowing-investors-to-trade-tokenized-stocks/"
+   ]
+  },
+  {
+   "id": "safo-2026",
+   "date": "2026-03-19",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "Amundi",
+    "Spiko",
+    "CACEIS"
+   ],
+   "title": {
+    "es": "Amundi y Spiko lanzan SAFO, un fondo UCITS tokenizado",
+    "en": "Amundi and Spiko launch SAFO, a tokenized UCITS fund"
+   },
+   "description": {
+    "es": "El Spiko Amundi Overnight Swap Fund se dirige a tesorería y colateral. Rentabiliza un swap de rentabilidad total colateralizado, no deuda pública. Registro en Ethereum y Stellar; CACEIS es depositario.",
+    "en": "The Spiko Amundi Overnight Swap Fund targets treasury and collateral. It earns a collateralized total return swap, not government debt. Register on Ethereum and Stellar; CACEIS is depositary."
+   },
+   "status": "active",
+   "country": "FR",
+   "sources": [
+    "https://www.ledgerinsights.com/amundi-spiko-launch-tokenized-overnight-swap-fund/"
+   ]
+  },
+  {
+   "id": "nyse-2026",
+   "date": "2026-03-24",
+   "precision": "day",
+   "category": "equities",
+   "entities": [
+    "NYSE",
+    "ICE",
+    "Securitize"
+   ],
+   "title": {
+    "es": "NYSE elige a Securitize como su primer agente de transferencia digital",
+    "en": "NYSE picks Securitize as its first digital transfer agent"
+   },
+   "description": {
+    "es": "Memorando para diseñar la infraestructura de la plataforma de trading digital de NYSE: acciones y ETF 24/7 con liquidación onchain instantánea. Su lanzamiento depende de aprobaciones regulatorias.",
+    "en": "Memorandum to design the infrastructure of NYSE's digital trading platform: 24/7 stocks and ETFs with instant onchain settlement. Launch depends on regulatory approvals."
+   },
+   "status": "planned",
+   "country": "US",
+   "sources": [
+    "https://decrypt.co/362185/wall-streets-crypto-ties-deepen-nyse-securitize-tokenized-securities",
+    "https://www.blockhead.co/2026/03/25/nyse-picks-blackrock-backed-securitize-for-tokenized-securities-platform"
+   ]
+  },
+  {
+   "id": "spiko-coinbase-2026",
+   "date": "2026-06-30",
+   "precision": "day",
+   "category": "funds",
+   "entities": [
+    "Spiko",
+    "Coinbase"
+   ],
+   "title": {
+    "es": "Los fondos de Spiko aceptan USDC y EURC vía Coinbase Payments",
+    "en": "Spiko funds accept USDC and EURC through Coinbase Payments"
+   },
+   "description": {
+    "es": "Coinbase conecta su infraestructura de pagos con los fondos UCITS de letras del Tesoro de Spiko: suscripción y reembolso en USDC o EURC, con liquidación en Base.",
+    "en": "Coinbase connects its payments infrastructure to Spiko's UCITS Treasury bill funds: subscription and redemption in USDC or EURC, settling on Base."
+   },
+   "status": "active",
+   "country": "FR",
+   "sources": [
+    "https://cointelegraph.com/news/spiko-coinbase-stablecoin-payments-treasury-funds"
+   ]
+  },
+  {
+   "id": "swift-2026",
+   "date": "2026-08-19",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "HSBC",
+    "Standard Chartered",
+    "Swift"
+   ],
+   "title": {
+    "es": "HSBC y Standard Chartered completan la primera transferencia interbancaria de depósitos tokenizados en Swift",
+    "en": "HSBC and Standard Chartered complete the first interbank tokenised deposit transfer on Swift"
+   },
+   "description": {
+    "es": "Los dos bancos intercambian mensajes de pago sobre el ledger blockchain de Swift y registran las obligaciones como depósitos tokenizados; la liquidación final usa los sistemas de pago existentes. No hay fecha comercial anunciada.",
+    "en": "The two banks exchange payment messages over Swift's blockchain ledger and record the obligations as tokenised deposits; final settlement uses existing payment systems. No commercial launch date announced."
+   },
+   "status": "completed",
+   "country": "GB",
+   "sources": [
+    "https://www.about.hsbc.com.hk/news-and-media/hsbc-and-standard-chartered-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain",
+    "https://www.sc.com/EN/press-release/standard-chartered-and-hsbc-execute-first-live-tokenised-deposit-transaction-on-swifts-blockchain-based-ledger/"
+   ]
+  },
+  {
+   "id": "pontes-2026",
+   "date": "2026-09-21",
+   "precision": "day",
+   "category": "infra",
+   "entities": [
+    "BCE",
+    "Eurosistema",
+    "Clearstream"
+   ],
+   "title": {
+    "es": "El BCE lanza Pontes para liquidar activos tokenizados en dinero de banco central",
+    "en": "The ECB launches Pontes to settle tokenised assets in central bank money"
+   },
+   "description": {
+    "es": "Pontes conecta plataformas DLT de mercado con los servicios del Eurosistema para liquidar operaciones mayoristas en dinero de banco central. Clearstream, SWIAT, Cashlink y Axiology son los primeros operadores.",
+    "en": "Pontes links market DLT platforms with Eurosystem services to settle wholesale transactions in central bank money. Clearstream, SWIAT, Cashlink and Axiology are the first operators."
+   },
+   "status": "active",
+   "country": "EU",
+   "sources": [
+    "https://fstech.co.uk/fst/ECB_Launches_Pontes_To_Settle_Tokenised_Assets_In_Central_Bank_Money.php",
+    "https://www.coindesk.com/business/2026/09/21/ecb-deploys-pontes-platform-to-settle-wholesale-tokenized-assets-in-central-bank-money"
+   ]
+  },
+  {
+   "id": "gbtd-2026",
+   "date": "2026-09-24",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "Lloyds",
+    "NatWest",
+    "Barclays",
+    "UK Finance"
+   ],
+   "title": {
+    "es": "Los grandes bancos británicos hacen las primeras transacciones interbancarias con depósitos tokenizados",
+    "en": "Britain's largest banks make the first interbank transactions with tokenised deposits"
+   },
+   "description": {
+    "es": "Proyecto Great British Tokenised Deposit: dos remortgages en libras y una simulación de pagos en marketplace. Los bancos preparan una sociedad y un rulebook, y apuntan a tres bonos digitales en el primer trimestre de 2027.",
+    "en": "Great British Tokenised Deposit project: two sterling remortgages and a marketplace payment simulation. The banks plan a company and rulebook, and aim for three digital bonds in Q1 2027."
+   },
+   "status": "pilot",
+   "country": "GB",
+   "sources": [
+    "https://www.euronews.com/2026/09/24/britains-largest-banks-make-first-interbank-transactions-using-tokenised-deposits"
+   ]
+  },
+  {
+   "id": "citi-jpuae-2026",
+   "date": "2026-10-13",
+   "precision": "day",
+   "category": "deposits",
+   "entities": [
+    "Citi"
+   ],
+   "title": {
+    "es": "Citi Token Services se amplía a Japón y a los Emiratos Árabes Unidos",
+    "en": "Citi Token Services expands to Japan and the UAE"
+   },
+   "description": {
+    "es": "Japón con USD y EAU con USD y EUR. El servicio, sobre una blockchain privada permisionada, opera ya en EE. UU., Irlanda, Hong Kong, Singapur, Reino Unido, EAU y Japón.",
+    "en": "Japan with USD and the UAE with USD and EUR. The service, on a private permissioned blockchain, now runs in the US, Ireland, Hong Kong, Singapore, the UK, the UAE and Japan."
+   },
+   "status": "active",
+   "country": "US",
+   "sources": [
+    "https://www.intelligentcio.com/apac/?p=56502"
+   ]
+  },
+  {
+   "id": "qivalis-2026",
+   "date": "2026-10-14",
+   "precision": "day",
+   "category": "stablecoins",
+   "entities": [
+    "Qivalis",
+    "DNB"
+   ],
+   "title": {
+    "es": "Qivalis, el euro-stablecoin de 37 bancos europeos, obtiene licencia de EMI",
+    "en": "Qivalis, the euro stablecoin of 37 European banks, gets its EMI licence"
+   },
+   "description": {
+    "es": "El banco central neerlandés (DNB) autoriza a Qivalis como entidad de dinero electrónico. El consorcio, impulsado por diez bancos como CaixaBank, ING, UniCredit o BNP Paribas, prevé emitir en los próximos meses, a la espera del white paper de MiCA.",
+    "en": "The Dutch central bank (DNB) authorises Qivalis as an electronic money institution. The consortium, started by ten banks including CaixaBank, ING, UniCredit and BNP Paribas, plans to issue in the coming months, pending its MiCA white paper."
+   },
+   "status": "planned",
+   "country": "NL",
+   "sources": [
+    "https://qivalis.eu/press/news/qivalis-receives-authorisation-as-an-electronic-money-institution-from-de-nederlandsche-bank",
+    "https://thepaypers.com/crypto-web3-and-cbdc/news/qivalis-to-launch-euro-pegged-stablecoin-in-h2-2026"
+   ]
+  },
+  {
+   "id": "tch-2026",
+   "date": "2027-04-01",
+   "precision": "month",
+   "category": "deposits",
+   "entities": [
+    "The Clearing House",
+    "17 bancos"
+   ],
+   "title": {
+    "es": "La red de depósitos tokenizados de The Clearing House",
+    "en": "The Clearing House tokenized deposit network"
+   },
+   "description": {
+    "es": "Anunciada el 5 de junio de 2026: 17 bancos de EE. UU. (JPMorgan, Citi, Bank of America, Wells Fargo…) compensarán y liquidarán depósitos tokenizados 24/7, conectados con RTP y CHIPS. Según la prensa, podría llegar en el primer semestre de 2027.",
+    "en": "Announced on 5 June 2026: 17 US banks (JPMorgan, Citi, Bank of America, Wells Fargo…) will clear and settle tokenized deposits 24/7, connected to RTP and CHIPS. According to press reports it could launch in the first half of 2027."
+   },
+   "status": "planned",
+   "country": "US",
+   "sources": [
+    "https://thefintechtimes.com/us-banks-and-the-clearing-house-launch-tokenised-deposit-network/",
+    "https://www.kucoin.com/news/flash/jpmorgan-citi-plan-tokenized-deposit-network-launch-in-2027"
+   ],
+   "date_label": {
+    "es": "1S 2027",
+    "en": "H1 2027"
+   }
+  }
+ ]
+}

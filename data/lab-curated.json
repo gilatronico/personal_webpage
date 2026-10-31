@@ -1,0 +1,683 @@
+{
+  "_comment": "Contenido curado del Web3 Lab (/web3). Cada dato lleva su fuente verificada. Si algo no se puede confirmar, se omite el campo. Los textos van en {es,en}.",
+  "last_reviewed": "2026-10-31",
+  "article_slug": "depositos-tokenizados-stablecoins-mmfs",
+  "ui": {
+    "kicker": {
+      "es": "Web3 Lab",
+      "en": "Web3 Lab"
+    },
+    "title": {
+      "es": "El dinero institucional ya está <em class=\"serif\">onchain</em>.",
+      "en": "Institutional money is already <em class=\"serif\">onchain</em>."
+    },
+    "updated": {
+      "es": "Datos actualizados a las {t}",
+      "en": "Data updated at {t}"
+    },
+    "updatedWaiting": {
+      "es": "Cargando datos…",
+      "en": "Loading data…"
+    },
+    "unavailable": {
+      "es": "Datos no disponibles ahora mismo",
+      "en": "Data not available right now"
+    },
+    "source": {
+      "es": "Fuente ↗",
+      "en": "Source ↗"
+    },
+    "sections": {
+      "es": "Secciones",
+      "en": "Sections"
+    },
+    "tickerAria": {
+      "es": "Precios de criptomonedas",
+      "en": "Crypto prices"
+    },
+    "pricesSource": {
+      "es": "Precios: CoinGecko",
+      "en": "Prices: CoinGecko"
+    },
+    "nav": {
+      "stablecoins": {
+        "es": "Stablecoins",
+        "en": "Stablecoins"
+      },
+      "compare": {
+        "es": "Comparador",
+        "en": "Comparison"
+      },
+      "funds": {
+        "es": "Fondos",
+        "en": "Funds"
+      },
+      "timeline": {
+        "es": "Cronología",
+        "en": "Timeline"
+      },
+      "treasury": {
+        "es": "Tesorería",
+        "en": "Treasury"
+      },
+      "custody": {
+        "es": "Custodia",
+        "en": "Custody"
+      }
+    },
+    "stable": {
+      "title": {
+        "es": "Stablecoins",
+        "en": "Stablecoins"
+      },
+      "source": {
+        "es": "Fuente: DefiLlama",
+        "en": "Source: DefiLlama"
+      },
+      "supply": {
+        "es": "Oferta total",
+        "en": "Total supply"
+      },
+      "change": {
+        "es": "Variación a 30 días",
+        "en": "30-day change"
+      },
+      "share": {
+        "es": "Euro frente a dólar",
+        "en": "Euro vs. dollar"
+      },
+      "shareEur": {
+        "es": "euro",
+        "en": "euro"
+      },
+      "shareUsd": {
+        "es": "dólar",
+        "en": "dollar"
+      },
+      "chart": {
+        "es": "Oferta total de stablecoins (miles de millones $)",
+        "en": "Total stablecoin supply ($B)"
+      },
+      "top": {
+        "es": "Top 5 por capitalización",
+        "en": "Top 5 by market cap"
+      },
+      "colName": {
+        "es": "Stablecoin · Emisor",
+        "en": "Stablecoin · Issuer"
+      },
+      "colCur": {
+        "es": "Divisa",
+        "en": "Ccy"
+      },
+      "colCap": {
+        "es": "Capitalización (miles de millones $)",
+        "en": "Market cap ($B)"
+      },
+      "col30": {
+        "es": "30 d",
+        "en": "30 d"
+      },
+      "euro": {
+        "es": "Stablecoins en euros",
+        "en": "Euro stablecoins"
+      },
+      "euroSum": {
+        "es": "Total en euros",
+        "en": "Euro total"
+      },
+      "d12": {
+        "es": "12 meses",
+        "en": "12 months"
+      },
+      "d30": {
+        "es": "30 días",
+        "en": "30 days"
+      },
+      "min": {
+        "es": "mín",
+        "en": "low"
+      },
+      "max": {
+        "es": "máx",
+        "en": "high"
+      },
+      "euroHl": {
+        "es": "El euro es el *{p}* del mercado de stablecoins.",
+        "en": "The euro is *{p}* of the stablecoin market."
+      },
+      "euroTotalLbl": {
+        "es": "Total en euros",
+        "en": "Euro total"
+      },
+      "euroTotalFull": {
+        "es": "{v}",
+        "en": "{v}"
+      },
+      "barEuro": {
+        "es": "euro",
+        "en": "euro"
+      },
+      "barUsd": {
+        "es": "dólar",
+        "en": "dollar"
+      },
+      "euroCap": {
+        "es": "",
+        "en": ""
+      },
+      "d30lbl": {
+        "es": "30 d",
+        "en": "30 d"
+      }
+    },
+    "compare": {
+      "title": {
+        "es": "Tres formas de dinero tokenizado",
+        "en": "Three forms of tokenized money"
+      },
+      "article": {
+        "es": "Lo explico a fondo en mi artículo →",
+        "en": "I explain it in depth in my article →"
+      },
+      "cols": {
+        "stable": {
+          "es": "Stablecoin",
+          "en": "Stablecoin"
+        },
+        "mmf": {
+          "es": "Fondo monetario tokenizado",
+          "en": "Tokenized money market fund"
+        },
+        "dep": {
+          "es": "Depósito tokenizado",
+          "en": "Tokenized deposit"
+        }
+      },
+      "rows": [
+        {
+          "label": {
+            "es": "Qué es",
+            "en": "What it is"
+          },
+          "stable": {
+            "es": "Pasivo de un emisor respaldado por reservas",
+            "en": "A liability of an issuer, backed by reserves"
+          },
+          "mmf": {
+            "es": "Participación en un fondo que invierte en deuda pública a corto plazo",
+            "en": "A share in a fund that invests in short-term government debt"
+          },
+          "dep": {
+            "es": "Depósito bancario registrado en una blockchain",
+            "en": "A bank deposit recorded on a blockchain"
+          },
+          "id": "what"
+        },
+        {
+          "label": {
+            "es": "Quién lo emite",
+            "en": "Who issues it"
+          },
+          "stable": {
+            "es": "Entidad de dinero electrónico o emisor de stablecoins",
+            "en": "E-money institution or stablecoin issuer"
+          },
+          "mmf": {
+            "es": "Gestora de fondos",
+            "en": "Fund manager"
+          },
+          "dep": {
+            "es": "Banco",
+            "en": "Bank"
+          },
+          "id": "issuer"
+        },
+        {
+          "label": {
+            "es": "Rendimiento para el tenedor",
+            "en": "Yield for the holder"
+          },
+          "stable": {
+            "es": "No",
+            "en": "No"
+          },
+          "mmf": {
+            "es": "Sí, la rentabilidad del fondo",
+            "en": "Yes, the fund's return"
+          },
+          "dep": {
+            "es": "Según las condiciones del banco",
+            "en": "Depends on the bank's terms"
+          },
+          "id": "yield"
+        },
+        {
+          "label": {
+            "es": "Quién puede tenerlo",
+            "en": "Who can hold it"
+          },
+          "stable": {
+            "es": "Abierto, según el emisor",
+            "en": "Open, depending on the issuer"
+          },
+          "mmf": {
+            "es": "Inversores elegibles con wallets en lista blanca",
+            "en": "Eligible investors with whitelisted wallets"
+          },
+          "dep": {
+            "es": "Clientes del banco con KYC, red permisionada",
+            "en": "Bank clients with KYC, permissioned network"
+          },
+          "id": "who"
+        },
+        {
+          "label": {
+            "es": "Ejemplo",
+            "en": "Example"
+          },
+          "stable": {
+            "es": "USDC, EURC",
+            "en": "USDC, EURC"
+          },
+          "mmf": {
+            "es": "BUIDL, BENJI, Spiko",
+            "en": "BUIDL, BENJI, Spiko"
+          },
+          "dep": {
+            "es": "JPMD, HSBC Tokenised Deposit Service",
+            "en": "JPMD, HSBC Tokenised Deposit Service"
+          },
+          "id": "example"
+        }
+      ],
+      "tones": {
+        "stable": "accent",
+        "mmf": "mint",
+        "dep": "amber"
+      },
+      "yieldState": {
+        "stable": "no",
+        "mmf": "yes",
+        "dep": "varies"
+      },
+      "numbers": {
+        "stable": "01",
+        "mmf": "02",
+        "dep": "03"
+      }
+    },
+    "funds": {
+      "title": {
+        "es": "Fondos monetarios tokenizados",
+        "en": "Tokenized money market funds"
+      },
+      "networks": {
+        "es": "Redes",
+        "en": "Networks"
+      },
+      "currency": {
+        "es": "Divisa",
+        "en": "Currency"
+      },
+      "aum": {
+        "es": "Patrimonio",
+        "en": "Assets"
+      },
+      "aumNote": {
+        "es": "valor onchain · DefiLlama",
+        "en": "onchain value · DefiLlama"
+      },
+      "seeMore": {
+        "es": "Ver más",
+        "en": "See more"
+      },
+      "seeLess": {
+        "es": "Ver menos",
+        "en": "See less"
+      },
+      "moreChains": {
+        "es": "{n} redes más",
+        "en": "{n} more networks"
+      },
+      "since": {
+        "es": "Onchain desde",
+        "en": "Onchain since"
+      }
+    },
+    "treasury": {
+      "title": {
+        "es": "¿Dónde aparca su liquidez una tesorería onchain?",
+        "en": "Where does an onchain treasury park its liquidity?"
+      },
+      "note": {
+        "es": "El staking se cobra en el propio activo: su rendimiento en euros depende del precio. No es comparable con un rendimiento libre de riesgo.",
+        "en": "Staking is paid in the asset itself: its return in euros depends on the price. It is not comparable with a risk-free yield."
+      },
+      "sources": {
+        "es": "Fuentes: U.S. Treasury Fiscal Data, ECB Data Portal, DefiLlama",
+        "en": "Sources: U.S. Treasury Fiscal Data, ECB Data Portal, DefiLlama"
+      },
+      "stable": {
+        "es": "Stablecoin (USDC / EURC)",
+        "en": "Stablecoin (USDC / EURC)"
+      },
+      "stableDetail": {
+        "es": "Sin rendimiento para el tenedor",
+        "en": "No yield for the holder"
+      },
+      "tbill": {
+        "es": "Letra del Tesoro de EE. UU. a corto plazo",
+        "en": "Short-term US Treasury bill"
+      },
+      "tbillDetail": {
+        "es": "Tipo medio, {m}",
+        "en": "Average rate, {m}"
+      },
+      "ecb": {
+        "es": "Facilidad de depósito del BCE",
+        "en": "ECB deposit facility"
+      },
+      "ecbDetail": {
+        "es": "Tipo vigente desde {d}",
+        "en": "Rate in force since {d}"
+      },
+      "mmf": {
+        "es": "Fondo monetario tokenizado ({s})",
+        "en": "Tokenized money market fund ({s})"
+      },
+      "mmfDetail": {
+        "es": "Pool con más TVL · APY medio 30 d",
+        "en": "Largest pool by TVL · 30-day average APY"
+      },
+      "eth": {
+        "es": "Staking ETH ({s}, {p})",
+        "en": "ETH staking ({s}, {p})"
+      },
+      "sol": {
+        "es": "Staking SOL ({s}, {p})",
+        "en": "SOL staking ({s}, {p})"
+      },
+      "stakeDetail": {
+        "es": "Liquid staking con más TVL · APY medio 30 d",
+        "en": "Largest liquid staking pool by TVL · 30-day average APY"
+      },
+      "riskIssuer": {
+        "es": "riesgo emisor",
+        "en": "issuer risk"
+      },
+      "riskSovereign": {
+        "es": "riesgo soberano",
+        "en": "sovereign risk"
+      },
+      "riskMmf": {
+        "es": "riesgo soberano + gestora",
+        "en": "sovereign + manager risk"
+      },
+      "riskStake": {
+        "es": "slashing + liquidez + volatilidad del activo",
+        "en": "slashing + liquidity + asset price volatility"
+      },
+      "perYear": {
+        "es": "anual",
+        "en": "per year"
+      },
+      "axis": {
+        "es": "rendimiento anual",
+        "en": "annual yield"
+      },
+      "legendLow": {
+        "es": "Línea continua: rendimiento contractual o de política monetaria",
+        "en": "Solid line: contractual or monetary-policy yield"
+      },
+      "legendStake": {
+        "es": "Línea discontinua: rendimiento variable, pagado en el propio activo",
+        "en": "Dashed line: variable yield, paid in the asset itself"
+      }
+    },
+    "months": {
+      "es": [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre"
+      ],
+      "en": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    "sourceWord": {
+      "es": "Fuente",
+      "en": "Source"
+    },
+    "hk": {
+      "stable": {
+        "es": "Stablecoins en circulación",
+        "en": "Stablecoins in circulation"
+      },
+      "fundsAum": {
+        "es": "Patrimonio en fondos monetarios tokenizados",
+        "en": "Assets in tokenized money market funds"
+      },
+      "funds": {
+        "es": "Fondos tokenizados destacados",
+        "en": "Featured tokenized funds"
+      },
+      "banks": {
+        "es": "Bancos con depósitos tokenizados activos",
+        "en": "Banks with live tokenized deposits"
+      },
+      "yield": {
+        "es": "Mejor rendimiento sin riesgo de precio",
+        "en": "Best yield without asset-price risk"
+      },
+      "yieldTbill": {
+        "es": "Letra del Tesoro de EE. UU.",
+        "en": "US Treasury bill"
+      },
+      "yieldEcb": {
+        "es": "Facilidad de depósito del BCE",
+        "en": "ECB deposit facility"
+      },
+      "yieldMmf": {
+        "es": "Fondo tokenizado ({s})",
+        "en": "Tokenized fund ({s})"
+      },
+      "bankNames": {
+        "es": "{names}",
+        "en": "{names}"
+      }
+    },
+    "jumpCta": {
+      "es": "Encuentra tu modelo de custodia →",
+      "en": "Find your custody model →"
+    },
+    "anchor": {
+      "copy": {
+        "es": "Copiar enlace a esta sección",
+        "en": "Copy link to this section"
+      },
+      "copied": {
+        "es": "Enlace copiado",
+        "en": "Link copied"
+      }
+    }
+  },
+  "issuers": {
+    "USDT": "Tether",
+    "USDC": "Circle",
+    "USDS": "Sky (MakerDAO)",
+    "DAI": "Sky (MakerDAO)",
+    "USDE": "Ethena Labs",
+    "USD1": "World Liberty Financial",
+    "USDG": "Global Dollar Network",
+    "PYUSD": "PayPal",
+    "FDUSD": "First Digital",
+    "RLUSD": "Ripple",
+    "EURC": "Circle",
+    "EURCV": "SG-FORGE (Société Générale)",
+    "EURI": "Banking Circle",
+    "EURE": "Monerium",
+    "EUROP": "Schuman Financial",
+    "EURR": "StablR",
+    "EURQ": "Quantoz Payments"
+  },
+  "funds": [
+    {
+      "id": "benji",
+      "name": "Franklin OnChain U.S. Government Money Fund",
+      "manager": "Franklin Templeton",
+      "ticker": "FOBXX · BENJI",
+      "currency": "USD",
+      "networks": [
+        "Stellar",
+        "Polygon",
+        "Arbitrum",
+        "Avalanche",
+        "Aptos",
+        "Ethereum",
+        "Base",
+        "Solana",
+        "BNB Chain"
+      ],
+      "why": {
+        "es": "Fondo monetario registrado en EE. UU. cuyo registro oficial de participaciones se lleva en blockchains públicas: un token BENJI equivale a una participación.",
+        "en": "A US-registered money market fund whose official share register is kept on public blockchains: one BENJI token equals one share."
+      },
+      "sources": [
+        "https://digitalassets.franklintempleton.com/benji/"
+      ],
+      "accent": "#2FA79A",
+      "since": "2021"
+    },
+    {
+      "id": "buidl",
+      "name": "BlackRock USD Institutional Digital Liquidity Fund",
+      "manager": "BlackRock",
+      "ticker": "BUIDL",
+      "currency": "USD",
+      "networks": [],
+      "defillama": "blackrock-buidl",
+      "logo": "blackrock.png",
+      "logo_w": 88,
+      "logo_h": 16,
+      "why": {
+        "es": "Primer fondo tokenizado de BlackRock en una blockchain pública (marzo de 2024). Invierte en efectivo, letras del Tesoro de EE. UU. y repos; Securitize actúa como agente de transferencia.",
+        "en": "BlackRock's first tokenized fund on a public blockchain (March 2024). It invests in cash, US Treasury bills and repos; Securitize acts as transfer agent."
+      },
+      "sources": [
+        "https://www.nasdaq.com/press-release/blackrock-launches-its-first-tokenized-fund-buidl-on-the-ethereum-network-2024-03-20"
+      ],
+      "accent": "#6A73E0",
+      "since": "2024-03"
+    },
+    {
+      "id": "spiko",
+      "name": "Spiko EU T-Bills y US T-Bills",
+      "name_en": "Spiko EU T-Bills and US T-Bills",
+      "manager": "Spiko",
+      "ticker": "EUTBL · USTBL",
+      "currency": "EUR · USD",
+      "networks": [
+        "Base"
+      ],
+      "logo": "spiko.png",
+      "logo_w": 30,
+      "logo_h": 24,
+      "why": {
+        "es": "Fondos UCITS de letras del Tesoro. Desde el 30 de junio de 2026 se suscriben y reembolsan en USDC y EURC a través de Coinbase Payments, con liquidación en Base.",
+        "en": "UCITS funds investing in Treasury bills. Since 30 June 2026 they can be subscribed and redeemed in USDC and EURC through Coinbase Payments, settling on Base."
+      },
+      "sources": [
+        "https://cointelegraph.com/news/spiko-coinbase-stablecoin-payments-treasury-funds"
+      ],
+      "accent": "#B565D9",
+      "since": "2024-05"
+    },
+    {
+      "id": "fdit",
+      "name": "Fidelity Treasury Digital Fund (clase onchain)",
+      "name_en": "Fidelity Treasury Digital Fund (onchain class)",
+      "manager": "Fidelity",
+      "ticker": "FDIT",
+      "currency": "USD",
+      "networks": [
+        "Ethereum"
+      ],
+      "logo": "fidelity.png",
+      "logo_w": 28,
+      "logo_h": 27,
+      "why": {
+        "es": "Clase onchain del fondo monetario del Tesoro de Fidelity, lanzada en Ethereum en septiembre de 2025, con BNY como custodio.",
+        "en": "Onchain share class of Fidelity's Treasury money market fund, launched on Ethereum in September 2025, with BNY as custodian."
+      },
+      "sources": [
+        "https://www.blockhead.co/2025/09/08/fidelity-quietly-launches-200m-ethereum-based-treasury-fund"
+      ],
+      "accent": "#E0A03A",
+      "since": "2025-09"
+    },
+    {
+      "id": "wtgxx",
+      "name": "WisdomTree Treasury Money Market Digital Fund",
+      "manager": "WisdomTree",
+      "ticker": "WTGXX",
+      "currency": "USD",
+      "networks": [],
+      "logo": "wisdomtree.png",
+      "logo_w": 72,
+      "logo_h": 29,
+      "why": {
+        "es": "Desde el 24 de febrero de 2026 sus participaciones se negocian 24/7 con liquidación instantánea en USDC. Acceso inicial para instituciones a través de WisdomTree Connect.",
+        "en": "Since 24 February 2026 its shares trade 24/7 with instant settlement in USDC. Initial access is for institutions through WisdomTree Connect."
+      },
+      "sources": [
+        "https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement"
+      ],
+      "accent": "#4FAE63",
+      "since": "2026-02"
+    },
+    {
+      "id": "safo",
+      "name": "Spiko Amundi Overnight Swap Fund",
+      "manager": "Amundi · Spiko",
+      "ticker": "SAFO",
+      "currency": "EUR · USD · GBP · CHF",
+      "networks": [
+        "Ethereum",
+        "Stellar"
+      ],
+      "logo": "spiko.png",
+      "logo_w": 30,
+      "logo_h": 24,
+      "why": {
+        "es": "Fondo UCITS tokenizado (marzo de 2026) para tesorería y colateral. Su rentabilidad procede de un swap de rentabilidad total colateralizado con un banco, no de deuda pública.",
+        "en": "A tokenized UCITS fund (March 2026) for treasury and collateral. Its return comes from a collateralized total return swap with a bank, not from government debt."
+      },
+      "sources": [
+        "https://www.ledgerinsights.com/amundi-spiko-launch-tokenized-overnight-swap-fund/"
+      ],
+      "accent": "#3E94E0",
+      "since": "2026-03"
+    }
+  ]
+}

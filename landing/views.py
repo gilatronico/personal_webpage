@@ -1,4 +1,6 @@
 import os
+import datetime
+from pathlib import Path
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse, Http404
 from django.template.loader import render_to_string
@@ -97,14 +99,14 @@ HOME_META = {
     'es': {
         'title': 'Alex Gilabert · Product Manager de custodia de activos digitales',
         'og_title': 'Alex Gilabert · Senior Product Manager en Bitpanda',
-        'description': 'Senior Product Manager en Bitpanda Technology Solutions. Producto de custodia, '
+        'description': 'Senior Product Manager en Bitpanda Enterprise. Producto de custodia, '
                        'tokenización y brokeraje para banca, fintechs y empresas Web3. Docente en CEDEU. Madrid.',
         'og_locale': 'es_ES', 'og_locale_alt': 'en_US',
     },
     'en': {
         'title': 'Alex Gilabert · Digital Asset Custody Product Manager',
         'og_title': 'Alex Gilabert · Senior Product Manager at Bitpanda',
-        'description': 'Senior Product Manager at Bitpanda Technology Solutions. Custody, tokenization and '
+        'description': 'Senior Product Manager at Bitpanda Enterprise. Custody, tokenization and '
                        'brokerage products for banks, fintechs and Web3 companies. Lecturer at CEDEU. Madrid.',
         'og_locale': 'en_US', 'og_locale_alt': 'es_ES',
     },
@@ -121,7 +123,7 @@ def _person_schema(lang):
         'image': f'{SITE_URL}/static/images/alex-gilabert-og.jpg',
         'jobTitle': 'Senior Product Manager',
         'description': HOME_META[lang]['description'],
-        'worksFor': {'@type': 'Organization', 'name': 'Bitpanda Technology Solutions', 'url': 'https://www.bitpanda.com/'},
+        'worksFor': {'@type': 'Organization', 'name': 'Bitpanda Enterprise', 'url': 'https://www.bitpanda.com/'},
         'address': {'@type': 'PostalAddress', 'addressLocality': 'Madrid', 'addressCountry': 'ES'},
         'knowsAbout': ['Digital asset custody', 'Tokenization', 'MiCA', 'Travel Rule', 'DeFi', 'Product Management'],
         'knowsLanguage': ['es', 'en'],
@@ -295,24 +297,173 @@ def article_detail(request, slug):
 
 WEB3_META = {
     'es': {
-        'title': 'Web3 Lab · Cripto, DeFi y liquid staking | Alex Gilabert',
-        'description': 'Cotizaciones cripto en tiempo real, protocolos DeFi y liquid staking.',
+        'title': 'Web3 Lab · El dinero institucional ya está onchain | Alex Gilabert',
+        'description': 'Stablecoins, fondos monetarios tokenizados, depósitos tokenizados y rendimientos onchain, '
+                       'con datos en tiempo real, y una herramienta para elegir el modelo de custodia de tu institución.',
         'og_locale': 'es_ES', 'og_locale_alt': 'en_US',
     },
     'en': {
-        'title': 'Web3 Lab · Crypto, DeFi and liquid staking | Alex Gilabert',
-        'description': 'Live crypto prices, DeFi protocols and liquid staking.',
+        'title': 'Web3 Lab · Institutional money is already onchain | Alex Gilabert',
+        'description': 'Stablecoins, tokenized money market funds, tokenized deposits and onchain yields with live data, '
+                       'plus a tool to choose your institution\'s custody model.',
         'og_locale': 'en_US', 'og_locale_alt': 'es_ES',
     },
 }
 
+DATA_DIR = Path(__file__).resolve().parent.parent / 'data'
+
+
+def _read_json(name):
+    with open(DATA_DIR / name, encoding='utf-8') as f:
+        return json.load(f)
+
+
+def _localize_tree(obj, lang):
+    """
+    Colapsa recursivamente los {'es':..,'en':..} al idioma pedido. Una clave 'x_en'
+    sustituye a 'x' cuando el idioma es inglés (nombres que cambian con el idioma).
+    """
+    if isinstance(obj, dict):
+        if set(obj) == {'es', 'en'}:
+            return obj[lang]
+        out = {}
+        for k, v in obj.items():
+            if k.endswith('_en') and k[:-3] in obj:
+                continue
+            if lang == 'en' and f'{k}_en' in obj:
+                v = obj[f'{k}_en']
+            out[k] = _localize_tree(v, lang)
+        return out
+    if isinstance(obj, list):
+        return [_localize_tree(x, lang) for x in obj]
+    return obj
+
+
+CHAIN_SLUG = {
+    'Ethereum': 'ethereum', 'Solana': 'solana', 'Polygon': 'polygon', 'Avalanche': 'avalanche',
+    'BNB Chain': 'bnb', 'Arbitrum': 'arbitrum', 'Optimism': 'optimism', 'Aptos': 'aptos',
+    'Stellar': 'stellar', 'Base': 'base',
+}
+
+
+def _tl_data(lang):
+    """Línea temporal global de la tokenización (data/tokenization-timeline.json), localizada."""
+    tl = _localize_tree(_read_json('tokenization-timeline.json'), lang)
+    tl['events'].sort(key=lambda e: e['date'])
+    banks = []
+    for e in tl['events']:
+        if e['category'] == 'deposits' and e['status'] == 'active' and e['entities'][0] not in banks:
+            banks.append(e['entities'][0])
+    tl['banks_active'] = banks
+    tl['count'] = len(tl['events'])
+    return tl
+
+
+def _lab_data(lang):
+    """Contenido curado del Web3 Lab y cuestionario de custodia, ya en el idioma de la página."""
+    lab = _localize_tree(_read_json('lab-curated.json'), lang)
+    quiz = _localize_tree(_read_json('custody-quiz.json'), lang)
+    item = next((a for a in articles.localized_list(lang)[0] if a['slug'] == lab['article_slug']), None)
+    lab['article'] = {'url': item['url'], 'external': item['external']} if item else None
+    cmp = lab['ui']['compare']
+    by = {r['id']: r for r in cmp['rows']}
+    lab['compare_labels'] = {i: r['label'] for i, r in by.items()}
+    lab['compare_cols'] = [{
+        'key': k,
+        'title': cmp['cols'][k],
+        'tone': cmp['tones'][k],
+        'number': cmp['numbers'][k],
+        'yield_state': cmp['yieldState'][k],
+        'what': by['what'][k], 'issuer': by['issuer'][k], 'yield_v': by['yield'][k], 'who': by['who'][k],
+        'examples': [x.strip() for x in by['example'][k].split(', ')],
+    } for k in ('stable', 'mmf', 'dep')]
+    # Fondos: orden por antigüedad (el patrimonio en vivo solo reordena si hay datos de todos) y redes como iconos
+    for f in lab['funds']:
+        icons = [{'name': n, 'slug': CHAIN_SLUG[n]} for n in f['networks'] if n in CHAIN_SLUG]
+        f['chains_shown'], f['chains_more'] = icons[:4], icons[4:]
+        f['chains_more_title'] = ', '.join(c['name'] for c in icons[4:])
+    return lab, quiz
+
+
+# Pools de liquid staking que compiten por "el de mayor TVL" de cada red (yields.llama.fi)
+ETH_LST = {
+    'lido': 'Lido', 'binance-staked-eth': 'Binance', 'ether.fi-stake': 'ether.fi', 'rocket-pool': 'Rocket Pool',
+    'coinbase-wrapped-staked-eth': 'Coinbase', 'stakewise-v2': 'StakeWise', 'swell-liquid-staking': 'Swell',
+    'frax-ether': 'Frax', 'mantle-staked-eth': 'Mantle', 'kelp': 'Kelp', 'renzo': 'Renzo',
+}
+SOL_LST = {
+    'binance-staked-sol': 'Binance', 'jito-liquid-staking': 'Jito', 'marinade-liquid-staking': 'Marinade',
+    'jpool': 'JPool', 'blazestake': 'BlazeStake', 'jupiter-staked-sol': 'Jupiter', 'bybit-staked-sol': 'Bybit',
+    'helius-staked-sol': 'Helius', 'drift-staked-sol': 'Drift', 'sanctum-validator-lsts': 'Sanctum',
+    'the-vault-liquid-staking': 'The Vault',
+}
+
+
+def _pool_apy(pool):
+    # La media a 30 días evita picos de rebase puntuales (p. ej. stETH) que no son rendimiento real
+    v = pool.get('apyMean30d')
+    return v if v is not None else pool.get('apy')
+
+
+def _build_lab_yields():
+    req = urllib.request.Request('https://yields.llama.fi/pools', headers={'User-Agent': 'Mozilla/5.0 alexgilabert.xyz'})
+    with urllib.request.urlopen(req, timeout=25) as resp:
+        pools = json.loads(resp.read())['data']
+
+    def best(chain, projects):
+        cands = [p for p in pools if p['chain'] == chain and p['project'] in projects
+                 and p.get('tvlUsd') and _pool_apy(p) is not None]
+        if not cands:
+            return None
+        p = max(cands, key=lambda x: x['tvlUsd'])
+        return {'symbol': p['symbol'], 'project': projects[p['project']], 'tvl': p['tvlUsd'], 'apy': round(_pool_apy(p), 2)}
+
+    # Fondos tokenizados: el valor onchain y las redes salen de los pools del protocolo en DefiLlama
+    funds = {}
+    for f in _read_json('lab-curated.json')['funds']:
+        slug = f.get('defillama')
+        rows = [p for p in pools if p['project'] == slug and p.get('tvlUsd')] if slug else []
+        if not rows:
+            continue
+        top = max(rows, key=lambda x: x['tvlUsd'])
+        chains = sorted({p['chain'] for p in rows}, key=lambda c: -sum(p['tvlUsd'] for p in rows if p['chain'] == c))
+        funds[f['id']] = {
+            'tvl': sum(p['tvlUsd'] for p in rows),
+            'chains': chains,
+            'symbol': top['symbol'],
+            'apy': round(_pool_apy(top), 2) if _pool_apy(top) is not None else None,
+        }
+    return {'eth': best('Ethereum', ETH_LST), 'sol': best('Solana', SOL_LST), 'funds': funds,
+            'asOf': timezone.now().isoformat()}
+
+
+@require_http_methods(["GET"])
+def lab_yields(request):
+    """
+    Rendimientos de DefiLlama para el Web3 Lab. La API completa de pools pesa ~10 MB, así que se
+    reduce aquí a lo necesario y se cachea 10 minutos (en el servidor y en el CDN).
+    """
+    data = cache.get('lab_yields')
+    if data is None:
+        try:
+            data = _build_lab_yields()
+        except (urllib.error.URLError, KeyError, TypeError, ValueError, OSError) as e:
+            logger.warning(f'lab_yields: no se pudo obtener yields.llama.fi: {e}')
+            return JsonResponse({'error': 'upstream'}, status=502)
+        cache.set('lab_yields', data, 600)
+    resp = JsonResponse(data)
+    resp['Cache-Control'] = 'public, max-age=300, s-maxage=600'
+    return resp
+
 
 def _web3(request, lang):
     """
-    Web3 Lab: cotizaciones cripto, DeFi, acciones cripto y Strategy Instrument Explorer.
-    El header y los textos de página se traducen en servidor; los módulos de datos
-    (main.js, web3-simulator.js) siguen traduciéndose en cliente según <html lang>.
+    Web3 Lab: dinero institucional onchain. El contenido curado (fondos, depósitos, comparador)
+    y el cuestionario de custodia se renderizan/embeben localizados desde data/*.json; los datos
+    numéricos los carga static/js/web3-lab.js desde APIs públicas.
     """
+    lab, quiz = _lab_data(lang)
+    tl = _tl_data(lang)
     ctx = {
         'lang': lang,
         'meta': WEB3_META[lang],
@@ -320,6 +471,11 @@ def _web3(request, lang):
         'canonical': f'{SITE_URL}/en/web3' if lang == 'en' else f'{SITE_URL}/web3',
         'cases': _visible_cases(lang),
         'sections': _sections(),
+        'lab': lab,
+        'ui': lab['ui'],
+        'quiz': quiz,
+        'tl': tl,
+        'lab_json': {'ui': lab['ui'], 'issuers': lab['issuers'], 'quiz': quiz, 'tl': tl},
         **_nav_ctx(lang, 'web3'),
     }
     html = render_to_string('landing/web3.html', ctx, request)

@@ -644,7 +644,7 @@ figure {
     transition: opacity .25s;
 }
 
-.co-bitpanda img { height: 22px; }
+.co-bitpanda img { height: 26px; }
 .co-onyze img { height: 15px; }
 .co-sopra img { height: 15px; }
 
@@ -661,7 +661,7 @@ figure {
     transition: opacity .25s, background-color .25s;
 }
 
-.co-bitpanda .co-mono { width: 73px; height: 22px; }
+.co-bitpanda .co-mono { width: 100px; height: 26px; }
 .co-onyze .co-mono { width: 65px; height: 15px; }
 .co-sopra .co-mono { width: 112px; height: 15px; }
 .co-nfq .co-mono { width: 20px; height: 20px; }

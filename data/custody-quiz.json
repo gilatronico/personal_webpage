@@ -1,0 +1,1299 @@
+{
+  "_comment": "Lógica y textos de la herramienta '¿Qué modelo de custodia necesita tu institución?' (/web3). Puntuación: cada opción suma puntos a los modelos 'self', 'delegated' y 'noncustodial'. Si los dos primeros quedan a menos de 'hybridMargin' puntos, el resultado es 'hybrid'. Plazo: se parte de models[x].timeBase y se suman 'timeAdd'. Todos los textos van en {es,en}.",
+  "version": 1,
+  "hybridMargin": 2,
+  "timeThresholds": {
+    "weeks": 2,
+    "months": 4
+  },
+  "overrides": [
+    {
+      "question": "keys",
+      "option": "client",
+      "model": "noncustodial",
+      "why": "Si el cliente final controla las claves, el modelo es non-custodial por definición."
+    }
+  ],
+  "ui": {
+    "title": {
+      "es": "¿Qué modelo de custodia necesita tu institución?",
+      "en": "Which custody model does your institution need?"
+    },
+    "start": {
+      "es": "Empezar",
+      "en": "Start"
+    },
+    "intro": {
+      "es": "8 preguntas, unos 2 minutos. No se guarda ni se envía nada.",
+      "en": "8 questions, about 2 minutes. Nothing is stored or sent."
+    },
+    "step": {
+      "es": "Pregunta {n} de {total}",
+      "en": "Question {n} of {total}"
+    },
+    "why": {
+      "es": "Por qué preguntamos esto",
+      "en": "Why we ask this"
+    },
+    "multiHint": {
+      "es": "Puedes elegir varias",
+      "en": "You can choose several"
+    },
+    "back": {
+      "es": "Atrás",
+      "en": "Back"
+    },
+    "next": {
+      "es": "Siguiente",
+      "en": "Next"
+    },
+    "result": {
+      "es": "Ver resultado",
+      "en": "See result"
+    },
+    "restart": {
+      "es": "Volver a empezar",
+      "en": "Start over"
+    },
+    "needOne": {
+      "es": "Elige al menos una opción",
+      "en": "Choose at least one option"
+    },
+    "resultKicker": {
+      "es": "Modelo recomendado",
+      "en": "Recommended model"
+    },
+    "keys": {
+      "es": "Tecnología de claves orientativa",
+      "en": "Indicative key technology"
+    },
+    "regulatory": {
+      "es": "Implicaciones regulatorias",
+      "en": "Regulatory implications"
+    },
+    "watch": {
+      "es": "Puntos de atención",
+      "en": "Points to watch"
+    },
+    "timeline": {
+      "es": "Plazo orientativo",
+      "en": "Indicative timeline"
+    },
+    "pros": {
+      "es": "A favor",
+      "en": "Pros"
+    },
+    "cons": {
+      "es": "En contra",
+      "en": "Cons"
+    },
+    "answers": {
+      "es": "Tus respuestas",
+      "en": "Your answers"
+    },
+    "download": {
+      "es": "Descargar ficha (PDF)",
+      "en": "Download summary (PDF)"
+    },
+    "downloading": {
+      "es": "Generando PDF…",
+      "en": "Generating PDF…"
+    },
+    "downloadError": {
+      "es": "No se pudo generar el PDF. Inténtalo de nuevo.",
+      "en": "The PDF could not be generated. Please try again."
+    },
+    "talk": {
+      "es": "Hablemos de tu caso",
+      "en": "Let's talk about your case"
+    },
+    "disclaimer": {
+      "es": "Orientativo. No constituye asesoramiento regulatorio ni técnico.",
+      "en": "Indicative only. Not regulatory or technical advice."
+    },
+    "pdfTitle": {
+      "es": "Modelo de custodia: ficha orientativa",
+      "en": "Custody model: indicative summary"
+    },
+    "pdfDate": {
+      "es": "Generado el {d}",
+      "en": "Generated on {d}"
+    },
+    "pdfFile": {
+      "es": "ficha-modelo-custodia.pdf",
+      "en": "custody-model-summary.pdf"
+    },
+    "pdfSite": {
+      "es": "alexgilabert.xyz/web3",
+      "en": "alexgilabert.xyz/en/web3"
+    },
+    "tool": {
+      "es": "Herramienta · 2 min",
+      "en": "Tool · 2 min"
+    },
+    "startText": {
+      "es": "Responde 8 preguntas y obtén una recomendación de modelo de custodia, tecnología de claves e implicaciones bajo MiCA.",
+      "en": "Answer 8 questions and get a recommended custody model, key technology and MiCA implications."
+    },
+    "startCards": [
+      {
+        "icon": "target",
+        "title": {
+          "es": "Modelo recomendado",
+          "en": "Recommended model"
+        }
+      },
+      {
+        "icon": "key",
+        "title": {
+          "es": "Tecnología de claves",
+          "en": "Key technology"
+        }
+      },
+      {
+        "icon": "scale",
+        "title": {
+          "es": "Implicaciones regulatorias",
+          "en": "Regulatory implications"
+        }
+      }
+    ],
+    "startBtn": {
+      "es": "Empezar →",
+      "en": "Start →"
+    },
+    "privacy": {
+      "es": "No se guarda ni se envía nada.",
+      "en": "Nothing is stored or sent."
+    },
+    "cfgName": {
+      "es": "custody.config",
+      "en": "custody.config"
+    },
+    "cfgDone": {
+      "es": "completado",
+      "en": "completed"
+    },
+    "resKicker": {
+      "es": "Recomendación",
+      "en": "Recommendation"
+    },
+    "cont": {
+      "es": "Continuar →",
+      "en": "Continue →"
+    },
+    "backLink": {
+      "es": "← Atrás",
+      "en": "← Back"
+    },
+    "whyBtn": {
+      "es": "¿Por qué lo preguntamos?",
+      "en": "Why do we ask this?"
+    },
+    "detail": {
+      "es": "Detalle regulatorio",
+      "en": "Regulatory detail"
+    },
+    "talkBtn": {
+      "es": "Hablemos de tu caso →",
+      "en": "Let's talk about your case →"
+    },
+    "nodes": {
+      "entity": {
+        "es": "Entidad",
+        "en": "Institution"
+      },
+      "custodian": {
+        "es": "Custodio",
+        "en": "Custodian"
+      },
+      "client": {
+        "es": "Cliente",
+        "en": "Client"
+      }
+    },
+    "cfgAria": {
+      "es": "Configuración elegida hasta ahora",
+      "en": "Configuration chosen so far"
+    }
+  },
+  "timelines": {
+    "weeks": {
+      "es": "Semanas (aprox. 4 a 10)",
+      "en": "Weeks (about 4 to 10)"
+    },
+    "months": {
+      "es": "Meses (aprox. 3 a 6)",
+      "en": "Months (about 3 to 6)"
+    },
+    "long": {
+      "es": "Más de 6 meses",
+      "en": "More than 6 months"
+    }
+  },
+  "questions": [
+    {
+      "id": "entity",
+      "type": "single",
+      "title": {
+        "es": "¿Qué tipo de entidad eres?",
+        "en": "What type of institution are you?"
+      },
+      "why": {
+        "es": "Determina el marco regulatorio que te aplica y cuánto puedes hacer por tu cuenta.",
+        "en": "It sets the regulatory framework that applies to you and how much you can do on your own."
+      },
+      "options": [
+        {
+          "id": "bank",
+          "label": {
+            "es": "Banco",
+            "en": "Bank"
+          },
+          "score": {
+            "self": 2,
+            "delegated": 1
+          },
+          "icon": "bank",
+          "short": {
+            "es": "banco",
+            "en": "bank"
+          },
+          "desc": {
+            "es": "Entidad de crédito supervisada por el banco central",
+            "en": "Credit institution supervised by the central bank"
+          }
+        },
+        {
+          "id": "fund",
+          "label": {
+            "es": "Gestora o fondo",
+            "en": "Asset manager or fund"
+          },
+          "score": {
+            "delegated": 3
+          },
+          "icon": "fund",
+          "short": {
+            "es": "gestora o fondo",
+            "en": "asset manager / fund"
+          },
+          "desc": {
+            "es": "Gestora de activos o fondo de inversión regulado",
+            "en": "Regulated asset manager or investment fund"
+          }
+        },
+        {
+          "id": "emi",
+          "label": {
+            "es": "EMI o fintech",
+            "en": "EMI or fintech"
+          },
+          "score": {
+            "self": 1,
+            "delegated": 1,
+            "noncustodial": 1
+          },
+          "icon": "wallet",
+          "short": {
+            "es": "EMI o fintech",
+            "en": "EMI / fintech"
+          },
+          "desc": {
+            "es": "Dinero electrónico, pagos o producto financiero digital",
+            "en": "E-money, payments or a digital financial product"
+          }
+        },
+        {
+          "id": "exchange",
+          "label": {
+            "es": "Exchange o bróker",
+            "en": "Exchange or broker"
+          },
+          "score": {
+            "self": 3
+          },
+          "icon": "exchange",
+          "short": {
+            "es": "exchange o bróker",
+            "en": "exchange / broker"
+          },
+          "desc": {
+            "es": "Plataforma de compraventa de cripto-activos",
+            "en": "Crypto-asset trading platform"
+          }
+        },
+        {
+          "id": "corporate",
+          "label": {
+            "es": "Corporate (tesorería)",
+            "en": "Corporate (treasury)"
+          },
+          "score": {
+            "delegated": 3
+          },
+          "icon": "briefcase",
+          "short": {
+            "es": "corporate (tesorería)",
+            "en": "corporate (treasury)"
+          },
+          "desc": {
+            "es": "Empresa que gestiona su propia tesorería",
+            "en": "Company managing its own treasury"
+          }
+        },
+        {
+          "id": "family",
+          "label": {
+            "es": "Family office",
+            "en": "Family office"
+          },
+          "score": {
+            "delegated": 2,
+            "noncustodial": 1
+          },
+          "icon": "users",
+          "short": {
+            "es": "family office",
+            "en": "family office"
+          },
+          "desc": {
+            "es": "Patrimonio familiar gestionado de forma profesional",
+            "en": "Family wealth managed professionally"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "entidad",
+        "en": "entity"
+      }
+    },
+    {
+      "id": "licence",
+      "type": "single",
+      "title": {
+        "es": "¿Cuál es tu situación regulatoria?",
+        "en": "What is your regulatory status?"
+      },
+      "why": {
+        "es": "Custodiar para terceros bajo MiCA exige estar autorizado como CASP o, si ya eres una entidad financiera, notificarlo.",
+        "en": "Providing custody to third parties under MiCA requires CASP authorization or, if you are already a financial entity, a prior notification."
+      },
+      "options": [
+        {
+          "id": "casp",
+          "label": {
+            "es": "Tengo licencia CASP bajo MiCA",
+            "en": "I hold a CASP licence under MiCA"
+          },
+          "score": {
+            "self": 3
+          },
+          "icon": "shield",
+          "short": {
+            "es": "CASP (MiCA)",
+            "en": "CASP (MiCA)"
+          },
+          "desc": {
+            "es": "Autorizado para prestar servicios con cripto-activos en la UE",
+            "en": "Authorized to provide crypto-asset services in the EU"
+          }
+        },
+        {
+          "id": "applying",
+          "label": {
+            "es": "La estoy solicitando",
+            "en": "I am applying for it"
+          },
+          "score": {
+            "self": 1,
+            "delegated": 1
+          },
+          "icon": "clock",
+          "short": {
+            "es": "en trámite",
+            "en": "pending"
+          },
+          "desc": {
+            "es": "Solicitud presentada, pendiente de resolución",
+            "en": "Application submitted, decision pending"
+          }
+        },
+        {
+          "id": "none",
+          "label": {
+            "es": "No la tengo ni la necesito",
+            "en": "I don't have it and don't need it"
+          },
+          "score": {
+            "delegated": 3,
+            "noncustodial": 1
+          },
+          "icon": "ban",
+          "short": {
+            "es": "sin licencia",
+            "en": "no licence"
+          },
+          "desc": {
+            "es": "No custodias para terceros ni lo necesitas hoy",
+            "en": "You do not hold custody for third parties and do not need to today"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "licencia",
+        "en": "licence"
+      }
+    },
+    {
+      "id": "keys",
+      "type": "single",
+      "title": {
+        "es": "¿Quién debe controlar las claves?",
+        "en": "Who should control the keys?"
+      },
+      "why": {
+        "es": "Quien puede firmar una transacción es quien custodia de hecho: es el criterio central, regulatorio y operativo.",
+        "en": "Whoever can sign a transaction is the one that effectively holds custody: it is the central criterion, both regulatory and operational."
+      },
+      "options": [
+        {
+          "id": "own",
+          "label": {
+            "es": "La propia entidad",
+            "en": "The institution itself"
+          },
+          "score": {
+            "self": 3
+          },
+          "icon": "key",
+          "short": {
+            "es": "propia entidad",
+            "en": "own institution"
+          },
+          "desc": {
+            "es": "Tus sistemas guardan y firman con las claves",
+            "en": "Your systems hold and sign with the keys"
+          }
+        },
+        {
+          "id": "custodian",
+          "label": {
+            "es": "Un custodio regulado",
+            "en": "A regulated custodian"
+          },
+          "score": {
+            "delegated": 3
+          },
+          "icon": "vault",
+          "short": {
+            "es": "custodio regulado",
+            "en": "regulated custodian"
+          },
+          "desc": {
+            "es": "Un tercero autorizado guarda las claves por ti",
+            "en": "An authorized third party holds the keys for you"
+          }
+        },
+        {
+          "id": "client",
+          "label": {
+            "es": "El cliente final",
+            "en": "The end client"
+          },
+          "score": {
+            "noncustodial": 4
+          },
+          "icon": "user",
+          "short": {
+            "es": "cliente final",
+            "en": "end client"
+          },
+          "desc": {
+            "es": "El cliente conserva el control de sus claves",
+            "en": "The client keeps control of their keys"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "claves",
+        "en": "keys"
+      }
+    },
+    {
+      "id": "assets",
+      "type": "multi",
+      "title": {
+        "es": "¿Qué activos vas a manejar?",
+        "en": "Which assets will you handle?"
+      },
+      "why": {
+        "es": "Cada tipo de activo tiene su propio registro y sus reglas: no es lo mismo una cripto en una red pública que un valor tokenizado.",
+        "en": "Each asset type has its own register and rules: a crypto-asset on a public network is not the same as a tokenized security."
+      },
+      "options": [
+        {
+          "id": "crypto",
+          "label": {
+            "es": "Cripto-activos",
+            "en": "Crypto-assets"
+          },
+          "score": {},
+          "icon": "coins",
+          "short": {
+            "es": "cripto",
+            "en": "crypto"
+          },
+          "desc": {
+            "es": "Bitcoin, Ether y otros cripto-activos",
+            "en": "Bitcoin, Ether and other crypto-assets"
+          }
+        },
+        {
+          "id": "stable",
+          "label": {
+            "es": "Stablecoins",
+            "en": "Stablecoins"
+          },
+          "score": {},
+          "icon": "dollar",
+          "short": {
+            "es": "stablecoins",
+            "en": "stablecoins"
+          },
+          "desc": {
+            "es": "Dinero digital referenciado a una divisa",
+            "en": "Digital money pegged to a currency"
+          }
+        },
+        {
+          "id": "security_tokens",
+          "label": {
+            "es": "Fondos tokenizados / security tokens",
+            "en": "Tokenized funds / security tokens"
+          },
+          "score": {
+            "delegated": 1
+          },
+          "flag": "security_tokens",
+          "icon": "file",
+          "short": {
+            "es": "security tokens",
+            "en": "security tokens"
+          },
+          "desc": {
+            "es": "Valores y participaciones de fondos en formato token",
+            "en": "Securities and fund units in token form"
+          }
+        },
+        {
+          "id": "tokenized_deposits",
+          "label": {
+            "es": "Depósitos tokenizados",
+            "en": "Tokenized deposits"
+          },
+          "score": {
+            "self": 1
+          },
+          "flag": "tokenized_deposits",
+          "icon": "bank",
+          "short": {
+            "es": "depósitos tokenizados",
+            "en": "tokenized deposits"
+          },
+          "desc": {
+            "es": "Depósitos bancarios registrados en una blockchain",
+            "en": "Bank deposits recorded on a blockchain"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "activos",
+        "en": "assets"
+      }
+    },
+    {
+      "id": "usecases",
+      "type": "multi",
+      "title": {
+        "es": "¿Qué casos de uso necesitas?",
+        "en": "Which use cases do you need?"
+      },
+      "why": {
+        "es": "Trading, staking, colateral o pagos añaden requisitos propios, más allá de guardar las claves.",
+        "en": "Trading, staking, collateral or payments add their own requirements, beyond safekeeping the keys."
+      },
+      "options": [
+        {
+          "id": "custody",
+          "label": {
+            "es": "Custodia",
+            "en": "Custody"
+          },
+          "score": {
+            "self": 1,
+            "delegated": 1
+          },
+          "flag": "custody",
+          "icon": "lock",
+          "short": {
+            "es": "custodia",
+            "en": "custody"
+          },
+          "desc": {
+            "es": "Guardar y proteger los activos de los clientes",
+            "en": "Safekeeping and protecting client assets"
+          }
+        },
+        {
+          "id": "trading",
+          "label": {
+            "es": "Trading",
+            "en": "Trading"
+          },
+          "score": {
+            "self": 1
+          },
+          "flag": "trading",
+          "icon": "candles",
+          "short": {
+            "es": "trading",
+            "en": "trading"
+          },
+          "desc": {
+            "es": "Compraventa con liquidación rápida",
+            "en": "Buying and selling with fast settlement"
+          }
+        },
+        {
+          "id": "staking",
+          "label": {
+            "es": "Staking",
+            "en": "Staking"
+          },
+          "score": {
+            "self": 1,
+            "delegated": 1
+          },
+          "flag": "staking",
+          "timeAdd": 0.5,
+          "icon": "layers",
+          "short": {
+            "es": "staking",
+            "en": "staking"
+          },
+          "desc": {
+            "es": "Participar en la validación de redes para obtener recompensas",
+            "en": "Take part in network validation to earn rewards"
+          }
+        },
+        {
+          "id": "collateral",
+          "label": {
+            "es": "Colateral / pignoración",
+            "en": "Collateral / pledging"
+          },
+          "score": {
+            "delegated": 2
+          },
+          "flag": "collateral",
+          "timeAdd": 0.5,
+          "icon": "link",
+          "short": {
+            "es": "colateral",
+            "en": "collateral"
+          },
+          "desc": {
+            "es": "Activos pignorados para respaldar una financiación",
+            "en": "Pledged assets backing a financing"
+          }
+        },
+        {
+          "id": "payments",
+          "label": {
+            "es": "Pagos",
+            "en": "Payments"
+          },
+          "score": {
+            "self": 1,
+            "noncustodial": 1
+          },
+          "flag": "payments",
+          "icon": "send",
+          "short": {
+            "es": "pagos",
+            "en": "payments"
+          },
+          "desc": {
+            "es": "Enviar y recibir transferencias con cripto o stablecoins",
+            "en": "Send and receive transfers with crypto or stablecoins"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "usos",
+        "en": "uses"
+      }
+    },
+    {
+      "id": "integration",
+      "type": "single",
+      "title": {
+        "es": "¿Con qué sistemas debe integrarse?",
+        "en": "Which systems does it need to integrate with?"
+      },
+      "why": {
+        "es": "La integración suele condicionar el plazo y el coste más que la propia custodia.",
+        "en": "Integration usually drives the timeline and cost more than custody itself."
+      },
+      "options": [
+        {
+          "id": "core",
+          "label": {
+            "es": "Core banking (Avaloq, Temenos…)",
+            "en": "Core banking (Avaloq, Temenos…)"
+          },
+          "score": {
+            "self": 1,
+            "delegated": 1
+          },
+          "timeAdd": 1,
+          "icon": "server",
+          "short": {
+            "es": "core banking",
+            "en": "core banking"
+          },
+          "desc": {
+            "es": "Conexión con Avaloq, Temenos u otro core bancario",
+            "en": "Connection to Avaloq, Temenos or another banking core"
+          }
+        },
+        {
+          "id": "api",
+          "label": {
+            "es": "Plataforma propia vía API",
+            "en": "Own platform via API"
+          },
+          "score": {
+            "delegated": 1,
+            "noncustodial": 1
+          },
+          "icon": "code",
+          "short": {
+            "es": "plataforma vía API",
+            "en": "platform via API"
+          },
+          "desc": {
+            "es": "Tu propia plataforma consume la custodia por API",
+            "en": "Your own platform consumes custody through an API"
+          }
+        },
+        {
+          "id": "none",
+          "label": {
+            "es": "Sin sistemas previos",
+            "en": "No existing systems"
+          },
+          "score": {
+            "delegated": 2
+          },
+          "icon": "spark",
+          "short": {
+            "es": "sin sistemas previos",
+            "en": "no existing systems"
+          },
+          "desc": {
+            "es": "Partes de cero, sin integraciones heredadas",
+            "en": "You start from scratch, with no legacy integrations"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "integración",
+        "en": "integration"
+      }
+    },
+    {
+      "id": "volume",
+      "type": "single",
+      "title": {
+        "es": "¿Qué volumen prevés?",
+        "en": "What volume do you expect?"
+      },
+      "why": {
+        "es": "El volumen cambia la economía: montar infraestructura propia solo se amortiza con volúmenes altos.",
+        "en": "Volume changes the economics: building your own infrastructure only pays off at high volumes."
+      },
+      "options": [
+        {
+          "id": "low",
+          "label": {
+            "es": "Bajo",
+            "en": "Low"
+          },
+          "score": {
+            "delegated": 2,
+            "noncustodial": 1
+          },
+          "icon": "bars1",
+          "short": {
+            "es": "bajo",
+            "en": "low"
+          },
+          "desc": {
+            "es": "Pocas operaciones y saldos moderados",
+            "en": "Few transactions and moderate balances"
+          }
+        },
+        {
+          "id": "medium",
+          "label": {
+            "es": "Medio",
+            "en": "Medium"
+          },
+          "score": {
+            "self": 1,
+            "delegated": 1
+          },
+          "icon": "bars2",
+          "short": {
+            "es": "medio",
+            "en": "medium"
+          },
+          "desc": {
+            "es": "Actividad regular y saldos relevantes",
+            "en": "Regular activity and meaningful balances"
+          }
+        },
+        {
+          "id": "high",
+          "label": {
+            "es": "Alto",
+            "en": "High"
+          },
+          "score": {
+            "self": 2
+          },
+          "icon": "bars3",
+          "short": {
+            "es": "alto",
+            "en": "high"
+          },
+          "desc": {
+            "es": "Muchas operaciones y saldos elevados",
+            "en": "Many transactions and large balances"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "volumen",
+        "en": "volume"
+      }
+    },
+    {
+      "id": "priority",
+      "type": "single",
+      "title": {
+        "es": "¿Qué priorizas?",
+        "en": "What do you prioritize?"
+      },
+      "why": {
+        "es": "No se puede optimizar todo a la vez: este criterio desempata entre modelos parecidos.",
+        "en": "You cannot optimize everything at once: this criterion breaks ties between similar models."
+      },
+      "options": [
+        {
+          "id": "time",
+          "label": {
+            "es": "Time-to-market",
+            "en": "Time-to-market"
+          },
+          "score": {
+            "delegated": 3,
+            "noncustodial": 1
+          },
+          "icon": "zap",
+          "short": {
+            "es": "time-to-market",
+            "en": "time-to-market"
+          },
+          "desc": {
+            "es": "Salir al mercado cuanto antes",
+            "en": "Reach the market as soon as possible"
+          }
+        },
+        {
+          "id": "control",
+          "label": {
+            "es": "Control total",
+            "en": "Full control"
+          },
+          "score": {
+            "self": 3
+          },
+          "icon": "sliders",
+          "short": {
+            "es": "control total",
+            "en": "full control"
+          },
+          "desc": {
+            "es": "Decidir tú cada pieza de la infraestructura",
+            "en": "Decide every piece of the infrastructure yourself"
+          }
+        },
+        {
+          "id": "cost",
+          "label": {
+            "es": "Coste",
+            "en": "Cost"
+          },
+          "score": {
+            "delegated": 2,
+            "noncustodial": 1
+          },
+          "icon": "coin",
+          "short": {
+            "es": "coste",
+            "en": "cost"
+          },
+          "desc": {
+            "es": "Minimizar la inversión y el gasto recurrente",
+            "en": "Minimize investment and recurring spend"
+          }
+        }
+      ],
+      "cfg": {
+        "es": "prioridad",
+        "en": "priority"
+      }
+    }
+  ],
+  "models": {
+    "self": {
+      "name": {
+        "es": "Custodia propia (self-hosted)",
+        "en": "Own custody (self-hosted)"
+      },
+      "summary": {
+        "es": "Tu entidad opera su propia infraestructura de claves y custodia los activos de sus clientes.",
+        "en": "Your institution runs its own key infrastructure and holds its clients' assets."
+      },
+      "timeBase": 4,
+      "tech": {
+        "name": {
+          "es": "HSM + MPC",
+          "en": "HSM + MPC"
+        },
+        "why": {
+          "es": "Los HSM certificados protegen las claves raíz y el almacenamiento en frío; el MPC permite firmar con políticas y aprobaciones sin exponer una clave completa en caliente.",
+          "en": "Certified HSMs protect the root keys and cold storage; MPC lets you sign with policies and approvals without exposing a complete key online."
+        }
+      },
+      "regulatory": {
+        "es": "Prestas custodia y administración de cripto-activos por cuenta de clientes, un servicio regulado por MiCA: exige autorización como CASP o, si ya eres entidad de crédito, empresa de servicios de inversión, EMI, gestora u otra entidad financiera habilitada, una notificación previa. Respondes por la pérdida de los activos, debes segregarlos por cliente y cumplir DORA en toda la infraestructura TIC.",
+        "en": "You provide custody and administration of crypto-assets on behalf of clients, a service regulated by MiCA: it requires CASP authorization or, if you are already a credit institution, investment firm, EMI, asset manager or other eligible financial entity, a prior notification. You are liable for the loss of the assets, must segregate them per client and comply with DORA across the ICT infrastructure."
+      },
+      "pros": [
+        {
+          "es": "Control total de claves, políticas y hoja de ruta",
+          "en": "Full control of keys, policies and roadmap"
+        },
+        {
+          "es": "Sin dependencia de un proveedor para operar ni para salir",
+          "en": "No dependence on a provider to operate or to exit"
+        },
+        {
+          "es": "Mejor economía por unidad con volúmenes altos",
+          "en": "Better unit economics at high volumes"
+        }
+      ],
+      "cons": [
+        {
+          "es": "Mayor plazo y coste inicial de construcción y auditoría",
+          "en": "Longer lead time and higher upfront build and audit cost"
+        },
+        {
+          "es": "Toda la responsabilidad operativa, de seguridad y regulatoria es tuya",
+          "en": "All operational, security and regulatory responsibility is yours"
+        },
+        {
+          "es": "Exige equipos especializados en seguridad, operaciones y cumplimiento",
+          "en": "Requires specialized security, operations and compliance teams"
+        }
+      ],
+      "title": {
+        "es": "Custodia *propia*",
+        "en": "*Self-hosted* custody"
+      },
+      "regShort": {
+        "es": "Prestas custodia bajo MiCA: autorización o notificación CASP, segregación por cliente y DORA.",
+        "en": "You provide custody under MiCA: CASP authorization or notification, client segregation and DORA."
+      }
+    },
+    "delegated": {
+      "name": {
+        "es": "Custodia delegada en un custodio regulado",
+        "en": "Custody delegated to a regulated custodian"
+      },
+      "summary": {
+        "es": "Un custodio autorizado guarda las claves y los activos; tu entidad define las políticas y la relación con el cliente.",
+        "en": "An authorized custodian holds the keys and assets; your institution defines the policies and owns the client relationship."
+      },
+      "timeBase": 1,
+      "tech": {
+        "name": {
+          "es": "Claves del custodio: HSM + MPC con aprobaciones multisig",
+          "en": "Custodian-held keys: HSM + MPC with multisig approvals"
+        },
+        "why": {
+          "es": "El custodio opera la infraestructura de claves; tu entidad conserva el control de las políticas de firma (quién, cuánto y cuándo) mediante aprobaciones multifirma.",
+          "en": "The custodian runs the key infrastructure; your institution keeps control of the signing policies (who, how much and when) through multisig approvals."
+        }
+      },
+      "regulatory": {
+        "es": "Te apoyas en un tercero autorizado como CASP (o entidad equivalente) que presta la custodia. Sigues siendo responsable de elegirlo y supervisarlo: bajo DORA es un proveedor de servicios TIC y necesitas contrato, seguimiento y un plan de salida. Si ofreces el servicio a tus clientes con tu marca, comprueba si tu entidad necesita aun así autorización o notificación bajo MiCA.",
+        "en": "You rely on a third party authorized as a CASP (or equivalent entity) that provides custody. You remain responsible for selecting and overseeing it: under DORA it is an ICT service provider and you need a contract, monitoring and an exit plan. If you offer the service to your clients under your own brand, check whether your entity still needs authorization or a notification under MiCA."
+      },
+      "pros": [
+        {
+          "es": "Salida al mercado en semanas, no en años",
+          "en": "Go-to-market in weeks, not years"
+        },
+        {
+          "es": "Seguro, auditorías y controles del custodio ya operativos",
+          "en": "The custodian's insurance, audits and controls are already in place"
+        },
+        {
+          "es": "Menos carga de seguridad y operaciones propias",
+          "en": "Less in-house security and operations burden"
+        }
+      ],
+      "cons": [
+        {
+          "es": "Dependencia de un proveedor y riesgo de concentración",
+          "en": "Provider dependence and concentration risk"
+        },
+        {
+          "es": "Menos control sobre la hoja de ruta y la integración",
+          "en": "Less control over roadmap and integration"
+        },
+        {
+          "es": "Coste variable por volumen que puede pesar a escala",
+          "en": "Volume-based fees that can weigh at scale"
+        }
+      ],
+      "title": {
+        "es": "Custodia *delegada*",
+        "en": "*Delegated* custody"
+      },
+      "regShort": {
+        "es": "Te apoyas en un CASP autorizado; sigues respondiendo de elegirlo y supervisarlo (DORA).",
+        "en": "You rely on an authorized CASP; you remain responsible for selecting and overseeing it (DORA)."
+      }
+    },
+    "noncustodial": {
+      "name": {
+        "es": "Non-custodial (tecnología con claves de la entidad o del cliente)",
+        "en": "Non-custodial (technology with keys held by the institution or the client)"
+      },
+      "summary": {
+        "es": "Aportas la tecnología de wallets y firma, pero las claves quedan en manos de quien las controla, sin que tu entidad pueda mover los fondos sola.",
+        "en": "You provide the wallet and signing technology, but the keys stay with whoever controls them, and your institution cannot move the funds alone."
+      },
+      "timeBase": 2,
+      "tech": {
+        "name": {
+          "es": "MPC o multisig con claves repartidas",
+          "en": "MPC or multisig with distributed keys"
+        },
+        "why": {
+          "es": "Las claves se reparten entre el cliente y, si procede, la entidad o un tercero; ningún actor puede mover los fondos por sí solo y se facilita la recuperación.",
+          "en": "Keys are split between the client and, where relevant, the institution or a third party; no single actor can move the funds alone and recovery is easier."
+        }
+      },
+      "regulatory": {
+        "es": "Si ni tu entidad ni el proveedor pueden mover los activos sin el cliente, en principio no prestas custodia en el sentido de MiCA. La calificación depende del control efectivo de las claves y de quién puede iniciar transferencias, y debe revisarse caso a caso con asesoría legal. Aun así pueden aplicar otros servicios CASP (por ejemplo, transferencia o intercambio), la Travel Rule y las obligaciones de AML y KYC.",
+        "en": "If neither your institution nor the provider can move the assets without the client, you are in principle not providing custody within the meaning of MiCA. The classification depends on effective control of the keys and on who can initiate transfers, and should be reviewed case by case with legal advice. Other CASP services (for example transfer or exchange), the Travel Rule and AML and KYC obligations may still apply."
+      },
+      "pros": [
+        {
+          "es": "No custodias activos de terceros, con menor carga regulatoria y de balance según el caso",
+          "en": "You do not hold third-party assets, with a lighter regulatory and balance-sheet burden depending on the case"
+        },
+        {
+          "es": "No concentras todas las claves en un único punto de ataque",
+          "en": "You do not concentrate all keys in a single point of attack"
+        },
+        {
+          "es": "Despliegue rápido con SDK o API",
+          "en": "Fast deployment with SDK or API"
+        }
+      ],
+      "cons": [
+        {
+          "es": "El cliente asume la gestión de claves y su recuperación",
+          "en": "The client takes on key management and recovery"
+        },
+        {
+          "es": "Menos adecuado para clientes institucionales que exigen un custodio",
+          "en": "Less suitable for institutional clients that require a custodian"
+        },
+        {
+          "es": "Más difícil ofrecer staking, colateral o aprobaciones corporativas",
+          "en": "Harder to offer staking, collateral or corporate approval workflows"
+        }
+      ],
+      "title": {
+        "es": "Modelo *non-custodial*",
+        "en": "*Non-custodial* model"
+      },
+      "regShort": {
+        "es": "Sin control de las claves no hay, en principio, custodia MiCA; se revisa caso a caso.",
+        "en": "Without control of the keys there is, in principle, no MiCA custody; reviewed case by case."
+      }
+    },
+    "hybrid": {
+      "name": {
+        "es": "Híbrido",
+        "en": "Hybrid"
+      },
+      "summary": {
+        "es": "Combinas infraestructura propia para una parte de los activos o clientes con un custodio regulado para el resto.",
+        "en": "You combine your own infrastructure for part of the assets or clients with a regulated custodian for the rest."
+      },
+      "timeBase": 3,
+      "tech": {
+        "name": {
+          "es": "HSM o multisig en frío + MPC en caliente",
+          "en": "HSM or multisig in cold + MPC in hot"
+        },
+        "why": {
+          "es": "La reserva a largo plazo queda en frío con HSM o multisig y el saldo operativo en caliente con MPC, separando el riesgo de la liquidez diaria del de la reserva.",
+          "en": "The long-term reserve stays cold with HSM or multisig and the operating balance stays hot with MPC, separating day-to-day liquidity risk from reserve risk."
+        }
+      },
+      "regulatory": {
+        "es": "Parte del servicio lo prestas tú, y entonces aplica la autorización o notificación CASP bajo MiCA, y parte la presta un custodio autorizado. Define qué activos y clientes van a cada capa, deja la responsabilidad por escrito en los acuerdos y revisa DORA para los terceros TIC.",
+        "en": "You provide part of the service yourself, so CASP authorization or notification under MiCA applies, and an authorized custodian provides the rest. Define which assets and clients go to each layer, put responsibility in writing in the agreements and review DORA for ICT third parties."
+      },
+      "pros": [
+        {
+          "es": "Equilibra control y velocidad de lanzamiento",
+          "en": "Balances control and speed to launch"
+        },
+        {
+          "es": "Permite empezar delegado e ir internalizando por fases",
+          "en": "Lets you start delegated and internalize in phases"
+        },
+        {
+          "es": "Reduce el riesgo de concentración en un único proveedor",
+          "en": "Reduces concentration risk on a single provider"
+        }
+      ],
+      "cons": [
+        {
+          "es": "Más complejidad operativa y de conciliación entre capas",
+          "en": "More operational and reconciliation complexity between layers"
+        },
+        {
+          "es": "Exige un gobierno claro de responsabilidades",
+          "en": "Requires clear governance of responsibilities"
+        },
+        {
+          "es": "Doble coste de integración y supervisión",
+          "en": "Double integration and oversight cost"
+        }
+      ],
+      "title": {
+        "es": "Modelo *híbrido*",
+        "en": "*Hybrid* model"
+      },
+      "regShort": {
+        "es": "Parte del servicio es tuyo (autorización o notificación CASP) y parte de un custodio autorizado.",
+        "en": "Part of the service is yours (CASP authorization or notification) and part an authorized custodian's."
+      }
+    }
+  },
+  "regulatoryNotes": {
+    "unlicensed": {
+      "es": "Hoy no tienes autorización: antes de custodiar para terceros por tu cuenta necesitarás autorización CASP o notificación, y eso añade tiempo.",
+      "en": "You are not authorized today: before holding custody for third parties on your own you will need CASP authorization or a notification, which adds time."
+    },
+    "applying": {
+      "es": "Mientras tu autorización está en trámite, una opción habitual es empezar con un custodio regulado y pasar a infraestructura propia cuando se resuelva.",
+      "en": "While your authorization is pending, a common option is to start with a regulated custodian and move to your own infrastructure once it is granted."
+    }
+  },
+  "watchouts": {
+    "custody": {
+      "title": {
+        "es": "Custodia: segregación y conciliación",
+        "en": "Custody: segregation and reconciliation"
+      },
+      "text": {
+        "es": "Segregación de los activos de cada cliente, conciliación diaria con la blockchain y plan de recuperación de claves probado.",
+        "en": "Segregation of each client's assets, daily reconciliation against the blockchain and a tested key-recovery plan."
+      }
+    },
+    "trading": {
+      "title": {
+        "es": "Trading: wallet en caliente y límites",
+        "en": "Trading: hot wallet and limits"
+      },
+      "text": {
+        "es": "Fija el saldo máximo en caliente, los límites por operación y la reposición desde frío para acotar el riesgo.",
+        "en": "Set the maximum hot balance, per-transaction limits and top-ups from cold storage to bound the risk."
+      }
+    },
+    "staking": {
+      "title": {
+        "es": "Staking: segregación de activos y política ante slashing",
+        "en": "Staking: asset segregation and slashing policy"
+      },
+      "text": {
+        "es": "Define si los activos en staking siguen segregados por cliente, quién asume una penalización (slashing) y los plazos de salida (unbonding).",
+        "en": "Define whether staked assets stay segregated per client, who bears a penalty (slashing) and the exit periods (unbonding)."
+      }
+    },
+    "collateral": {
+      "title": {
+        "es": "Colateral: control y liberación de la pignoración",
+        "en": "Collateral: control and release of the pledge"
+      },
+      "text": {
+        "es": "Define quién controla los activos pignorados, en qué condiciones se liberan y cómo se refleja la pignoración en la custodia y en el contrato.",
+        "en": "Define who controls the pledged assets, under which conditions they are released and how the pledge is reflected in custody and in the contract."
+      }
+    },
+    "security_tokens": {
+      "title": {
+        "es": "Security tokens: registro y agente de transferencia",
+        "en": "Security tokens: register and transfer agent"
+      },
+      "text": {
+        "es": "El registro de titulares es lo que da validez jurídica: identifica la entidad registradora o el agente de transferencia y cómo se concilia con la wallet.",
+        "en": "The holder register is what gives legal validity: identify the registrar or transfer agent and how it is reconciled with the wallet."
+      }
+    },
+    "tokenized_deposits": {
+      "title": {
+        "es": "Depósitos tokenizados: red permisionada",
+        "en": "Tokenized deposits: permissioned network"
+      },
+      "text": {
+        "es": "Suelen operar en redes permisionadas del banco emisor y con wallets en lista blanca: valida la integración y quién puede ser contraparte.",
+        "en": "They usually run on the issuing bank's permissioned network with whitelisted wallets: validate the integration and who can be a counterparty."
+      }
+    },
+    "payments": {
+      "title": {
+        "es": "Pagos: Travel Rule",
+        "en": "Payments: Travel Rule"
+      },
+      "text": {
+        "es": "Al transferir cripto-activos debes recoger y transmitir los datos del ordenante y del beneficiario (Reglamento (UE) 2023/1113).",
+        "en": "When transferring crypto-assets you must collect and transmit originator and beneficiary data (Regulation (EU) 2023/1113)."
+      }
+    }
+  }
+}
