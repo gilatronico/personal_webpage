@@ -228,7 +228,8 @@ def _nav_ctx(lang, page):
     return {
         'page': page,
         'nav_base': '' if on_home else prefix,
-        'lab_url': '#lab' if on_home else f'{prefix}web3',
+        # "Web3 Lab" siempre lleva a la página del laboratorio, también desde la home
+        'lab_url': f'{prefix}web3',
         'lang_es_url': '/' if on_home else '/web3',
         'lang_en_url': '/en/' if on_home else '/en/web3',
     }
@@ -257,6 +258,7 @@ def _home(request, lang):
         'dates_quiet': dates_quiet,
         'contact_email': os.environ.get('CONTACT_EMAIL', content.CONTACT_EMAIL_DEFAULT),
         'hero_cutout': content.HERO_PHOTO_CUTOUT,
+        'lab_teaser': _lab_teaser(lang),
         **_nav_ctx(lang, 'home'),
     }
     html = render_to_string('landing/home.html', ctx, request)
@@ -381,31 +383,91 @@ def _lab_data(lang):
     return lab, quiz
 
 
-def _build_lab_rwa():
-    """Valor total (TVL) de la categoría RWA en DefiLlama: la lista completa pesa ~7 MB, así que se reduce aquí."""
-    req = urllib.request.Request('https://api.llama.fi/lite/protocols2', headers={'User-Agent': 'Mozilla/5.0 alexgilabert.xyz'})
+def _build_lab_snapshot():
+    """Resumen de stablecoins para el bloque Web3 Lab de la home (la serie completa pesa ~1 MB, se reduce aquí)."""
+    req = urllib.request.Request('https://stablecoins.llama.fi/stablecoincharts/all',
+                                 headers={'User-Agent': 'Mozilla/5.0 alexgilabert.xyz'})
     with urllib.request.urlopen(req, timeout=25) as resp:
-        protocols = json.loads(resp.read())['protocols']
-    rwa = [p for p in protocols if p.get('category') == 'RWA' and p.get('tvl')]
-    if not rwa:
-        raise ValueError('sin protocolos RWA')
-    return {'tvl': sum(p['tvl'] for p in rwa), 'protocols': len(rwa), 'asOf': timezone.now().isoformat()}
+        chart = json.loads(resp.read())
+    rows = []
+    for r in chart:
+        u = r.get('totalCirculatingUSD') or {}
+        total = sum(v or 0 for v in u.values())
+        if total > 0:
+            rows.append((int(r['date']), total, u.get('peggedEUR') or 0))
+    if not rows:
+        raise ValueError('sin datos de stablecoins')
+    last_t, last_total, last_eur = rows[-1]
+    day = 86400
+    prev = next((r for r in reversed(rows) if r[0] <= last_t - 30 * day), None)
+    # Serie semanal de los últimos 12 meses para la minigráfica
+    spark = [round(r[1] / 1e9, 2) for r in rows[::-1][::7] if r[0] >= last_t - 365 * day][::-1]
+    return {
+        'supply': last_total,
+        'change30': (last_total / prev[1] - 1) * 100 if prev else None,
+        'eurPct': last_eur / last_total * 100,
+        'spark': spark,
+        'asOf': timezone.now().isoformat(),
+    }
 
 
 @require_http_methods(["GET"])
-def lab_rwa(request):
-    """KPI "Activos reales tokenizados" del Web3 Lab. Se cachea 10 minutos (servidor y CDN)."""
-    data = cache.get('lab_rwa')
+def lab_snapshot(request):
+    """Datos en vivo del bloque Web3 Lab de la home. Se cachea 10 minutos (servidor y CDN)."""
+    data = cache.get('lab_snapshot')
     if data is None:
         try:
-            data = _build_lab_rwa()
+            data = _build_lab_snapshot()
         except (urllib.error.URLError, KeyError, TypeError, ValueError, OSError) as e:
-            logger.warning(f'lab_rwa: no se pudo obtener api.llama.fi: {e}')
+            logger.warning(f'lab_snapshot: no se pudo obtener stablecoins.llama.fi: {e}')
             return JsonResponse({'error': 'upstream'}, status=502)
-        cache.set('lab_rwa', data, 600)
+        cache.set('lab_snapshot', data, 600)
     resp = JsonResponse(data)
     resp['Cache-Control'] = 'public, max-age=300, s-maxage=600'
     return resp
+
+
+LAB_TEASER_UI = {
+    'es': {
+        'modules': [
+            {'anchor': 'stablecoins', 'title': 'Stablecoins',
+             'desc': 'Quién emite el dólar y el euro onchain, con la oferta total y el ranking de emisores en vivo.'},
+            {'anchor': 'comparador', 'title': 'Comparador',
+             'desc': 'Stablecoin, fondo monetario tokenizado o depósito tokenizado: quién lo emite, qué rinde y qué riesgo tiene.'},
+            {'anchor': 'cronologia', 'title': 'Cronología',
+             'desc': '{n} hitos que han llevado la tokenización de piloto a producción, por año y por tipo de activo.'},
+            {'anchor': 'custodia', 'title': 'Custodia',
+             'desc': '{q} preguntas para saber qué modelo de custodia necesita tu institución. No se guarda nada.'},
+        ],
+    },
+    'en': {
+        'modules': [
+            {'anchor': 'stablecoins', 'title': 'Stablecoins',
+             'desc': 'Who issues the dollar and the euro onchain, with total supply and the live issuer ranking.'},
+            {'anchor': 'comparador', 'title': 'Comparison',
+             'desc': 'Stablecoin, tokenized money market fund or tokenized deposit: who issues it, what it yields and its risk.'},
+            {'anchor': 'cronologia', 'title': 'Timeline',
+             'desc': '{n} milestones that took tokenization from pilot to production, by year and asset type.'},
+            {'anchor': 'custodia', 'title': 'Custody',
+             'desc': '{q} questions to find the custody model your institution needs. Nothing is stored.'},
+        ],
+    },
+}
+
+
+def _lab_teaser(lang):
+    """Bloque Web3 Lab de la home: bancos con depósitos tokenizados y accesos directos a cada módulo del lab."""
+    tl = _tl_data(lang)
+    try:
+        q = len(_read_json('custody-quiz.json').get('questions', [])) or 8
+    except (OSError, ValueError):
+        q = 8
+    prefix = '/en/' if lang == 'en' else '/'
+    mods = []
+    for i, m in enumerate(LAB_TEASER_UI[lang]['modules'], 1):
+        mods.append({**m, 'n': f'{i:02d}', 'url': f'{prefix}web3#{m["anchor"]}',
+                     'desc': m['desc'].replace('{n}', str(tl['count'])).replace('{q}', str(q))})
+    return {'banks': tl['banks_active'], 'modules': mods}
 
 
 def _web3(request, lang):

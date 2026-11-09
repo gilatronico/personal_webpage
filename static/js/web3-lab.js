@@ -125,14 +125,6 @@
         hk('banks', String(banks.length), UI.hk.bankNames.replace('{names}', banks.join(', ')));
     }
 
-    // Activos reales tokenizados: TVL de la categoría RWA de DefiLlama, reducido en el servidor
-    function initRwa() {
-        return load('rwa:v1', function () { return getJSON('/api/lab/rwa/'); }).then(function (r) {
-            stamp('rwa', r.t);
-            hk('rwa', kpiMoney(r.v.tvl, '$'));
-        }).catch(function () { hk('rwa', '—'); });
-    }
-
     /* ---------- 1. Tira de precios (CoinGecko) ---------- */
     var COINS = [
         { id: 'bitcoin', sym: 'BTC', img: 'btc.png' },
@@ -725,7 +717,6 @@
     hkStatic();
     initTicker();
     initStable();
-    initRwa();
     initInfo();
     initNav();
     whenVisible($('#quiz'), initQuiz);

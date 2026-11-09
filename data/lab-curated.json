@@ -400,14 +400,6 @@
         "es": "DefiLlama",
         "en": "DefiLlama"
       },
-      "rwa": {
-        "es": "Activos reales tokenizados",
-        "en": "Tokenized real-world assets"
-      },
-      "rwaSub": {
-        "es": "TVL de la categoría RWA · DefiLlama",
-        "en": "TVL of the RWA category · DefiLlama"
-      },
       "banks": {
         "es": "Bancos con depósitos tokenizados activos",
         "en": "Banks with live tokenized deposits"

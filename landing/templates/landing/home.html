@@ -63,7 +63,7 @@
 
     <script type="application/ld+json">{{ person_schema_json|safe }}</script>
 
-    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=31">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=32">
 </head>
 
 <body>
@@ -392,15 +392,58 @@
         <!-- WEB3 LAB -->
         <section id="lab" class="lab" aria-labelledby="labTitle">
             <canvas class="lab-canvas" id="labCanvas" aria-hidden="true"></canvas>
-            <div class="wrap lab-grid is-solo">
-                <div class="lab-copy">
-                    <p class="mono lab-kicker"><i class="live" aria-hidden="true"></i><span data-i18n="labKicker">WEB3 LAB · DATOS EN VIVO</span></p>
-                    <h2 class="h2" id="labTitle" data-i18n="labTitle">El dinero institucional ya está <em class="serif">onchain</em>.</h2>
-                    <p data-i18n="labLede">Stablecoins, depósitos tokenizados, la historia de la tokenización y una herramienta para elegir tu modelo de custodia.</p>
-                    <a class="btn btn-accent" href="/web3">
-                        <span data-i18n="labCta">Abrir el Web3 Lab →</span>
+            <div class="wrap">
+                <div class="lab-grid">
+                    <div class="lab-copy">
+                        <p class="mono lab-kicker"><i class="live" aria-hidden="true"></i><span data-i18n="labKicker">WEB3 LAB · DATOS EN VIVO</span></p>
+                        <h2 class="h2" id="labTitle" data-i18n="labTitle">El dinero institucional ya está <em class="serif">onchain</em>.</h2>
+                        <p data-i18n="labLede">Stablecoins, depósitos tokenizados, la historia de la tokenización y una herramienta para elegir tu modelo de custodia.</p>
+                        <a class="btn btn-accent" href="{{ lab_url }}">
+                            <span data-i18n="labCta">Abrir el Web3 Lab →</span>
+                        </a>
+                    </div>
+
+                    <!-- Foto fija del mercado: /api/lab/snapshot/ (lab-teaser.js) -->
+                    <a class="lab-live" id="labLive" href="{{ lab_url }}#stablecoins">
+                        <span class="sr-only" data-i18n="labLiveSr">Ver las stablecoins en el Web3 Lab.</span>
+                        <span class="lab-live-head">
+                            <span class="mono"><i class="live" aria-hidden="true"></i><span data-i18n="labLiveHead">Ahora mismo</span></span>
+                            <span class="mono lab-live-src" data-lt="time">DefiLlama</span>
+                        </span>
+                        <span class="lab-kpi lab-kpi-main">
+                            <span class="lab-kpi-l" data-i18n="labKpiStable">Stablecoins en circulación</span>
+                            <span class="lab-kpi-v disp" data-lt="supply">&nbsp;</span>
+                            <span class="lab-kpi-s mono" data-lt="change"></span>
+                            <svg class="lab-spark" data-lt="spark" viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true"></svg>
+                        </span>
+                        <span class="lab-kpi-row">
+                            <span class="lab-kpi">
+                                <span class="lab-kpi-l" data-i18n="labKpiEuro">Cuota del euro en stablecoins</span>
+                                <span class="lab-kpi-v disp" data-lt="eur">&nbsp;</span>
+                                <span class="lab-eur-bar" aria-hidden="true"><i data-lt="eurbar"></i></span>
+                            </span>
+                            <span class="lab-kpi">
+                                <span class="lab-kpi-l" data-i18n="labKpiBanks">Bancos con depósitos tokenizados</span>
+                                <span class="lab-kpi-v disp">{{ lab_teaser.banks|length }}</span>
+                                <span class="lab-kpi-s mono">{{ lab_teaser.banks|join:", " }}</span>
+                            </span>
+                        </span>
                     </a>
                 </div>
+
+                <ol class="lab-mods" role="list">
+                    {% for m in lab_teaser.modules %}
+                    <li><a class="lab-mod" href="{{ m.url }}">
+                            <span class="mono lab-mod-n">{{ m.n }}</span>
+                            <span class="lab-mod-t disp">{{ m.title }}</span>
+                            <span class="lab-mod-d">{{ m.desc }}</span>
+                            <svg class="lab-mod-go" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M3 8h10M9 4l4 4-4 4" />
+                            </svg>
+                        </a></li>
+                    {% endfor %}
+                </ol>
             </div>
         </section>
 
@@ -535,7 +578,8 @@
 
     <script src="{% static 'js/site.js' %}?v=5" defer></script>
     <script src="{% static 'js/lab-canvas.js' %}?v=1" defer></script>
-    <script src="{% static 'js/home.js' %}?v=13" data-email="{{ contact_email }}" id="homeJs" defer></script>
+    <script src="{% static 'js/lab-teaser.js' %}?v=1" defer></script>
+    <script src="{% static 'js/home.js' %}?v=14" data-email="{{ contact_email }}" id="homeJs" defer></script>
 </body>
 
 </html>

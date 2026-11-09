@@ -48,8 +48,8 @@
         })();
     </script>
 
-    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=19">
-    <link rel="stylesheet" href="{% static 'css/web3.css' %}?v=18">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=32">
+    <link rel="stylesheet" href="{% static 'css/web3.css' %}?v=19">
 </head>
 
 <body class="page-web3">
@@ -73,7 +73,6 @@
                     <!-- 2. Resumen en vivo -->
                     <div class="hk" id="hk">
                         <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.stable }}</p><p class="hk-v disp" data-hk="stable"><i class="sk sk-line"></i></p><p class="hk-s mono">{{ ui.hk.stableSub }}</p></div>
-                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.rwa }}</p><p class="hk-v disp" data-hk="rwa"><i class="sk sk-line"></i></p><p class="hk-s mono">{{ ui.hk.rwaSub }}</p></div>
                         <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.banks }}</p><p class="hk-v disp" data-hk="banks">{{ tl.banks_active|length }}</p><p class="hk-s mono" data-hk-s="banks">{{ tl.banks_active|join:", " }}</p></div>
                         <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.euro }}</p><p class="hk-v disp" data-hk="euro"><i class="sk sk-line"></i></p><p class="hk-s mono" data-hk-s="euro">&nbsp;</p></div>
                     </div>
@@ -198,7 +197,7 @@
         // Ruta base para imágenes estáticas (la usa static/js/web3-lab.js)
         window.W3_IMG = '{% static "images/lab/" %}';
     </script>
-    <script src="{% static 'js/web3-lab.js' %}?v=6" defer></script>
+    <script src="{% static 'js/web3-lab.js' %}?v=7" defer></script>
     <script src="{% static 'js/tokenization-timeline.js' %}?v=2" defer></script>
     <script src="{% static 'js/site.js' %}?v=5" defer></script>
 </body>

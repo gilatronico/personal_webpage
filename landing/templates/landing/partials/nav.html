@@ -8,7 +8,7 @@ lang_es_url, lang_en_url, page, cases, lang.{% endcomment %}
                 <a href="{{ nav_base }}#trayectoria" data-i18n="navCareer">Trayectoria</a>
                 {% if cases %}<a href="{{ nav_base }}#casos" data-i18n="navCases">Casos</a>{% endif %}
                 <a href="{{ nav_base }}#criterio" data-i18n="navHow">Cómo trabajo</a>
-                <a href="{{ lab_url }}"{% if page == 'web3' %} aria-current="page"{% endif %}>Web3 Lab</a>
+                <a href="{{ lab_url }}" class="nav-lab"{% if page == 'web3' %} aria-current="page"{% endif %}><i class="live" aria-hidden="true"></i>Web3 Lab</a>
                 <a href="{{ nav_base }}#docencia" data-i18n="navTeaching">Docencia</a>
                 <a href="{{ nav_base }}#articulos" data-i18n="navArticles">Artículos</a>
             </nav>
@@ -44,7 +44,7 @@ lang_es_url, lang_en_url, page, cases, lang.{% endcomment %}
             <a href="{{ nav_base }}#trayectoria" data-i18n="navCareer">Trayectoria</a>
             {% if cases %}<a href="{{ nav_base }}#casos" data-i18n="navCases">Casos</a>{% endif %}
             <a href="{{ nav_base }}#criterio" data-i18n="navHow">Cómo trabajo</a>
-            <a href="{{ lab_url }}"{% if page == 'web3' %} aria-current="page"{% endif %}>Web3 Lab</a>
+            <a href="{{ lab_url }}" class="nav-lab"{% if page == 'web3' %} aria-current="page"{% endif %}><i class="live" aria-hidden="true"></i>Web3 Lab</a>
             <a href="{{ nav_base }}#docencia" data-i18n="navTeaching">Docencia</a>
             <a href="{{ nav_base }}#articulos" data-i18n="navArticles">Artículos</a>
             <a class="btn btn-primary" href="{{ nav_base }}#contacto" data-i18n="navCta">Hablemos</a>

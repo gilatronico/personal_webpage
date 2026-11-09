@@ -271,7 +271,7 @@
                 if (en.isIntersecting) { en.target.classList.add('in'); revealIO.unobserve(en.target); }
             });
         }, { rootMargin: '0px 0px -8% 0px' });
-        $$('.sec-head, .career, .cases, .how, .lab-grid, .schools-grid, .art-grid, .contact').forEach(function (el) {
+        $$('.sec-head, .career, .cases, .how, .lab-grid, .lab-mods, .schools-grid, .art-grid, .contact').forEach(function (el) {
             el.classList.add('reveal'); revealIO.observe(el);
         });
     }
