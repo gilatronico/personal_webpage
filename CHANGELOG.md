@@ -10,14 +10,14 @@ Las reglas completas están en `CLAUDE.md`.
 ## Último punto
 
 - **Fecha:** 2026-11-09
-- **Estado:** cambios en local, **sin commit y sin desplegar** (entradas 2026-11-09 #2 y #3).
-- **Producción (alexgilabert.xyz):** commit `1ce9ba4`. Ojo: en producción sigue el KPI "Activos reales tokenizados" con ~3,6 mil millones $ (dato engañoso); se retira en la entrada #3, que aún no está desplegada.
-- **Siguiente paso:** mirar en el navegador la portada del Web3 Lab de la home (`/` y `/en/`), que solo se ha probado a nivel de backend y plantillas; si todo va bien, commit (incluyendo `CHANGELOG.md`, `CLAUDE.md` y `AGENTS.md`, que aún no están en git) y deploy.
+- **Estado:** todo subido a `main`; Vercel despliega solo (no se ha comprobado aún el despliegue en alexgilabert.xyz).
+- **Producción (alexgilabert.xyz):** commit `0f98215` (más el commit que registra este changelog).
+- **Siguiente paso:** comprobar en alexgilabert.xyz, una vez desplegado, la portada del Web3 Lab de la home, `/web3` con 3 cifras en la cabecera y el career.ledger a 375 y 1440 px.
 
 ## Pendientes abiertos
 
 - [x] ~~**KPI "Activos reales tokenizados" del Web3 Lab engañoso.**~~ Cerrado 2026-11-09: se quita (entrada #3). La API de RWA.xyz exige clave y DefiLlama no cubre los grandes emisores (BlackRock BUIDL, Ondo, Circle USYC, Spiko, WisdomTree…). Si se quiere volver a mostrar, hace falta una fuente con clave (RWA.xyz daba ~39 mil millones $ de valor distribuido a 1-nov-2026, sin stablecoins).
-- [ ] **Versionar `CHANGELOG.md`, `CLAUDE.md` y `AGENTS.md`**: están sin seguimiento en git. (detectado 2026-11-09)
+- [x] ~~**Versionar `CHANGELOG.md`, `CLAUDE.md` y `AGENTS.md`**~~ Cerrado 2026-11-09 en `0f98215`.
 - [ ] Limpieza de archivos muertos: `index_professional.html`, `static/css/main.css`, `styles_2026*.css`, `static/js/main.js`, `main_2026.js`, `views_*_alternative.py`, `refactor_html.py`, carpeta `staticfiles/`.
 - [ ] Mensajes del formulario de contacto: en Vercel se guardan en SQLite dentro de `/tmp` y se pierden; solo queda el email.
 - [x] ~~Commits con mensajes descriptivos~~ Cerrado 2026-11-09: los últimos commits ya los llevan (el historial antiguo tipo "kkk", "mm" no se reescribe).
@@ -27,24 +27,24 @@ Las reglas completas están en `CLAUDE.md`.
 ## Historial
 
 ### 2026-11-09 #3 · Web3 Lab: se quita el KPI "Activos reales tokenizados"
-- **Estado:** en local, sin commit.
+- **Estado:** commit `0f98215`, subido a `main`.
 - **Qué:**
   - La cabecera del Web3 Lab pasa de 4 a 3 cifras: stablecoins en circulación, bancos con depósitos tokenizados y cuota del euro. El KPI retirado mostraba ~3,6 mil millones $ (TVL de la categoría RWA de DefiLlama), muy por debajo de lo real (~39 mil millones $ según RWA.xyz a 1-nov-2026).
   - Se comprobó si se podía cambiar de fuente: la API de RWA.xyz devuelve 401 sin clave y rascar su web (6 MB) sería frágil, así que se retira en vez de sustituir.
   - Rejilla de la cabecera: 3 columnas en escritorio y tableta (verificado a 1440 y 768 px), 1 columna por debajo de 760 px (verificado a 375 px). Sin desbordes ni errores de consola, en ES y EN.
   - Se elimina el endpoint `/api/lab/rwa/` (ahora devuelve 404).
 - **Archivos:** `landing/views.py` (fuera `_build_lab_rwa` y `lab_rwa`), `landing_project/urls.py`, `landing/templates/landing/web3.html` (`web3.css` v19, `web3-lab.js` v7), `static/js/web3-lab.js` (fuera `initRwa`), `static/css/web3.css`, `data/lab-curated.json` (fuera `hk.rwa` y `hk.rwaSub`).
-- **Pendiente de esta entrada:** commit y deploy; hasta entonces el KPI sigue en producción.
+- **Pendiente de esta entrada:** comprobar en producción que el KPI ya no aparece.
 
 ### 2026-11-09 #2 · Web3 Lab: el menú lleva a la página y la home enseña una portada con datos en vivo
-- **Estado:** en local, sin commit.
+- **Estado:** commit `0f98215`, subido a `main`.
 - **Qué:**
   - El enlace "Web3 Lab" del header lleva siempre a `/web3` (o `/en/web3`), también desde la home. Antes, en la home, bajaba al bloque `#lab`. Lleva un punto verde animado.
   - El bloque `#lab` de la home pasa de solo texto a portada del lab: tarjeta "Ahora mismo" con stablecoins en circulación (cifra animada, variación a 30 días, minigráfica de 12 meses), cuota del euro y bancos con depósitos tokenizados; y cuatro accesos a los módulos (Stablecoins, Comparador, Cronología, Custodia) con enlace a su sección en `/web3`.
   - El botón "Abrir el Web3 Lab" respeta el idioma (antes iba siempre a `/web3`).
   - Nuevo endpoint `/api/lab/snapshot/`: resume `stablecoins.llama.fi/stablecoincharts/all` en el servidor (caché 10 min). Cifras verificadas contra el lab: 294,8 mil millones $, −4,2 % a 30 días, euro 0,29 %.
 - **Archivos:** `landing/views.py` (`_nav_ctx`, `_build_lab_snapshot`, `lab_snapshot`, `LAB_TEASER_UI`, `_lab_teaser`), `landing_project/urls.py`, `landing/i18n.py`, `landing/templates/landing/home.html`, `landing/templates/landing/partials/nav.html`, `static/css/home.css` (v32), `static/js/home.js` (v14), `static/js/lab-teaser.js` (nuevo), `web3.html` y `article.html` (solo versión del CSS).
-- **Pendiente de esta entrada:** probar en local con Django (no se pudo ejecutar en la sesión) y desplegar.
+- **Pendiente de esta entrada:** comprobar la portada en producción. Probada en local (backend, plantillas y navegador: cifras en vivo, 4 accesos con enlaces correctos, sin errores de consola).
 
 ### 2026-11-09 #1 · `1ce9ba4`
 - **Estado:** desplegado (commit `1ce9ba4`).
