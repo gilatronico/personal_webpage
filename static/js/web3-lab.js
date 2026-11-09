@@ -1,7 +1,6 @@
 /* ============================================
    alexgilabert.xyz · Web3 Lab (/web3)
-   Datos en vivo desde APIs públicas sin clave (CoinGecko, DefiLlama, U.S. Treasury
-   Fiscal Data, ECB Data Portal) y herramienta de custodia. Los textos y el cuestionario
+   Datos en vivo desde APIs públicas sin clave (CoinGecko, DefiLlama) y herramienta de custodia. Los textos y el cuestionario
    llegan ya localizados desde el servidor (#lab-data). Caché de 10 min en localStorage.
    Los datos se piden al cargar; los gráficos, el ranking y el cuestionario se pintan
    cuando su sección está a punto de verse.
@@ -124,7 +123,14 @@
     function hkStatic() {
         var banks = (DATA.tl && DATA.tl.banks_active) || [];
         hk('banks', String(banks.length), UI.hk.bankNames.replace('{names}', banks.join(', ')));
-        hk('funds', String($$('[data-fund]').length), '');
+    }
+
+    // Activos reales tokenizados: TVL de la categoría RWA de DefiLlama, reducido en el servidor
+    function initRwa() {
+        return load('rwa:v1', function () { return getJSON('/api/lab/rwa/'); }).then(function (r) {
+            stamp('rwa', r.t);
+            hk('rwa', kpiMoney(r.v.tvl, '$'));
+        }).catch(function () { hk('rwa', '—'); });
     }
 
     /* ---------- 1. Tira de precios (CoinGecko) ---------- */
@@ -279,6 +285,7 @@
             var s = r.v;
             stamp('stable', r.t);
             hk('stable', kpiMoney(s.supply, '$'));
+            hk('euro', esc(plainPct(s.eurPct, 2)), UI.hk.euroSub.replace('{v}', eurM(s.eurTotal)));
 
             // Cuota del euro
             $('[data-eur-phrase]', hlEl).innerHTML = emph(UI.stable.euroHl.replace('{p}', plainPct(s.eurPct, 2)));
@@ -319,165 +326,23 @@
                     '<div class="cap">' + esc(eurM(a.cap)) + (a.chg == null ? '' : '<span class="chg30"><i class="mono">' + esc(UI.stable.d30lbl) + '</i> <b class="' + cls(a.chg) + '">' + esc(pct(a.chg)) + '</b></span>') + '</div></div>';
             }).join('');
         }).catch(function () {
-            hk('stable', '—');
+            hk('stable', '—'); hk('euro', '—');
             [chartEl, topEl, eurEl, hlEl].forEach(function (e) { fail(e); });
         });
     }
 
-    /* ---------- 3. Rendimientos y fondos (DefiLlama, Tesoro de EE. UU., BCE) ---------- */
-    var CHAIN_NAMES = { 'OP Mainnet': 'Optimism', 'BSC': 'BNB Chain', 'Binance': 'BNB Chain' };
-    var CHAIN_SLUG = {
-        'Ethereum': 'ethereum', 'Solana': 'solana', 'Polygon': 'polygon', 'Avalanche': 'avalanche', 'BNB Chain': 'bnb',
-        'Arbitrum': 'arbitrum', 'Optimism': 'optimism', 'Aptos': 'aptos', 'Stellar': 'stellar', 'Base': 'base'
-    };
-    // Iconos de redes (máximo 4) y "+N" con tooltip con el resto
-    function chainsHTML(names) {
-        var ok = names.map(function (n) { return CHAIN_NAMES[n] || n; }).filter(function (n) { return CHAIN_SLUG[n]; });
-        var shown = ok.slice(0, 4), more = ok.slice(4);
-        return '<ul class="chains" role="list">' + shown.map(function (n) {
-            return '<li title="' + esc(n) + '"><svg viewBox="0 0 24 24" role="img" aria-label="' + esc(n) + '"><use href="#ch-' + CHAIN_SLUG[n] + '"/></svg></li>';
-        }).join('') + (more.length ? '<li class="chain-more" tabindex="0" data-tip="' + esc(more.join(', ')) + '" aria-label="' + esc(more.join(', ')) + '">+' + more.length + '</li>' : '') + '</ul>';
-    }
-
-    function monthLabel(iso) {
-        var p = iso.split('-');
-        var m = UI.months[+p[1] - 1] || '';
-        return EN ? m + ' ' + p[0] : m + ' de ' + p[0];
-    }
-    function dateLabel(iso) {
-        var p = iso.split('-');
-        return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : iso;
-    }
-
-    // Patrimonio: en todos los fondos o en ninguno (hacen falta al menos 4 de 6 con dato en DefiLlama)
-    function fundsFromApi(y) {
-        var cards = $$('[data-fund]'), api = (y && y.v.funds) || {}, withAum = [];
-        cards.forEach(function (card) {
-            var f = api[card.getAttribute('data-fund')];
-            if (!f) return;
-            var nets = $('[data-networks]', card);
-            if (nets && nets.hidden && f.chains && f.chains.length) {
-                $('dd', nets).innerHTML = chainsHTML(f.chains);
-                nets.hidden = false;
-            }
-            if (f.tvl) withAum.push(card);
+    /* ---------- Info (ⓘ) del comparador: tooltip táctil y accesible ---------- */
+    function initInfo() {
+        var open = null;
+        function close() { if (open) { open.classList.remove('is-open'); open = null; } }
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest('.info');
+            if (!b) { close(); return; }
+            e.preventDefault();
+            if (open === b) { close(); return; }
+            close(); b.classList.add('is-open'); open = b;
         });
-        if (withAum.length >= 4) {
-            var sum = 0;
-            cards.forEach(function (card) {
-                var f = api[card.getAttribute('data-fund')], row = $('[data-aum]', card);
-                $('dd', row).textContent = f && f.tvl ? money(f.tvl, '$') : '—';
-                row.hidden = false;
-                if (f && f.tvl) sum += f.tvl;
-            });
-            var grid = $('#fundGrid');
-            cards.slice().sort(function (a, b) {
-                return ((api[b.getAttribute('data-fund')] || {}).tvl || 0) - ((api[a.getAttribute('data-fund')] || {}).tvl || 0);
-            }).forEach(function (c) { grid.appendChild(c); });
-            var l = $('[data-hk-l="funds"]');
-            if (l) l.textContent = UI.hk.fundsAum;
-            hk('funds', kpiMoney(sum, '$'), '');
-        }
-    }
-
-    function initYields() {
-        var host = $('#yieldBars');
-        var T = UI.treasury;
-        var yields = load('yields:v1', function () { return getJSON('/api/lab/yields/'); });
-        var tbill = load('tbill:v1', function () {
-            return getJSON('https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates' +
-                '?filter=security_desc:eq:Treasury%20Bills&sort=-record_date&page%5Bsize%5D=1&fields=record_date,avg_interest_rate_amt')
-                .then(function (d) { return { date: d.data[0].record_date, rate: parseFloat(d.data[0].avg_interest_rate_amt) }; });
-        });
-        var ecb = load('ecb:v1', function () {
-            return getJSON('https://data-api.ecb.europa.eu/service/data/FM/B.U2.EUR.4F.KR.DFR.LEV?lastNObservations=1&format=jsondata')
-                .then(function (d) {
-                    var s = d.dataSets[0].series;
-                    var obs = s[Object.keys(s)[0]].observations;
-                    var tp = d.structure.dimensions.observation[0].values;
-                    return { date: tp[tp.length - 1].id, rate: obs[Object.keys(obs).pop()][0] };
-                });
-        });
-
-        safe(yields).then(fundsFromApi);
-
-        return Promise.all([safe(yields), safe(tbill), safe(ecb)]).then(function (res) {
-            var y = res[0], tb = res[1], eb = res[2], bars = [], best = null;
-            [y, tb, eb].forEach(function (r, i) { if (r) stamp('yield' + i, r.t); });
-
-            bars.push({ name: T.stable, detail: T.stableDetail, risk: T.riskIssuer, val: 0, tone: 'iss' });
-            if (eb) bars.push({ name: T.ecb, detail: T.ecbDetail.replace('{d}', dateLabel(eb.v.date)), risk: T.riskSovereign, val: eb.v.rate, tone: 'sov' });
-            if (tb) bars.push({ name: T.tbill, detail: T.tbillDetail.replace('{m}', monthLabel(tb.v.date)), risk: T.riskSovereign, val: tb.v.rate, tone: 'sov' });
-            if (eb) best = { v: eb.v.rate, l: UI.hk.yieldEcb };
-            if (tb && (!best || tb.v.rate > best.v)) best = { v: tb.v.rate, l: UI.hk.yieldTbill };
-            if (y) {
-                var fund = null;
-                Object.keys(y.v.funds || {}).forEach(function (id) {
-                    var f = y.v.funds[id];
-                    if (f.apy != null && (!fund || f.tvl > fund.tvl)) fund = f;
-                });
-                if (fund) {
-                    bars.push({ name: T.mmf.replace('{s}', fund.symbol), detail: T.mmfDetail, risk: T.riskMmf, val: fund.apy, tone: 'mmf' });
-                    if (!best || fund.apy > best.v) best = { v: fund.apy, l: UI.hk.yieldMmf.replace('{s}', fund.symbol) };
-                }
-                ['eth', 'sol'].forEach(function (k) {
-                    var p = y.v[k];
-                    if (p) bars.push({
-                        name: T[k].replace('{s}', p.symbol).replace('{p}', p.project), detail: T.stakeDetail,
-                        risk: T.riskStake, val: p.apy, tone: 'stk'
-                    });
-                });
-            }
-            if (best) hk('yield', esc(plainPct(best.v, 2)), best.l); else hk('yield', '—', '');
-            if (bars.length < 2) { fail(host); return; }
-
-            whenVisible(host, function () {
-                var top = Math.max.apply(null, bars.map(function (b) { return b.val; }));
-                var n = Math.max(3, Math.ceil(top + 0.6)), ticks = '';
-                for (var k = 0; k <= n; k++) ticks += '<span style="left:' + (k / n * 100).toFixed(2) + '%">' + k + (EN ? '%' : NB + '%') + '</span>';
-                host.innerHTML = '<div class="yl" style="--n:' + n + '"><div class="yl-head"><div class="yl-axis" aria-hidden="true">' + ticks + '</div></div>' +
-                    bars.map(function (b) {
-                        return '<div class="yl-row t-' + b.tone + '"><div><span class="yl-name">' + esc(b.name) + '</span><span class="yl-detail">' + esc(b.detail) + '</span></div>' +
-                            '<div class="yl-plot" role="img" aria-label="' + esc(b.name + ': ' + nf(b.val, 2) + '% ' + T.perYear) + '" data-x="' + (b.val / n * 100).toFixed(2) + '">' +
-                            '<span class="yl-stem"></span><span class="yl-dot"></span><span class="yl-val">' + esc(nf(b.val, 2) + (EN ? '%' : NB + '%')) + '</span></div>' +
-                            '<span class="yl-risk">' + esc(b.risk) + '</span></div>';
-                    }).join('') +
-                    '<div class="yl-legend"><span><i class="solid"></i>' + esc(T.legendLow) + '</span><span><i></i>' + esc(T.legendStake) + '</span></div></div>';
-                requestAnimationFrame(function () {
-                    requestAnimationFrame(function () {
-                        $$('.yl-plot', host).forEach(function (e) {
-                            e.style.setProperty('--x', e.getAttribute('data-x') + '%');
-                            $$('.yl-stem,.yl-dot,.yl-val', e).forEach(function (x) { x.style.setProperty('--x', e.getAttribute('data-x') + '%'); });
-                        });
-                    });
-                });
-            });
-        });
-    }
-
-    /* ---------- Tarjetas de fondos: descripción recortada con "Ver más" ---------- */
-    function initClamp() {
-        var items = $$('[data-clamp]');
-        function measure() {
-            items.forEach(function (p) {
-                var btn = p.parentNode.querySelector('.more-btn');
-                if (!btn) return;
-                if (p.classList.contains('is-clamp')) btn.hidden = p.scrollHeight <= p.clientHeight + 1;
-            });
-        }
-        items.forEach(function (p) {
-            var btn = p.parentNode.querySelector('.more-btn');
-            if (!btn) return;
-            btn.addEventListener('click', function () {
-                var open = p.classList.toggle('is-clamp') === false;
-                btn.textContent = btn.getAttribute(open ? 'data-less' : 'data-more');
-                btn.setAttribute('aria-expanded', open);
-            });
-        });
-        measure();
-        var rt;
-        window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(measure, 150); });
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
     }
 
     /* ---------- Navegación: chips fijos con sección activa, enlaces de ancla ---------- */
@@ -590,54 +455,27 @@
         var pad2 = function (n) { return (n < 10 ? '0' : '') + n; };
 
         quiz.innerHTML =
-            '<aside class="panel qz-side" aria-label="' + esc(QU.cfgAria) + '">' +
-            '<div class="qz-side-top mono"><span class="live-label"><i class="live" aria-hidden="true"></i><span>' + esc(QU.cfgName) + '</span></span>' +
-            '<span class="qz-done muted-d" hidden>✓ ' + esc(QU.cfgDone) + '</span></div>' +
-            '<ul class="qz-cfg mono">' + Q.map(function (q) {
-                return '<li data-q="' + q.id + '"><span class="k">' + esc(q.cfg) + '</span><span class="v">—</span></li>';
-            }).join('') + '</ul>' +
-            '<div class="qz-diagram" aria-hidden="true"><svg viewBox="0 0 300 96">' +
-            '<path class="qz-wire" d="M52 34H148M152 34H248"/>' +
-            ['entity', 'custodian', 'client'].map(function (k, i) {
-                var x = 50 + i * 100;
-                return '<g class="qz-node" data-node="' + k + '"><circle cx="' + x + '" cy="34" r="22"/>' +
-                    '<g transform="translate(' + (x - 12) + ' 22)" class="qz-nico">' + ({ entity: '<path d="' + IC.bank + '"/>', custodian: '<path d="' + IC.vault + '"/>', client: '<path d="' + IC.user + '"/>' })[k] + '</g>' +
-                    '<text x="' + x + '" y="82" text-anchor="middle">' + esc(QU.nodes[k]) + '</text></g>';
-            }).join('') +
-            '<g class="qz-key" style="--kx:100px"><circle cx="0" cy="0" r="13"/><g transform="translate(-9 -9) scale(.75)"><path d="' + IC.key + '"/></g></g>' +
-            '</svg></div></aside>' +
-            '<div class="card qz-main" id="qzMain"></div>';
+            '<div class="qz-shell">' +
+            '<div class="qz-strip mono" role="status" aria-label="' + esc(QU.cfgAria) + '"><span class="qz-strip-name"><i class="live" aria-hidden="true"></i>' + esc(QU.cfgName) + '</span>' +
+            '<ul class="qz-chips" id="qzChips"></ul></div>' +
+            '<div class="card qz-main" id="qzMain"></div></div>';
 
-        var main = $('#qzMain', quiz), side = $('.qz-side', quiz);
+        var main = $('#qzMain', quiz), chips = $('#qzChips', quiz);
 
-        /* ---- Panel izquierdo en directo ---- */
-        function answerText(q) {
-            var ids = st.ans[q.id] || [];
-            return ids.length ? ids.map(function (id) { return optOf(q, id).short; }).join(', ') : '—';
-        }
+        /* ---- Tira custody.config: respuestas como chips de una línea ---- */
         function optOf(q, id) { return q.options.filter(function (o) { return o.id === id; })[0]; }
         function syncSide() {
+            var html = '';
             Q.forEach(function (q, idx) {
-                var li = $('[data-q="' + q.id + '"]', side), done = (st.ans[q.id] || []).length > 0;
-                $('.v', li).textContent = answerText(q);
-                li.classList.toggle('is-done', done);
-                li.classList.toggle('is-current', st.i === idx);
+                var ids = st.ans[q.id] || [];
+                if (!ids.length) return;
+                html += '<li class="is-done' + (st.i === idx ? ' is-current' : '') + '"><span class="k">' + esc(q.cfg) + '</span><span class="v">' +
+                    esc(ids.map(function (id) { return optOf(q, id).short; }).join(', ')) + '</span></li>';
             });
-            var keys = (st.ans.keys || [])[0];
-            var node = { own: 'entity', custodian: 'custodian', client: 'client' }[keys];
-            var kx = { entity: 50, custodian: 150, client: 250 }[node || 'custodian'];
-            var key = $('.qz-key', side);
-            key.style.setProperty('--kx', kx + 'px');
-            key.classList.toggle('is-set', !!node);
-            $$('.qz-node', side).forEach(function (n) { n.classList.toggle('on', n.getAttribute('data-node') === node); });
-            $('.qz-done', side).hidden = !st.result;
-        }
-        function previewKey(optId) {
-            var node = { own: 'entity', custodian: 'custodian', client: 'client' }[optId];
-            if (!node) return;
-            $('.qz-key', side).style.setProperty('--kx', { entity: 50, custodian: 150, client: 250 }[node] + 'px');
-            $('.qz-key', side).classList.add('is-set');
-            $$('.qz-node', side).forEach(function (n) { n.classList.toggle('on', n.getAttribute('data-node') === node); });
+            chips.innerHTML = html || '<li class="is-empty">' + esc(QU.cfgEmpty) + '</li>';
+            if (st.result) chips.insertAdjacentHTML('beforeend', '<li class="qz-ok">✓ ' + esc(QU.cfgDone) + '</li>');
+            // En móvil la tira se desplaza en horizontal: se deja a la vista lo último respondido
+            chips.scrollLeft = chips.scrollWidth;
         }
 
         function paint(html, focusSel) {
@@ -651,9 +489,10 @@
         function viewStart() {
             st.i = -1;
             paint('<p class="qz-tool mono">' + esc(QU.tool) + '</p>' +
-                '<h3 class="qz-start-text" id="qzStart" tabindex="-1">' + esc(QU.startText) + '</h3>' +
-                '<div class="qz-mini">' + QU.startCards.map(function (c) {
-                    return '<div class="qz-mini-c"><span class="qz-ico">' + icon(c.icon) + '</span><span>' + esc(c.title) + '</span></div>';
+                '<h3 class="qz-start-text disp" id="qzStart" tabindex="-1">' + esc(QU.startText) + '</h3>' +
+                '<p class="qz-gets mono">' + esc(QU.startGets) + '</p>' +
+                '<div class="qz-mini">' + QU.startCards.map(function (c, k) {
+                    return '<div class="qz-mini-c"><span class="qz-ico">' + icon(c.icon) + '</span><span><i class="mono">0' + (k + 1) + '</i>' + esc(c.title) + '</span></div>';
                 }).join('') + '</div>' +
                 '<div class="qz-start-cta"><button type="button" class="btn btn-primary" data-act="start">' + esc(QU.startBtn) + '</button>' +
                 '<p class="mono qz-priv">' + esc(QU.privacy) + '</p></div>');
@@ -778,18 +617,6 @@
             else if (act === 'restart') { st = { i: -1, ans: {}, result: null, lock: false }; viewStart(); }
             else if (act === 'pdf') makePdf(b);
         });
-        quiz.addEventListener('mouseover', function (e) {
-            var o = e.target.closest('.qz-opt');
-            if (o && Q[st.i] && Q[st.i].id === 'keys') previewKey(o.getAttribute('data-id'));
-        });
-        quiz.addEventListener('mouseout', function (e) {
-            if (e.target.closest('.qz-opt') && Q[st.i] && Q[st.i].id === 'keys') syncSide();
-        });
-        quiz.addEventListener('focusin', function (e) {
-            var o = e.target.closest('.qz-opt');
-            if (o && Q[st.i] && Q[st.i].id === 'keys') previewKey(o.getAttribute('data-id'));
-        });
-
         function goBack() {
             if (st.i > 0 && st.i < N) { st.i--; viewQuestion(); }
         }
@@ -898,8 +725,8 @@
     hkStatic();
     initTicker();
     initStable();
-    initYields();
-    initClamp();
+    initRwa();
+    initInfo();
     initNav();
     whenVisible($('#quiz'), initQuiz);
 })();

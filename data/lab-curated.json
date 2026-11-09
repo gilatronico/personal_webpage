@@ -48,17 +48,9 @@
         "es": "Comparador",
         "en": "Comparison"
       },
-      "funds": {
-        "es": "Fondos",
-        "en": "Funds"
-      },
       "timeline": {
         "es": "Cronología",
         "en": "Timeline"
-      },
-      "treasury": {
-        "es": "Tesorería",
-        "en": "Treasury"
       },
       "custody": {
         "es": "Custodia",
@@ -234,23 +226,86 @@
           "id": "issuer"
         },
         {
+          "id": "native",
           "label": {
-            "es": "Rendimiento para el tenedor",
-            "en": "Yield for the holder"
+            "es": "Rendimiento nativo",
+            "en": "Native yield"
           },
           "stable": {
-            "es": "No",
-            "en": "No"
+            "chip": {
+              "es": "No",
+              "en": "No"
+            },
+            "state": "no",
+            "text": {
+              "es": "El emisor no paga intereses: MiCA lo prohíbe al emisor y a los proveedores de servicios cripto para las stablecoins reguladas en la UE.",
+              "en": "The issuer pays no interest: MiCA prohibits it for issuers and crypto-asset service providers on EU-regulated stablecoins."
+            }
           },
           "mmf": {
-            "es": "Sí, la rentabilidad del fondo",
-            "en": "Yes, the fund's return"
+            "chip": {
+              "es": "Sí",
+              "en": "Yes"
+            },
+            "state": "yes",
+            "text": {
+              "es": "La rentabilidad del fondo se acumula en el valor de la participación o se reparte en nuevas participaciones.",
+              "en": "The fund's return accrues in the value of the share or is paid out in new shares."
+            }
           },
           "dep": {
-            "es": "Según las condiciones del banco",
-            "en": "Depends on the bank's terms"
+            "chip": {
+              "es": "Según el banco",
+              "en": "Depends on the bank"
+            },
+            "state": "varies",
+            "text": {
+              "es": "Según las condiciones del banco, igual que un depósito tradicional.",
+              "en": "Depends on the bank's terms, as with a traditional deposit."
+            }
+          }
+        },
+        {
+          "id": "extra",
+          "label": {
+            "es": "Cómo obtener rendimiento adicional",
+            "en": "How to earn extra yield"
           },
-          "id": "yield"
+          "stable": {
+            "es": "Fuera del token: préstamos en protocolos DeFi o versiones de ahorro como [[sUSDS o sUSDe]]. Cada vía añade riesgo de protocolo, de contraparte o de estrategia. Las plataformas de la UE tampoco pueden pagar recompensas por mantener la stablecoin (MiCA).",
+            "en": "Outside the token: lending on DeFi protocols or savings versions such as [[sUSDS or sUSDe]]. Each route adds protocol, counterparty or strategy risk. EU platforms cannot pay rewards for holding the stablecoin either (MiCA)."
+          },
+          "mmf": {
+            "es": "Usarlo como colateral en plataformas que lo aceptan, sin dejar de cobrar la rentabilidad del fondo.",
+            "en": "Use it as collateral on platforms that accept it, without giving up the fund's return."
+          },
+          "dep": {
+            "es": "Limitado: circula en redes permisionadas entre clientes del banco.",
+            "en": "Limited: it circulates on permissioned networks among the bank's clients."
+          },
+          "info": {
+            "es": "sUSDS es el token de ahorro de Sky: se obtiene depositando USDS y su valor sube con la tasa de ahorro que fija la gobernanza de Sky. sUSDe es USDe de Ethena en staking: su rendimiento viene sobre todo de una operación delta-neutral con futuros perpetuos y puede reducirse o anularse.",
+            "en": "sUSDS is Sky's savings token: you get it by depositing USDS and its value rises with the savings rate set by Sky governance. sUSDe is Ethena's USDe in staking: its yield comes mainly from a delta-neutral trade with perpetual futures and can shrink or disappear."
+          }
+        },
+        {
+          "id": "risk",
+          "label": {
+            "es": "Principal riesgo y protección",
+            "en": "Main risk and protection"
+          },
+          "stable": {
+            "es": "Riesgo del emisor y de sus reservas. MiCA da derecho a reembolso a la par y exige reservas en activos seguros y de bajo riesgo.",
+            "en": "Risk of the issuer and its reserves. MiCA grants redemption at par and requires reserves in secure, low-risk assets."
+          },
+          "mmf": {
+            "es": "Riesgo de la cartera del fondo (deuda pública a corto plazo) y de la gestora. No hay garantía de capital.",
+            "en": "Risk of the fund's portfolio (short-term government debt) and of the manager. Capital is not guaranteed."
+          },
+          "dep": {
+            "es": "Riesgo del banco. Mantiene la naturaleza de depósito: puede estar cubierto por el fondo de garantía de depósitos (hasta 100.000 € por depositante y entidad), aunque el tratamiento específico de los tokens aún se está precisando.",
+            "en": "Risk of the bank. It keeps the nature of a deposit: it may be covered by the deposit guarantee scheme (up to €100,000 per depositor per institution), although the specific treatment of tokens is still being clarified."
+          }
         },
         {
           "label": {
@@ -296,143 +351,10 @@
         "mmf": "mint",
         "dep": "amber"
       },
-      "yieldState": {
-        "stable": "no",
-        "mmf": "yes",
-        "dep": "varies"
-      },
       "numbers": {
         "stable": "01",
         "mmf": "02",
         "dep": "03"
-      }
-    },
-    "funds": {
-      "title": {
-        "es": "Fondos monetarios tokenizados",
-        "en": "Tokenized money market funds"
-      },
-      "networks": {
-        "es": "Redes",
-        "en": "Networks"
-      },
-      "currency": {
-        "es": "Divisa",
-        "en": "Currency"
-      },
-      "aum": {
-        "es": "Patrimonio",
-        "en": "Assets"
-      },
-      "aumNote": {
-        "es": "valor onchain · DefiLlama",
-        "en": "onchain value · DefiLlama"
-      },
-      "seeMore": {
-        "es": "Ver más",
-        "en": "See more"
-      },
-      "seeLess": {
-        "es": "Ver menos",
-        "en": "See less"
-      },
-      "moreChains": {
-        "es": "{n} redes más",
-        "en": "{n} more networks"
-      },
-      "since": {
-        "es": "Onchain desde",
-        "en": "Onchain since"
-      }
-    },
-    "treasury": {
-      "title": {
-        "es": "¿Dónde aparca su liquidez una tesorería onchain?",
-        "en": "Where does an onchain treasury park its liquidity?"
-      },
-      "note": {
-        "es": "El staking se cobra en el propio activo: su rendimiento en euros depende del precio. No es comparable con un rendimiento libre de riesgo.",
-        "en": "Staking is paid in the asset itself: its return in euros depends on the price. It is not comparable with a risk-free yield."
-      },
-      "sources": {
-        "es": "Fuentes: U.S. Treasury Fiscal Data, ECB Data Portal, DefiLlama",
-        "en": "Sources: U.S. Treasury Fiscal Data, ECB Data Portal, DefiLlama"
-      },
-      "stable": {
-        "es": "Stablecoin (USDC / EURC)",
-        "en": "Stablecoin (USDC / EURC)"
-      },
-      "stableDetail": {
-        "es": "Sin rendimiento para el tenedor",
-        "en": "No yield for the holder"
-      },
-      "tbill": {
-        "es": "Letra del Tesoro de EE. UU. a corto plazo",
-        "en": "Short-term US Treasury bill"
-      },
-      "tbillDetail": {
-        "es": "Tipo medio, {m}",
-        "en": "Average rate, {m}"
-      },
-      "ecb": {
-        "es": "Facilidad de depósito del BCE",
-        "en": "ECB deposit facility"
-      },
-      "ecbDetail": {
-        "es": "Tipo vigente desde {d}",
-        "en": "Rate in force since {d}"
-      },
-      "mmf": {
-        "es": "Fondo monetario tokenizado ({s})",
-        "en": "Tokenized money market fund ({s})"
-      },
-      "mmfDetail": {
-        "es": "Pool con más TVL · APY medio 30 d",
-        "en": "Largest pool by TVL · 30-day average APY"
-      },
-      "eth": {
-        "es": "Staking ETH ({s}, {p})",
-        "en": "ETH staking ({s}, {p})"
-      },
-      "sol": {
-        "es": "Staking SOL ({s}, {p})",
-        "en": "SOL staking ({s}, {p})"
-      },
-      "stakeDetail": {
-        "es": "Liquid staking con más TVL · APY medio 30 d",
-        "en": "Largest liquid staking pool by TVL · 30-day average APY"
-      },
-      "riskIssuer": {
-        "es": "riesgo emisor",
-        "en": "issuer risk"
-      },
-      "riskSovereign": {
-        "es": "riesgo soberano",
-        "en": "sovereign risk"
-      },
-      "riskMmf": {
-        "es": "riesgo soberano + gestora",
-        "en": "sovereign + manager risk"
-      },
-      "riskStake": {
-        "es": "slashing + liquidez + volatilidad del activo",
-        "en": "slashing + liquidity + asset price volatility"
-      },
-      "perYear": {
-        "es": "anual",
-        "en": "per year"
-      },
-      "axis": {
-        "es": "rendimiento anual",
-        "en": "annual yield"
-      },
-      "legendLow": {
-        "es": "Línea continua: rendimiento contractual o de política monetaria",
-        "en": "Solid line: contractual or monetary-policy yield"
-      },
-      "legendStake": {
-        "es": "Línea discontinua: rendimiento variable, pagado en el propio activo",
-        "en": "Dashed line: variable yield, paid in the asset itself"
       }
     },
     "months": {
@@ -474,42 +396,38 @@
         "es": "Stablecoins en circulación",
         "en": "Stablecoins in circulation"
       },
-      "fundsAum": {
-        "es": "Patrimonio en fondos monetarios tokenizados",
-        "en": "Assets in tokenized money market funds"
+      "stableSub": {
+        "es": "DefiLlama",
+        "en": "DefiLlama"
       },
-      "funds": {
-        "es": "Fondos tokenizados destacados",
-        "en": "Featured tokenized funds"
+      "rwa": {
+        "es": "Activos reales tokenizados",
+        "en": "Tokenized real-world assets"
+      },
+      "rwaSub": {
+        "es": "TVL de la categoría RWA · DefiLlama",
+        "en": "TVL of the RWA category · DefiLlama"
       },
       "banks": {
         "es": "Bancos con depósitos tokenizados activos",
         "en": "Banks with live tokenized deposits"
       },
-      "yield": {
-        "es": "Mejor rendimiento sin riesgo de precio",
-        "en": "Best yield without asset-price risk"
-      },
-      "yieldTbill": {
-        "es": "Letra del Tesoro de EE. UU.",
-        "en": "US Treasury bill"
-      },
-      "yieldEcb": {
-        "es": "Facilidad de depósito del BCE",
-        "en": "ECB deposit facility"
-      },
-      "yieldMmf": {
-        "es": "Fondo tokenizado ({s})",
-        "en": "Tokenized fund ({s})"
-      },
       "bankNames": {
         "es": "{names}",
         "en": "{names}"
+      },
+      "euro": {
+        "es": "Cuota del euro en el mercado de stablecoins",
+        "en": "Euro share of the stablecoin market"
+      },
+      "euroSub": {
+        "es": "{v} en circulación · DefiLlama",
+        "en": "{v} in circulation · DefiLlama"
       }
     },
     "jumpCta": {
-      "es": "Encuentra tu modelo de custodia →",
-      "en": "Find your custody model →"
+      "es": "Modelo de custodia →",
+      "en": "Custody model →"
     },
     "anchor": {
       "copy": {
@@ -540,144 +458,5 @@
     "EUROP": "Schuman Financial",
     "EURR": "StablR",
     "EURQ": "Quantoz Payments"
-  },
-  "funds": [
-    {
-      "id": "benji",
-      "name": "Franklin OnChain U.S. Government Money Fund",
-      "manager": "Franklin Templeton",
-      "ticker": "FOBXX · BENJI",
-      "currency": "USD",
-      "networks": [
-        "Stellar",
-        "Polygon",
-        "Arbitrum",
-        "Avalanche",
-        "Aptos",
-        "Ethereum",
-        "Base",
-        "Solana",
-        "BNB Chain"
-      ],
-      "why": {
-        "es": "Fondo monetario registrado en EE. UU. cuyo registro oficial de participaciones se lleva en blockchains públicas: un token BENJI equivale a una participación.",
-        "en": "A US-registered money market fund whose official share register is kept on public blockchains: one BENJI token equals one share."
-      },
-      "sources": [
-        "https://digitalassets.franklintempleton.com/benji/"
-      ],
-      "accent": "#2FA79A",
-      "since": "2021"
-    },
-    {
-      "id": "buidl",
-      "name": "BlackRock USD Institutional Digital Liquidity Fund",
-      "manager": "BlackRock",
-      "ticker": "BUIDL",
-      "currency": "USD",
-      "networks": [],
-      "defillama": "blackrock-buidl",
-      "logo": "blackrock.png",
-      "logo_w": 88,
-      "logo_h": 16,
-      "why": {
-        "es": "Primer fondo tokenizado de BlackRock en una blockchain pública (marzo de 2024). Invierte en efectivo, letras del Tesoro de EE. UU. y repos; Securitize actúa como agente de transferencia.",
-        "en": "BlackRock's first tokenized fund on a public blockchain (March 2024). It invests in cash, US Treasury bills and repos; Securitize acts as transfer agent."
-      },
-      "sources": [
-        "https://www.nasdaq.com/press-release/blackrock-launches-its-first-tokenized-fund-buidl-on-the-ethereum-network-2024-03-20"
-      ],
-      "accent": "#6A73E0",
-      "since": "2024-03"
-    },
-    {
-      "id": "spiko",
-      "name": "Spiko EU T-Bills y US T-Bills",
-      "name_en": "Spiko EU T-Bills and US T-Bills",
-      "manager": "Spiko",
-      "ticker": "EUTBL · USTBL",
-      "currency": "EUR · USD",
-      "networks": [
-        "Base"
-      ],
-      "logo": "spiko.png",
-      "logo_w": 30,
-      "logo_h": 24,
-      "why": {
-        "es": "Fondos UCITS de letras del Tesoro. Desde el 30 de junio de 2026 se suscriben y reembolsan en USDC y EURC a través de Coinbase Payments, con liquidación en Base.",
-        "en": "UCITS funds investing in Treasury bills. Since 30 June 2026 they can be subscribed and redeemed in USDC and EURC through Coinbase Payments, settling on Base."
-      },
-      "sources": [
-        "https://cointelegraph.com/news/spiko-coinbase-stablecoin-payments-treasury-funds"
-      ],
-      "accent": "#B565D9",
-      "since": "2024-05"
-    },
-    {
-      "id": "fdit",
-      "name": "Fidelity Treasury Digital Fund (clase onchain)",
-      "name_en": "Fidelity Treasury Digital Fund (onchain class)",
-      "manager": "Fidelity",
-      "ticker": "FDIT",
-      "currency": "USD",
-      "networks": [
-        "Ethereum"
-      ],
-      "logo": "fidelity.png",
-      "logo_w": 28,
-      "logo_h": 27,
-      "why": {
-        "es": "Clase onchain del fondo monetario del Tesoro de Fidelity, lanzada en Ethereum en septiembre de 2025, con BNY como custodio.",
-        "en": "Onchain share class of Fidelity's Treasury money market fund, launched on Ethereum in September 2025, with BNY as custodian."
-      },
-      "sources": [
-        "https://www.blockhead.co/2025/09/08/fidelity-quietly-launches-200m-ethereum-based-treasury-fund"
-      ],
-      "accent": "#E0A03A",
-      "since": "2025-09"
-    },
-    {
-      "id": "wtgxx",
-      "name": "WisdomTree Treasury Money Market Digital Fund",
-      "manager": "WisdomTree",
-      "ticker": "WTGXX",
-      "currency": "USD",
-      "networks": [],
-      "logo": "wisdomtree.png",
-      "logo_w": 72,
-      "logo_h": 29,
-      "why": {
-        "es": "Desde el 24 de febrero de 2026 sus participaciones se negocian 24/7 con liquidación instantánea en USDC. Acceso inicial para instituciones a través de WisdomTree Connect.",
-        "en": "Since 24 February 2026 its shares trade 24/7 with instant settlement in USDC. Initial access is for institutions through WisdomTree Connect."
-      },
-      "sources": [
-        "https://ir.wisdomtree.com/news-events/press-releases/detail/777/wisdomtree-to-launch-247-trading-and-instant-settlement"
-      ],
-      "accent": "#4FAE63",
-      "since": "2026-02"
-    },
-    {
-      "id": "safo",
-      "name": "Spiko Amundi Overnight Swap Fund",
-      "manager": "Amundi · Spiko",
-      "ticker": "SAFO",
-      "currency": "EUR · USD · GBP · CHF",
-      "networks": [
-        "Ethereum",
-        "Stellar"
-      ],
-      "logo": "spiko.png",
-      "logo_w": 30,
-      "logo_h": 24,
-      "why": {
-        "es": "Fondo UCITS tokenizado (marzo de 2026) para tesorería y colateral. Su rentabilidad procede de un swap de rentabilidad total colateralizado con un banco, no de deuda pública.",
-        "en": "A tokenized UCITS fund (March 2026) for treasury and collateral. Its return comes from a collateralized total return swap with a bank, not from government debt."
-      },
-      "sources": [
-        "https://www.ledgerinsights.com/amundi-spiko-launch-tokenized-overnight-swap-fund/"
-      ],
-      "accent": "#3E94E0",
-      "since": "2026-03"
-    }
-  ]
+  }
 }

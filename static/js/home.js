@@ -1,8 +1,8 @@
 /* ============================================
    alexgilabert.xyz · Home v2
    Todo el contenido está en el HTML (SEO / sin JS). Este script solo añade:
-   registro de trayectoria, criterios, docencia, scroll-spy,
-   mini simulador BTC y animaciones de entrada.
+   registro de trayectoria, criterios (diagrama y pestañas enlazados), scroll-spy
+   y animaciones de entrada.
    Comparte claves de localStorage con /web3 ('theme', 'preferredLanguage').
    ============================================ */
 (function () {
@@ -25,13 +25,11 @@
         es: {
             statuses: { run: 'confirmando', sel: 'seleccionado', done: 'confirmado', wait: 'pendiente' },
             syncing: 'sincronizando', pick: 'pulsa un bloque',
-            spot: 'BTC hoy', vsSpot: ' vs. hoy',
             calTitle: 'Consulta con Alex Gilabert', calDetails: 'Consulta desde alexgilabert.xyz'
         },
         en: {
             statuses: { run: 'confirming', sel: 'selected', done: 'confirmed', wait: 'pending' },
             syncing: 'syncing', pick: 'tap a block',
-            spot: 'BTC today', vsSpot: ' vs. today',
             calTitle: 'Call with Alex Gilabert', calDetails: 'Request from alexgilabert.xyz'
         }
     };
@@ -105,6 +103,15 @@
         var st = { sel: current, reached: N - 1, playing: false, started: false };
         var timer = null, animFeed = false;
 
+        var fadeT = null;
+        function syncFade() {
+            var body = $('#detailBody'), sc = $('#detailScroll');
+            body.classList.toggle('no-scroll', sc.scrollHeight <= sc.clientHeight + 1);
+            body.classList.toggle('at-end', sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 2);
+        }
+        $('#detailScroll').addEventListener('scroll', syncFade, { passive: true });
+        window.addEventListener('resize', syncFade);
+
         function render() {
             var t = L();
             rows.forEach(function (row, i) {
@@ -118,7 +125,19 @@
                 $('.blk-status', row).textContent = on ? (st.playing ? t.statuses.run : t.statuses.sel)
                     : (done ? (kindLabel || t.statuses.done) : t.statuses.wait);
             });
+            // Apilado (<900px) el panel cambia de altura: se anima desde la altura anterior
+            var body = $('#detailBody'), scroller = $('#detailScroll'), stacked = window.matchMedia('(max-width: 1099px)').matches;
+            var h0 = stacked ? body.offsetHeight : 0, changed = stages.some(function (s, i) { return s.hidden === (i === st.sel); });
             stages.forEach(function (s, i) { s.hidden = i !== st.sel; });
+            if (changed) scroller.scrollTop = 0;
+            if (stacked && changed && !reduceMotion) {
+                body.style.height = h0 + 'px'; void body.offsetHeight;
+                body.style.height = scroller.scrollHeight + 'px';
+                setTimeout(function () { body.style.height = ''; }, 380);
+            }
+            syncFade();
+            // La entrada del contenido desplaza 10 px: se vuelve a medir cuando termina
+            clearTimeout(fadeT); fadeT = setTimeout(syncFade, 520);
             hashEl.textContent = stages[st.sel].getAttribute('data-title');
             hint.textContent = st.playing ? t.syncing : t.pick;
 
@@ -219,42 +238,14 @@
                 var n = (i + d + 3) % 3; rot.show(n, true); tabs[n].focus();
             });
         });
-        rings.forEach(function (r, i) { r.addEventListener('click', function () { rot.show(i, true); }); });
-    })();
-
-    /* ---------- Web3 Lab: precio BTC objetivo ---------- */
-    (function () {
-        var range = $('#btcRange'), out = $('#btcVal'), delta = $('#btcDelta'), spotLbl = $('#btcSpot');
-        // La tarjeta del simulador se oculta desde content.SECTIONS (lab_strategy)
-        if (!range) return;
-        var spot = null;
-        function render() {
-            var v = +range.value;
-            out.textContent = '$' + v.toLocaleString('en-US');
-            if (spot) {
-                var pct = (v / spot - 1) * 100;
-                delta.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%' + L().vsSpot;
-                delta.className = 'mono btc-delta ' + (pct >= 0 ? 'up' : 'down');
-                spotLbl.textContent = L().spot + ' $' + Math.round(spot).toLocaleString('en-US');
-            }
-        }
-        range.addEventListener('input', render);
-        render();
-        // Precio real como referencia; si falla, el simulador sigue funcionando sin él
-        whenVisible($('#lab'), function (v) {
-            if (!v || spot !== null) return;
-            spot = 0;
-            fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
-                .then(function (r) { return r.ok ? r.json() : null; })
-                .then(function (d) {
-                    var p = d && d.bitcoin && d.bitcoin.usd;
-                    if (!p) return;
-                    spot = p;
-                    range.value = Math.min(250000, Math.max(30000, Math.round(p / 1000) * 1000));
-                    render();
-                })
-                .catch(function () { });
-        }, 0.1);
+        // Diagrama y pestañas van enlazados: pulsar o pasar el ratón por uno activa el otro
+        rings.forEach(function (r, i) {
+            r.addEventListener('click', function () { rot.show(i, true); });
+            r.addEventListener('mouseenter', function () { if (rot.current() !== i) rot.show(i, true); });
+        });
+        tabs.forEach(function (t, i) {
+            t.addEventListener('mouseenter', function () { if (rot.current() !== i) rot.show(i, true); });
+        });
     })();
 
     /* ---------- Agendar llamada (Google Calendar, como en la versión anterior) ---------- */

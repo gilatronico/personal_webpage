@@ -187,7 +187,7 @@ LEDGER = [
         'key': 'bitpanda', 'kind': 'main', 'no': '#0003', 'hash': '0x9c41…e2a7',
         'role': 'Senior Product Manager', 'org_short': 'Bitpanda', 'years': {'es': '2026', 'en': '2026'},
         'org': {'es': 'Bitpanda Enterprise', 'en': 'Bitpanda Enterprise'},
-        'logo': 'images/companies/bitpanda-enterprise.png', 'logo_w': 93, 'logo_h': 24,
+        'logo': 'images/companies/bitpanda.png', 'logo_w': 79, 'logo_h': 24,
         'period': {'es': 'jun 2026 a actual', 'en': 'Jun 2026 to present'},
         'step': {'es': 'Etapa 4 de 4, producto', 'en': 'Stage 4 of 4, product'},
         'desc': {'es': 'Senior PM en el brazo SaaS B2B de Bitpanda. Defino y priorizo producto para la plataforma de Custody-as-a-Service dirigida a instituciones que quieren integrar activos digitales sin construir infraestructura propia.',
@@ -287,22 +287,6 @@ TEACHING = [
 
 
 # Bloque "Ahora": en qué estás. Edita libremente y actualiza la fecha.
-NOW = {
-    'updated': {'es': 'octubre 2026', 'en': 'October 2026'},
-    'items': [
-        {'title': 'MiCA',
-         'text': {'es': 'Cómo se traduce en requisitos concretos de producto para la custodia B2B.',
-                  'en': 'How it turns into concrete product requirements for B2B custody.'}},
-        {'title': {'es': 'Tokenización', 'en': 'Tokenization'},
-         'text': {'es': 'Depósitos tokenizados, fondos y valores: qué cambia para la banca.',
-                  'en': 'Tokenized deposits, funds and securities: what changes for banks.'}},
-        {'title': {'es': 'Dinero onchain', 'en': 'Onchain money'},
-         'text': {'es': 'Stablecoins, MMFs tokenizados y la batalla por el colateral.',
-                  'en': 'Stablecoins, tokenized MMFs and the battle for collateral.'}},
-    ],
-}
-
-
 def pick(value, lang):
     """Devuelve el texto en el idioma pedido si el valor es {'es':..,'en':..}."""
     if isinstance(value, dict):

@@ -49,14 +49,13 @@
     </script>
 
     <link rel="stylesheet" href="{% static 'css/home.css' %}?v=19">
-    <link rel="stylesheet" href="{% static 'css/web3.css' %}?v=12">
+    <link rel="stylesheet" href="{% static 'css/web3.css' %}?v=18">
 </head>
 
 <body class="page-web3">
     <a href="#main" class="skip" data-i18n="skip">Saltar al contenido</a>
     <div class="grain" aria-hidden="true"></div>
     {% include 'landing/partials/nav.html' %}
-    {% include 'landing/partials/chains_sprite.html' %}
 
     <main id="main">
         <div id="web3" class="main-section active">
@@ -73,28 +72,28 @@
 
                     <!-- 2. Resumen en vivo -->
                     <div class="hk" id="hk">
-                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.stable }}</p><p class="hk-v disp" data-hk="stable"><i class="sk sk-line"></i></p><p class="hk-s mono">DefiLlama</p></div>
-                        <div class="hk-i card"><p class="kpi-l mono" data-hk-l="funds">{{ ui.hk.funds }}</p><p class="hk-v disp" data-hk="funds">{{ lab.funds_count }}</p><p class="hk-s mono" data-hk-s="funds">&nbsp;</p></div>
+                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.stable }}</p><p class="hk-v disp" data-hk="stable"><i class="sk sk-line"></i></p><p class="hk-s mono">{{ ui.hk.stableSub }}</p></div>
+                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.rwa }}</p><p class="hk-v disp" data-hk="rwa"><i class="sk sk-line"></i></p><p class="hk-s mono">{{ ui.hk.rwaSub }}</p></div>
                         <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.banks }}</p><p class="hk-v disp" data-hk="banks">{{ tl.banks_active|length }}</p><p class="hk-s mono" data-hk-s="banks">{{ tl.banks_active|join:", " }}</p></div>
-                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.yield }}</p><p class="hk-v disp" data-hk="yield"><i class="sk sk-line"></i></p><p class="hk-s mono" data-hk-s="yield">&nbsp;</p></div>
+                        <div class="hk-i card"><p class="kpi-l mono">{{ ui.hk.euro }}</p><p class="hk-v disp" data-hk="euro"><i class="sk sk-line"></i></p><p class="hk-s mono" data-hk-s="euro">&nbsp;</p></div>
                     </div>
 
                     <!-- 3. Tira de precios (CoinGecko) -->
-                    <div class="tickerbar" id="ticker" role="region" aria-label="{{ ui.tickerAria }}" tabindex="0">
-                        {% for _ in "1234567" %}<div class="tk is-skeleton" aria-hidden="true"><i class="sk sk-dot"></i><i class="sk sk-line"></i></div>{% endfor %}
+                    <div class="tickerwrap">
+                        <div class="tickerbar" id="ticker" role="region" aria-label="{{ ui.tickerAria }}" tabindex="0">
+                            {% for _ in "1234567" %}<div class="tk is-skeleton" aria-hidden="true"><i class="sk sk-dot"></i><i class="sk sk-line"></i></div>{% endfor %}
+                        </div>
+                        <a class="mono tk-src" href="https://www.coingecko.com/" target="_blank" rel="noopener noreferrer">{{ ui.pricesSource }}</a>
                     </div>
-                    <p class="mono src-line">{{ ui.pricesSource }}</p>
 
                     <div class="w3-bar">
                         <nav class="w3-jump" aria-label="{{ ui.sections }}">
                             <a href="#stablecoins">{{ ui.nav.stablecoins }}</a>
                             <a href="#comparador">{{ ui.nav.compare }}</a>
-                            <a href="#fondos">{{ ui.nav.funds }}</a>
                             <a href="#cronologia">{{ ui.nav.timeline }}</a>
-                            <a href="#tesoreria">{{ ui.nav.treasury }}</a>
                             <a href="#custodia">{{ ui.nav.custody }}</a>
                         </nav>
-                        <a class="btn btn-primary btn-sm w3-cta" href="#custodia">{{ ui.jumpCta }}</a>
+                        <a class="w3-cta" href="#custodia">{{ ui.jumpCta }}</a>
                     </div>
 
                     <!-- Stablecoins (DefiLlama) -->
@@ -145,7 +144,9 @@
                                 <p class="cmp-what">{{ c.what }}</p>
                                 <dl class="cmp-dl">
                                     <div><dt class="mono">{{ lab.compare_labels.issuer }}</dt><dd>{{ c.issuer }}</dd></div>
-                                    <div><dt class="mono">{{ lab.compare_labels.yield }}</dt><dd><span class="cmp-pill y-{{ c.yield_state }}">{{ c.yield_v }}</span></dd></div>
+                                    <div><dt class="mono">{{ lab.compare_labels.native }}</dt><dd><span class="cmp-pill y-{{ c.native.state }}">{{ c.native.chip }}</span><span class="cmp-sub">{{ c.native.text }}</span></dd></div>
+                                    <div><dt class="mono">{{ lab.compare_labels.extra }}</dt><dd>{{ c.extra.before }}{% if c.extra.term %}<button type="button" class="info" data-tip="{{ c.extra_info }}" aria-label="{{ c.extra.term }}: {{ c.extra_info }}">{{ c.extra.term }}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></button>{{ c.extra.after }}{% endif %}</dd></div>
+                                    <div><dt class="mono">{{ lab.compare_labels.risk }}</dt><dd>{{ c.risk }}</dd></div>
                                     <div><dt class="mono">{{ lab.compare_labels.who }}</dt><dd>{{ c.who }}</dd></div>
                                 </dl>
                                 <footer class="cmp-ex">
@@ -158,33 +159,6 @@
                         {% if lab.article %}
                         <p class="cmp-link"><a class="link-arrow" href="{{ lab.article.url }}"{% if lab.article.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ ui.compare.article }}</a></p>
                         {% endif %}
-                    </section>
-
-                    <!-- 5. Fondos monetarios tokenizados -->
-                    <section class="w3-sec" id="fondos" aria-labelledby="fundsTitle">
-                        <div class="w3-sec-head"><h2 class="h2" id="fundsTitle">{{ ui.funds.title }}{% include 'landing/partials/anchor.html' with id='fondos' %}</h2></div>
-                        <div class="cards3" id="fundGrid">
-                            {% for f in lab.funds %}
-                            <article class="card item fund" data-fund="{{ f.id }}" data-since="{{ f.since }}" style="--fc: {{ f.accent }}">
-                                <header class="item-top">
-                                    <span class="mgr-tile">{% if f.logo %}<span class="mgr-logo" role="img" aria-label="{{ f.manager }}" style="--logo:url('{% static 'images/lab/' %}{{ f.logo }}');--w:{{ f.logo_w }}px;--h:{{ f.logo_h }}px"></span>{% else %}<span class="mgr-text disp">{{ f.manager }}</span>{% endif %}</span>
-                                    <span class="mono ticker-chip">{{ f.ticker }}</span>
-                                </header>
-                                <h3 class="disp item-name">{{ f.name }}</h3>
-                                <p class="mono item-sub">{{ f.manager }}</p>
-                                <dl class="meta mono">
-                                    <div><dt>{{ ui.funds.currency }}</dt><dd>{{ f.currency }}</dd></div>
-                                    <div data-networks{% if not f.chains_shown %} hidden{% endif %}><dt>{{ ui.funds.networks }}</dt><dd><ul class="chains" role="list">{% for c in f.chains_shown %}<li title="{{ c.name }}"><svg viewBox="0 0 24 24" role="img" aria-label="{{ c.name }}"><use href="#ch-{{ c.slug }}"/></svg></li>{% endfor %}{% if f.chains_more %}<li class="chain-more" tabindex="0" data-tip="{{ f.chains_more_title }}" aria-label="{{ f.chains_more_title }}">+{{ f.chains_more|length }}</li>{% endif %}</ul></dd></div>
-                                    <div data-aum hidden><dt>{{ ui.funds.aum }}</dt><dd></dd></div>
-                                </dl>
-                                <div class="item-why-wrap">
-                                    <p class="item-why is-clamp" data-clamp>{{ f.why }}</p>
-                                    <button type="button" class="more-btn mono" data-more="{{ ui.funds.seeMore }}" data-less="{{ ui.funds.seeLess }}" aria-expanded="false" hidden>{{ ui.funds.seeMore }}</button>
-                                </div>
-                                <p class="item-src">{% for s in f.sources %}<a href="{{ s }}" target="_blank" rel="noopener noreferrer">{{ ui.source }}</a>{% endfor %}</p>
-                            </article>
-                            {% endfor %}
-                        </div>
                     </section>
 
                     <!-- 6. Cronología de la tokenización -->
@@ -202,16 +176,6 @@
                                 </ol>
                             </noscript>
                         </div>
-                    </section>
-
-                    <!-- 7. Tesorería onchain -->
-                    <section class="w3-sec" id="tesoreria" aria-labelledby="trTitle">
-                        <div class="w3-sec-head">
-                            <h2 class="h2" id="trTitle">{{ ui.treasury.title }}{% include 'landing/partials/anchor.html' with id='tesoreria' %}</h2>
-                            <p class="mono src-line">{{ ui.treasury.sources }}</p>
-                        </div>
-                        <div class="card yl-card" id="yieldBars" data-block><i class="sk sk-block"></i></div>
-                        <p class="note">{{ ui.treasury.note }}</p>
                     </section>
 
                     <!-- 8. Herramienta de custodia -->
@@ -234,7 +198,7 @@
         // Ruta base para imágenes estáticas (la usa static/js/web3-lab.js)
         window.W3_IMG = '{% static "images/lab/" %}';
     </script>
-    <script src="{% static 'js/web3-lab.js' %}?v=5" defer></script>
+    <script src="{% static 'js/web3-lab.js' %}?v=6" defer></script>
     <script src="{% static 'js/tokenization-timeline.js' %}?v=2" defer></script>
     <script src="{% static 'js/site.js' %}?v=5" defer></script>
 </body>

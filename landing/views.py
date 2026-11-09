@@ -1,4 +1,5 @@
 import os
+import re
 import datetime
 from pathlib import Path
 from django.shortcuts import render
@@ -254,10 +255,6 @@ def _home(request, lang):
         'cases': cases,
         'articles': article_list,
         'dates_quiet': dates_quiet,
-        'now': {
-            'updated': content.pick(content.NOW['updated'], lang),
-            'items': content.localize(content.NOW['items'], lang),
-        },
         'contact_email': os.environ.get('CONTACT_EMAIL', content.CONTACT_EMAIL_DEFAULT),
         'hero_cutout': content.HERO_PHOTO_CUTOUT,
         **_nav_ctx(lang, 'home'),
@@ -298,14 +295,14 @@ def article_detail(request, slug):
 WEB3_META = {
     'es': {
         'title': 'Web3 Lab · El dinero institucional ya está onchain | Alex Gilabert',
-        'description': 'Stablecoins, fondos monetarios tokenizados, depósitos tokenizados y rendimientos onchain, '
-                       'con datos en tiempo real, y una herramienta para elegir el modelo de custodia de tu institución.',
+        'description': 'Stablecoins, depósitos tokenizados, la historia de la tokenización y una herramienta para elegir '
+                       'el modelo de custodia de tu institución, con datos en tiempo real.',
         'og_locale': 'es_ES', 'og_locale_alt': 'en_US',
     },
     'en': {
         'title': 'Web3 Lab · Institutional money is already onchain | Alex Gilabert',
-        'description': 'Stablecoins, tokenized money market funds, tokenized deposits and onchain yields with live data, '
-                       'plus a tool to choose your institution\'s custody model.',
+        'description': 'Stablecoins, tokenized deposits, the history of tokenization and a tool to choose your institution\'s '
+                       'custody model, with live data.',
         'og_locale': 'en_US', 'og_locale_alt': 'es_ES',
     },
 }
@@ -339,13 +336,6 @@ def _localize_tree(obj, lang):
     return obj
 
 
-CHAIN_SLUG = {
-    'Ethereum': 'ethereum', 'Solana': 'solana', 'Polygon': 'polygon', 'Avalanche': 'avalanche',
-    'BNB Chain': 'bnb', 'Arbitrum': 'arbitrum', 'Optimism': 'optimism', 'Aptos': 'aptos',
-    'Stellar': 'stellar', 'Base': 'base',
-}
-
-
 def _tl_data(lang):
     """Línea temporal global de la tokenización (data/tokenization-timeline.json), localizada."""
     tl = _localize_tree(_read_json('tokenization-timeline.json'), lang)
@@ -368,89 +358,51 @@ def _lab_data(lang):
     cmp = lab['ui']['compare']
     by = {r['id']: r for r in cmp['rows']}
     lab['compare_labels'] = {i: r['label'] for i, r in by.items()}
+
+    def split_info(text):
+        # "[[término]]" marca el texto que lleva el ⓘ con su explicación
+        m = re.search(r'\[\[(.+?)\]\]', text)
+        if not m:
+            return {'before': text, 'term': '', 'after': ''}
+        return {'before': text[:m.start()], 'term': m.group(1), 'after': text[m.end():]}
+
     lab['compare_cols'] = [{
         'key': k,
         'title': cmp['cols'][k],
         'tone': cmp['tones'][k],
         'number': cmp['numbers'][k],
-        'yield_state': cmp['yieldState'][k],
-        'what': by['what'][k], 'issuer': by['issuer'][k], 'yield_v': by['yield'][k], 'who': by['who'][k],
+        'what': by['what'][k], 'issuer': by['issuer'][k], 'who': by['who'][k],
+        'native': by['native'][k],
+        'extra': split_info(by['extra'][k]),
+        'extra_info': by['extra']['info'] if k == 'stable' else '',
+        'risk': by['risk'][k],
         'examples': [x.strip() for x in by['example'][k].split(', ')],
     } for k in ('stable', 'mmf', 'dep')]
-    # Fondos: orden por antigüedad (el patrimonio en vivo solo reordena si hay datos de todos) y redes como iconos
-    for f in lab['funds']:
-        icons = [{'name': n, 'slug': CHAIN_SLUG[n]} for n in f['networks'] if n in CHAIN_SLUG]
-        f['chains_shown'], f['chains_more'] = icons[:4], icons[4:]
-        f['chains_more_title'] = ', '.join(c['name'] for c in icons[4:])
     return lab, quiz
 
 
-# Pools de liquid staking que compiten por "el de mayor TVL" de cada red (yields.llama.fi)
-ETH_LST = {
-    'lido': 'Lido', 'binance-staked-eth': 'Binance', 'ether.fi-stake': 'ether.fi', 'rocket-pool': 'Rocket Pool',
-    'coinbase-wrapped-staked-eth': 'Coinbase', 'stakewise-v2': 'StakeWise', 'swell-liquid-staking': 'Swell',
-    'frax-ether': 'Frax', 'mantle-staked-eth': 'Mantle', 'kelp': 'Kelp', 'renzo': 'Renzo',
-}
-SOL_LST = {
-    'binance-staked-sol': 'Binance', 'jito-liquid-staking': 'Jito', 'marinade-liquid-staking': 'Marinade',
-    'jpool': 'JPool', 'blazestake': 'BlazeStake', 'jupiter-staked-sol': 'Jupiter', 'bybit-staked-sol': 'Bybit',
-    'helius-staked-sol': 'Helius', 'drift-staked-sol': 'Drift', 'sanctum-validator-lsts': 'Sanctum',
-    'the-vault-liquid-staking': 'The Vault',
-}
-
-
-def _pool_apy(pool):
-    # La media a 30 días evita picos de rebase puntuales (p. ej. stETH) que no son rendimiento real
-    v = pool.get('apyMean30d')
-    return v if v is not None else pool.get('apy')
-
-
-def _build_lab_yields():
-    req = urllib.request.Request('https://yields.llama.fi/pools', headers={'User-Agent': 'Mozilla/5.0 alexgilabert.xyz'})
+def _build_lab_rwa():
+    """Valor total (TVL) de la categoría RWA en DefiLlama: la lista completa pesa ~7 MB, así que se reduce aquí."""
+    req = urllib.request.Request('https://api.llama.fi/lite/protocols2', headers={'User-Agent': 'Mozilla/5.0 alexgilabert.xyz'})
     with urllib.request.urlopen(req, timeout=25) as resp:
-        pools = json.loads(resp.read())['data']
-
-    def best(chain, projects):
-        cands = [p for p in pools if p['chain'] == chain and p['project'] in projects
-                 and p.get('tvlUsd') and _pool_apy(p) is not None]
-        if not cands:
-            return None
-        p = max(cands, key=lambda x: x['tvlUsd'])
-        return {'symbol': p['symbol'], 'project': projects[p['project']], 'tvl': p['tvlUsd'], 'apy': round(_pool_apy(p), 2)}
-
-    # Fondos tokenizados: el valor onchain y las redes salen de los pools del protocolo en DefiLlama
-    funds = {}
-    for f in _read_json('lab-curated.json')['funds']:
-        slug = f.get('defillama')
-        rows = [p for p in pools if p['project'] == slug and p.get('tvlUsd')] if slug else []
-        if not rows:
-            continue
-        top = max(rows, key=lambda x: x['tvlUsd'])
-        chains = sorted({p['chain'] for p in rows}, key=lambda c: -sum(p['tvlUsd'] for p in rows if p['chain'] == c))
-        funds[f['id']] = {
-            'tvl': sum(p['tvlUsd'] for p in rows),
-            'chains': chains,
-            'symbol': top['symbol'],
-            'apy': round(_pool_apy(top), 2) if _pool_apy(top) is not None else None,
-        }
-    return {'eth': best('Ethereum', ETH_LST), 'sol': best('Solana', SOL_LST), 'funds': funds,
-            'asOf': timezone.now().isoformat()}
+        protocols = json.loads(resp.read())['protocols']
+    rwa = [p for p in protocols if p.get('category') == 'RWA' and p.get('tvl')]
+    if not rwa:
+        raise ValueError('sin protocolos RWA')
+    return {'tvl': sum(p['tvl'] for p in rwa), 'protocols': len(rwa), 'asOf': timezone.now().isoformat()}
 
 
 @require_http_methods(["GET"])
-def lab_yields(request):
-    """
-    Rendimientos de DefiLlama para el Web3 Lab. La API completa de pools pesa ~10 MB, así que se
-    reduce aquí a lo necesario y se cachea 10 minutos (en el servidor y en el CDN).
-    """
-    data = cache.get('lab_yields')
+def lab_rwa(request):
+    """KPI "Activos reales tokenizados" del Web3 Lab. Se cachea 10 minutos (servidor y CDN)."""
+    data = cache.get('lab_rwa')
     if data is None:
         try:
-            data = _build_lab_yields()
+            data = _build_lab_rwa()
         except (urllib.error.URLError, KeyError, TypeError, ValueError, OSError) as e:
-            logger.warning(f'lab_yields: no se pudo obtener yields.llama.fi: {e}')
+            logger.warning(f'lab_rwa: no se pudo obtener api.llama.fi: {e}')
             return JsonResponse({'error': 'upstream'}, status=502)
-        cache.set('lab_yields', data, 600)
+        cache.set('lab_rwa', data, 600)
     resp = JsonResponse(data)
     resp['Cache-Control'] = 'public, max-age=300, s-maxage=600'
     return resp

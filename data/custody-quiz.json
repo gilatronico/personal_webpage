@@ -215,6 +215,14 @@
     "cfgAria": {
       "es": "Configuración elegida hasta ahora",
       "en": "Configuration chosen so far"
+    },
+    "cfgEmpty": {
+      "es": "sin configurar",
+      "en": "not configured"
+    },
+    "startGets": {
+      "es": "Qué obtendrás",
+      "en": "What you'll get"
     }
   },
   "timelines": {

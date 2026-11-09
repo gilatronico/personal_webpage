@@ -223,6 +223,22 @@ figure {
     max-width: 15ch;
 }
 
+/* Titular arriba y subtítulo debajo, alineados a la izquierda */
+.sec-head-stack {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 18px;
+}
+
+.sec-head-stack .h2 {
+    max-width: 22ch;
+}
+
+.sec-head-stack .lede {
+    max-width: 640px;
+}
+
 .skip {
     position: absolute;
     left: 12px;
@@ -793,17 +809,15 @@ figure {
 
 /* ---------- Trayectoria ---------- */
 .career {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(380px, 480px) minmax(0, 1fr);
     gap: 20px;
-    /* Cada columna mide lo que mide su contenido: sin paneles estirados con fondo vacío */
-    align-items: flex-start;
+    /* Las dos columnas miden siempre lo mismo: la altura la fija el registro completo (el panel no aporta altura) */
+    align-items: stretch;
 }
 
 .ledger {
-    flex: 1 1 400px;
     min-width: 0;
-    max-width: 540px;
     color: #D7DCEA;
     border-radius: 26px;
     padding: 14px;
@@ -1056,7 +1070,7 @@ figure {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    padding: 12px 14px;
+    padding: 8px 14px;
     border-bottom: 1px solid var(--line);
     animation: rise .45s both;
 }
@@ -1168,7 +1182,6 @@ figure {
 }
 
 .detail {
-    flex: 1.3 1 480px;
     min-width: 0;
     border-radius: 26px;
     display: flex;
@@ -1176,12 +1189,51 @@ figure {
     overflow: hidden;
 }
 
-/* Con las dos columnas lado a lado, el detalle acompaña al scroll si el registro es más alto */
-@media (min-width: 1061px) {
-    .detail {
-        position: sticky;
-        top: 88px;
-    }
+/* Cabecera fija; el contenido se desplaza dentro de un área que no cambia de tamaño */
+.detail-body {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+.detail-scroll {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
+}
+
+.detail-scroll:focus-visible { outline: 2px solid var(--accent-ui); outline-offset: -3px; }
+.detail-scroll::-webkit-scrollbar { width: 6px; }
+.detail-scroll::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 6px; }
+
+/* Degradado inferior: avisa de que hay más contenido y desaparece al llegar al final */
+.detail-body::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 32px;
+    background: linear-gradient(to bottom, transparent, var(--surface));
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity .25s;
+}
+
+.detail-body.at-end::after,
+.detail-body.no-scroll::after { opacity: 0; }
+
+.stage[hidden] { display: none; }
+
+@media (max-width: 1099px) {
+    .career { grid-template-columns: minmax(0, 1fr); }
+    /* Apilado: el panel crece con su contenido; la altura se anima desde JS */
+    .detail-body { transition: height .35s cubic-bezier(.2, .7, .2, 1); overflow: hidden; }
+    .detail-scroll { position: static; overflow: visible; }
+    .detail-body::after { display: none; }
 }
 
 .detail-bar {
@@ -1201,7 +1253,11 @@ figure {
 }
 
 .stage {
-    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    container: stage / inline-size;
+    padding: 20px 28px 16px;
     animation: swap .45s ease-out both;
 }
 
@@ -1222,11 +1278,11 @@ figure {
 }
 
 .stage-role {
-    font-size: clamp(28px, 3vw, 40px);
+    font-size: clamp(26px, 2.6vw, 34px);
     font-weight: 500;
     letter-spacing: -0.03em;
-    line-height: 1.04;
-    margin-top: 18px;
+    line-height: 1.06;
+    margin-top: 16px;
 }
 
 .stage-evo {
@@ -1238,31 +1294,60 @@ figure {
 .stage-org {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 6px 12px;
-    font-size: 16px;
-    color: var(--accent);
-    margin-top: 8px;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.25;
+    color: var(--body);
+    margin-top: 12px;
     font-weight: 500;
 }
 
-/* Logo de la empresa junto al nombre: monocromo con el color del texto */
+/* Separador fino entre el logo y el nombre; el texto se ajusta en su propia columna */
+.org-logo + span {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-left: 14px;
+    border-left: 1px solid var(--line-2);
+}
+
+/* Logo de la empresa junto al nombre: monocromo con el color de acento */
 .org-logo {
     display: inline-block;
     flex: 0 0 auto;
     width: var(--w);
     height: var(--h, 20px);
+    color: var(--accent);
     background: currentColor;
     -webkit-mask: var(--logo) left center / contain no-repeat;
     mask: var(--logo) left center / contain no-repeat;
+}
+
+/* Panel estrecho: el logo muy ancho (Sopra Steria) va encima del nombre; el resto sigue en fila
+   y el nombre se ajusta en su propia columna. */
+@container stage (max-width: 470px) {
+    .stage-org.org-wide {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .stage-org.org-wide .org-logo + span {
+        flex: none;
+        padding-left: 0;
+        border-left: 0;
+    }
+}
+
+/* Móvil: sin separador, el nombre simplemente a la derecha del logo */
+@container stage (max-width: 360px) {
+    .org-logo + span { padding-left: 0; border-left: 0; }
 }
 
 .stage-sub {
     margin-top: 14px;
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 21px;
-    line-height: 1.35;
+    font-size: 19px;
+    line-height: 1.3;
     color: var(--ink);
 }
 
@@ -1275,7 +1360,7 @@ figure {
 }
 
 .stage-list-title {
-    margin-top: 22px;
+    margin-top: 18px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: .06em;
@@ -1288,7 +1373,7 @@ figure {
 
 /* Eventos: dentro del detalle, debajo de los bullets y encima de los tags */
 .stage-events {
-    margin-top: 24px;
+    margin-top: 14px;
     border: 1px solid var(--line);
     border-radius: 16px;
     overflow: hidden;
@@ -1304,26 +1389,26 @@ figure {
 }
 
 .stage-desc {
-    font-size: 16.5px;
-    line-height: 1.6;
+    font-size: 15.5px;
+    line-height: 1.5;
     color: var(--body);
     margin-top: 18px;
-    max-width: 58ch;
+    max-width: 62ch;
 }
 
 .checks {
     list-style: none;
-    margin-top: 20px;
+    margin-top: 14px;
     padding: 0;
     border-top: 1px solid var(--line-3);
 }
 
 .checks li {
     position: relative;
-    padding: 13px 0 13px 32px;
+    padding: 7px 0 7px 30px;
     border-bottom: 1px solid var(--line-3);
-    font-size: 15.5px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.4;
     color: var(--strong);
     animation: chk .4s both;
 }
@@ -1332,7 +1417,7 @@ figure {
     content: "";
     position: absolute;
     left: 0;
-    top: 15px;
+    top: 9px;
     width: 18px;
     height: 18px;
     background: var(--accent-ui);
@@ -1373,7 +1458,8 @@ figure {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 22px;
+    margin-top: auto;
+    padding-top: 12px;
 }
 
 .chips span {
@@ -1423,6 +1509,16 @@ figure {
 
 .ring-g {
     cursor: pointer;
+    transition: opacity .45s ease;
+}
+
+/* El círculo activo destaca y los demás bajan de opacidad */
+.ring-g:not(.on) {
+    opacity: .4;
+}
+
+.ring-g:not(.on):hover {
+    opacity: .7;
 }
 
 .ring {
@@ -1545,7 +1641,6 @@ figure {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-top: 28px;
 }
 
 .tab {
@@ -1670,17 +1765,32 @@ figure {
     padding: 112px 0;
 }
 
-/* Retícula también en la banda oscura, muy tenue */
-.lab::before {
-    content: "";
+/* Retícula animada (static/js/lab-canvas.js): los puntos reaccionan al cursor */
+.lab-canvas {
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-image: radial-gradient(rgba(154, 165, 255, .12) 1px, transparent 1.2px);
-    background-size: 22px 22px;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 60%);
-    mask-image: linear-gradient(90deg, transparent, #000 60%);
+    display: block;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+}
+
+.lab-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--d-muted);
+}
+
+.lab-copy .h2 {
+    max-width: 18ch;
+    font-size: clamp(34px, 4.6vw, 62px);
+    text-wrap: balance;
 }
 
 .lab-grid {
@@ -1716,118 +1826,6 @@ figure {
     margin-top: 32px;
 }
 
-.lab-card {
-    flex: 1 1 440px;
-    min-width: 0;
-    background: var(--d-card);
-    border: 1px solid var(--d-line);
-    border-radius: 24px;
-    padding: 22px;
-}
-
-.lab-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    color: var(--d-muted);
-}
-
-.lab-card-top .live-label {
-    font-size: 12px;
-}
-
-.btc-row {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-}
-
-.btc-val {
-    font-size: 38px;
-    color: #FFFFFF;
-    letter-spacing: -0.02em;
-}
-
-.btc-delta {
-    font-size: 13px;
-    color: var(--d-muted);
-}
-
-.btc-delta.up {
-    color: var(--mint);
-}
-
-.btc-delta.down {
-    color: #FF9B8A;
-}
-
-input[type=range] {
-    width: 100%;
-    margin-top: 12px;
-    accent-color: var(--lilac);
-    min-height: 24px;
-}
-
-.instruments {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 20px;
-}
-
-.instruments li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--d-card-2);
-    border: 1px solid var(--d-line);
-    border-radius: 14px;
-    padding: 12px 14px;
-}
-
-.instruments li::before {
-    content: "";
-    width: 4px;
-    height: 28px;
-    border-radius: 4px;
-    flex: 0 0 4px;
-    background: var(--c);
-}
-
-.instruments b {
-    font-weight: 400;
-    font-size: 14px;
-    color: #FFFFFF;
-    width: 48px;
-}
-
-.instruments span {
-    font-size: 13.5px;
-    color: var(--d-body);
-    flex: 1;
-    min-width: 0;
-}
-
-.instruments em {
-    font-style: normal;
-    font-size: 12px;
-    color: var(--d-muted);
-    border: 1px solid var(--d-line-2);
-    border-radius: 999px;
-    padding: 3px 9px;
-}
-
-.fineprint {
-    font-size: 12.5px;
-    color: var(--d-faint);
-    margin-top: 16px;
-}
 
 /* ---------- Docencia ---------- */
 .doc {
@@ -2235,10 +2233,10 @@ input[type=range] {
     outline-offset: 4px;
 }
 
-/* ---------- Artículos + Ahora ---------- */
+/* ---------- Artículos ---------- */
 .art-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px 40px;
     align-items: start;
 }
@@ -2246,59 +2244,6 @@ input[type=range] {
 .dates-quiet .art-row time {
     font-size: 12px;
     width: 56px;
-}
-
-.now {
-    border-radius: 22px;
-    padding: 22px;
-}
-
-.now-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-}
-
-.now-head h3 {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--ink);
-}
-
-.now-date {
-    font-size: 12px;
-    color: var(--muted);
-}
-
-.now ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 14px;
-}
-
-.now li {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    padding: 12px 0;
-    border-top: 1px solid var(--line-3);
-}
-
-.now li b {
-    font-weight: 600;
-    font-size: 15px;
-}
-
-.now li span {
-    font-size: 14.5px;
-    line-height: 1.5;
-    color: var(--body);
 }
 
 /* ---------- Página de artículo ---------- */
@@ -2598,9 +2543,6 @@ input[type=range] {
         flex: 1 1 100%;
     }
 
-    .instruments em {
-        display: none;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

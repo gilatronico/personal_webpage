@@ -63,7 +63,7 @@
 
     <script type="application/ld+json">{{ person_schema_json|safe }}</script>
 
-    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=19">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=31">
 </head>
 
 <body>
@@ -153,7 +153,7 @@
         <!-- TRAYECTORIA -->
         <section id="trayectoria" class="sec" aria-labelledby="careerTitle">
             <div class="wrap">
-                <div class="sec-head">
+                <div class="sec-head sec-head-stack">
                     <h2 class="h2" id="careerTitle" data-i18n="careerTitle">Del código a la <em class="serif">custodia</em>.</h2>
                     <p class="lede" data-i18n="careerLede">Cuatro bloques en la cadena principal, cada uno construido
                         sobre el anterior, y dos fuera de ella: lo que he emprendido y donde invierto. Pulsa un bloque
@@ -205,6 +205,8 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="detail-body" id="detailBody">
+                        <div class="detail-scroll" id="detailScroll" tabindex="0" role="region" aria-label="Detalle del bloque" data-i18n-aria="stageDetail">
                         {% for b in ledger %}
                         <article class="stage kind-{{ b.kind }}" data-i="{{ b.i }}" data-title="{{ b.title }}"
                             {% if b.i != ledger_current %}hidden{% endif %}>
@@ -215,7 +217,7 @@
                             </div>
                             <h3 class="disp stage-role">{{ b.role }}</h3>
                             {% if b.evolution %}<p class="mono stage-evo">{{ b.evolution }}</p>{% endif %}
-                            <p class="stage-org">
+                            <p class="stage-org{% if b.logo_w and b.logo_w > 80 %} org-wide{% endif %}">
                                 {% if b.logo %}<span class="org-logo" aria-hidden="true"
                                     style="--logo:url('{% static b.logo %}'); --w:{{ b.logo_w }}px; --h:{{ b.logo_h }}px"></span>{% endif %}
                                 <span>{{ b.org }}</span>
@@ -251,6 +253,8 @@
                             {% endif %}
                         </article>
                         {% endfor %}
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -288,6 +292,12 @@
         <!-- CÓMO TRABAJO -->
         <section id="criterio" class="sec" aria-labelledby="howTitle">
             <div class="wrap">
+                <div class="sec-head sec-head-stack">
+                    <h2 class="h2" id="howTitle" data-i18n="howTitle">El producto está donde se cruzan negocio,
+                        tecnología y <em class="serif">regulación</em>.</h2>
+                    <p class="lede" data-i18n="howLede">Conecto equipos de negocio, tecnología y riesgo para
+                        transformar la visión en un roadmap claro. Si falta uno de los tres, el producto no sale.</p>
+                </div>
                 <div class="card how" id="how">
                     <div class="how-diagram">
                         <svg viewBox="0 0 520 430" role="img" aria-labelledby="vennTitle">
@@ -328,10 +338,6 @@
                         </svg>
                     </div>
                     <div class="how-copy">
-                        <h2 class="disp h2-sm" id="howTitle" data-i18n="howTitle">El producto está donde se cruzan
-                            negocio, tecnología y <em class="serif">regulación</em>.</h2>
-                        <p class="lede" data-i18n="howLede">Conecto equipos de negocio, tecnología y riesgo para
-                            transformar la visión en un roadmap claro. Si falta uno de los tres, el producto no sale.</p>
                         <div class="tabs" role="tablist" aria-label="Criterios" data-i18n-aria="criteria">
                             <button type="button" role="tab" class="tab" id="tab-0" aria-controls="lensPanel-0"
                                 aria-selected="true" style="--c:#2FB37A"><i class="tab-dot"></i><span
@@ -378,54 +384,23 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- WEB3 LAB -->
         <section id="lab" class="lab" aria-labelledby="labTitle">
-            <div class="wrap lab-grid{% if not sections.lab_strategy %} is-solo{% endif %}">
+            <canvas class="lab-canvas" id="labCanvas" aria-hidden="true"></canvas>
+            <div class="wrap lab-grid is-solo">
                 <div class="lab-copy">
-                    <h2 class="h2" id="labTitle" data-i18n="labTitle">Web3 Lab: cripto, DeFi y liquid staking.
-                    </h2>
-                    <p data-i18n="labLede">Sigo de cerca los activos que conectan las finanzas tradicionales con la
-                        infraestructura cripto: cotizaciones en tiempo real, protocolos DeFi y liquid staking.</p>
+                    <p class="mono lab-kicker"><i class="live" aria-hidden="true"></i><span data-i18n="labKicker">WEB3 LAB · DATOS EN VIVO</span></p>
+                    <h2 class="h2" id="labTitle" data-i18n="labTitle">El dinero institucional ya está <em class="serif">onchain</em>.</h2>
+                    <p data-i18n="labLede">Stablecoins, depósitos tokenizados, la historia de la tokenización y una herramienta para elegir tu modelo de custodia.</p>
                     <a class="btn btn-accent" href="/web3">
-                        <span data-i18n="labCta">Abrir el Web3 Lab</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M3 8h10M9 4l4 4-4 4" />
-                        </svg>
+                        <span data-i18n="labCta">Abrir el Web3 Lab →</span>
                     </a>
                 </div>
-                {% if sections.lab_strategy %}
-                <div class="lab-card">
-                    <div class="lab-card-top">
-                        <label for="btcRange" data-i18n="btcLabel">Precio de BTC objetivo</label>
-                        <span class="mono live-label"><i class="live" aria-hidden="true"></i><span
-                                id="btcSpot" data-i18n="simulating">simulando</span></span>
-                    </div>
-                    <div class="btc-row">
-                        <output class="mono btc-val" id="btcVal" for="btcRange">$118,000</output>
-                        <span class="mono btc-delta" id="btcDelta"></span>
-                    </div>
-                    <input id="btcRange" type="range" min="30000" max="250000" step="1000" value="118000">
-                    <ul class="instruments" role="list">
-                        <li style="--c:#2FB37A"><b class="mono">STRF</b><span data-i18n="iSTRF">10% acumulativa</span><em
-                                data-i18n="kSenior">Senior</em></li>
-                        <li style="--c:#5AA9E6"><b class="mono">STRC</b><span data-i18n="iSTRC">Variable, entre 11 y 12%,
-                                cerca de par</span><em data-i18n="kVariable">Variable</em></li>
-                        <li style="--c:#E3A23B"><b class="mono">STRK</b><span data-i18n="iSTRK">8% acumulativa,
-                                convertible</span><em data-i18n="kConv">Convertible</em></li>
-                        <li style="--c:#C8643C"><b class="mono">STRD</b><span data-i18n="iSTRD">10% no
-                                acumulativa</span><em data-i18n="kJunior">Junior</em></li>
-                        <li style="--c:#9AA5FF"><b class="mono">MSTR</b><span data-i18n="iMSTR">Acción común</span><em
-                                >Equity</em></li>
-                    </ul>
-                    <p class="fineprint" data-i18n="labDisclaimer">Simulación educativa. No constituye asesoramiento
-                        de inversión.</p>
-                </div>
-                {% endif %}
             </div>
         </section>
 
@@ -466,7 +441,7 @@
             </div>
         </section>
 
-        <!-- ARTÍCULOS + AHORA -->
+        <!-- ARTÍCULOS -->
         <section id="articulos" class="sec" aria-labelledby="artTitle">
             <div class="wrap">
                 <div class="art-head">
@@ -490,18 +465,6 @@
                             </a></li>
                         {% endfor %}
                     </ul>
-                    <aside class="card now" aria-labelledby="nowTitle">
-                        <div class="now-head">
-                            <h3 class="mono" id="nowTitle"><i class="live" aria-hidden="true"></i><span
-                                    data-i18n="nowTitle">Ahora</span></h3>
-                            <span class="mono now-date">{{ now.updated }}</span>
-                        </div>
-                        <ul role="list">
-                            {% for item in now.items %}
-                            <li><b>{{ item.title }}</b><span>{{ item.text }}</span></li>
-                            {% endfor %}
-                        </ul>
-                    </aside>
                 </div>
             </div>
         </section>
@@ -571,7 +534,8 @@
     {% include 'landing/partials/footer.html' %}
 
     <script src="{% static 'js/site.js' %}?v=5" defer></script>
-    <script src="{% static 'js/home.js' %}?v=9" data-email="{{ contact_email }}" id="homeJs" defer></script>
+    <script src="{% static 'js/lab-canvas.js' %}?v=1" defer></script>
+    <script src="{% static 'js/home.js' %}?v=13" data-email="{{ contact_email }}" id="homeJs" defer></script>
 </body>
 
 </html>
